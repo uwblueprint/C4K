@@ -48,6 +48,7 @@
         "esri/map",
         "esri/dijit/Search",
         "esri/geometry/Extent",
+        "esri/geometry/Point",
         "esri/graphic",
         "esri/symbols/SimpleMarkerSymbol",
         "esri/geometry/screenUtils",
@@ -56,31 +57,17 @@
         "dojo/query",
         "dojo/_base/Color",
         "dojo/domReady!"
-      ], function(Map, Search, Extent, Graphic, SimpleMarkerSymbol, screenUtils, dom, domConstruct, query, Color) {
+      ], function(Map, Search, Extent, Point, Graphic, SimpleMarkerSymbol, screenUtils, dom, domConstruct, query, Color) {
         // create a map and instance of the geocoder widget here
         var map = new Map("map", {
-          basemap: "topo", 
-          center: [-117.19, 34.055],
-          zoom: 5
+          basemap: "topo-vector", 
+          center: [-79.3832, 43.6532],
+          zoom: 12
         });
 
          var search = new Search({
             map: map
          }, dom.byId("search"));
-         
-         //Create extent to limit search
-         var extent = new Extent({
-            "spatialReference": {
-               "wkid": 102100
-            },
-            "xmin": -13063280,
-            "xmax": -13033928,
-            "ymin": 4028345,
-            "ymax": 4042715
-         });
-
-         //set the source's searchExtent to the extent specified above   
-         search.sources[0].searchExtent = extent;
 
          //make sure to start up the widget!
          search.startup();
