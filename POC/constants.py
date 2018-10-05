@@ -1,6 +1,6 @@
 ALGOMA       = "Algoma"
 BRANT        = "Brant"
-CHATHAM_KENT = "Chatham/Kent"
+CHATHAM_KENT = "Chatham_Kent"
 
 CENSUS_DIVISION_TO_ID = {
         ALGOMA: 0,
