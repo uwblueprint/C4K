@@ -4,7 +4,10 @@ import sys
 import constants
 
 def create_tables(hostname, dbname, user):
-    commands = (
+    commands = [
+            """
+            DROP TABLE IF EXISTS demographics
+            """,
             """
             DROP TABLE IF EXISTS census_division
             """,
@@ -15,18 +18,15 @@ def create_tables(hostname, dbname, user):
             )
             """,
             """
-            DROP TABLE IF EXISTS demographics
-            """,
-            """
             CREATE TABLE demographics (
-                census_division_id INTEGER,
+                census_division_id INTEGER REFERENCES census_division (id),
                 characteristic     TEXT NOT NULL,
                 total              INTEGER NOT NULL,
                 male               INTEGER NOT NULL,
                 female             INTEGER NOT NULL
             )
             """
-            )
+            ]
 
     con = None
     try:

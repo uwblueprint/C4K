@@ -1,9 +1,11 @@
 # Capitalize for Kids
 
-### Setting up DB locally
+## POC
+### Setting up DB and Server locally
 Prereqs:
 - homebrew
 - pip
+Navigate to the proof of concept directory `/POC`
 
 1. Install Postgres
 ```
@@ -14,10 +16,11 @@ $ brew install postgresql
 $ pg_ctl -D /usr/local/var/postgres start
 $ postgres -V
 ```
-3. Install python postgres
+3. Install python libraries
 ```
 $ pip install -U pip
 $ pip install psycopg2-binary
+# pip install Flask
 ```
 4. Run `setup_db.py` script
 ```
@@ -37,7 +40,6 @@ postgres=# \dt
  public | demographics    | table | liruxuan
 (2 rows)
 ```
-
 6. Verify data is present
 ```
 $ psql postgres
@@ -52,11 +54,36 @@ postgres=# SELECT * FROM demographics;
                   1 | 10 to 14 years     |  8005 |  4105 |   3895
 ...
 
-postgres=# select * from census\_division;
+postgres=# select * from census_division;
  id |     name
 ----+--------------
   0 | Algoma
   1 | Brant
   2 | Chatham/Kent
 (3 rows)
+```
+7. Start server
+```
+$ python server.py
+```
+8. Send requests
+```
+$ curl localhost:8080/Algoma
+{
+  "data": [
+    {
+      "characteristic": "0 to 4 years",
+      "female": 2600,
+      "male": 2715,
+      "name": "Algoma",
+      "total": 5320
+    },
+    {
+      "characteristic": "5 to 9 years",
+      "female": 2545,
+      "male": 2815,
+      "name": "Algoma",
+      "total": 5360
+    },
+    ...
 ```
