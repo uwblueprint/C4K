@@ -2,6 +2,7 @@ import psycopg2
 import getpass
 import sys
 import constants
+import io
 
 def create_tables(hostname, dbname, user):
     commands = [
@@ -41,7 +42,7 @@ def create_tables(hostname, dbname, user):
     except psycopg2.DatabaseError as e:
         if con:
             con.rollback()
-        print "Error {}".format(e)
+        print("Error {}".format(e))
         sys.exit(1)
 
     if con:
@@ -66,7 +67,7 @@ def load_census_divisions(hostname, dbname, user):
     except psycopg2.DatabaseError as e:
         if con:
             con.rollback()
-        print "Error {}".format(e)
+        print("Error {}".format(e))
         sys.exit(1)
 
     if con:
@@ -84,8 +85,8 @@ def load_demographics(hostname, dbname, user):
             hostname, dbname, user))
 
         for census_division, file_path in constants.CENSUS_FILE_PATH.items():
-            with open("./raw_data/census_divisions/" + file_path, "r") as file_object:
-                for i, line in enumerate(file_object):
+            with io.open("./raw_data/census_divisions/" + file_path, "r", encoding="ISO-8859-1") as file_object:
+                for i, line in enumerate(file_object, 1):
                     if 11 <= i <= 34:
                         data = [val.strip(" \"") for val in line.split(",")]
 
@@ -107,7 +108,7 @@ def load_demographics(hostname, dbname, user):
     except psycopg2.DatabaseError as e:
         if con:
             con.rollback()
-        print "Error {}".format(e)
+        print("Error {}".format(e))
         sys.exit(1)
 
     if con:
