@@ -29,7 +29,7 @@ def get_census_division_data(census_division_id):
     except psycopg2.DatabaseError as e:
         if con:
             con.rollback()
-        print "Error {}".format(e)
+        print("Error {}".format(e))
     
     if con:
         con.close()
