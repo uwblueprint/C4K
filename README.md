@@ -68,7 +68,7 @@ $ python server.py
 ```
 8. Send requests
 ```
-$ curl localhost:8080/Algoma
+$ curl localhost:8080/algoma
 {
   "data": [
     {
