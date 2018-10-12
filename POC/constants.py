@@ -101,9 +101,6 @@ CENSUS_DIVISION_TO_ID = {
 }
 
 ID_TO_CENSUS_DIVISION = {
-        0: ALGOMA,
-        1: BRANT,
-        2: CHATHAM_KENT,
         3557: ALGOMA,
         3529: BRANT,
         3541: BRUCE,
