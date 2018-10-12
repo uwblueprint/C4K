@@ -41,11 +41,12 @@
     precision: 5,
     where: `PRNAME = 'Ontario'`,
     style: function (feature) {
-      const { Pop2016 } = feature.properties;
+      const { Pop2016, Area } = feature.properties;
       // manual opacity filtering
-      var opacity = Math.min(1, Pop2016 / maxPop);
+      var density = Pop2016/Area;
+      var opacity = Math.min(1, Math.log(density)/5);
       // in the province of Ontario
-      return { weight: 2, opacity, fillOpacity: opacity, color: 'green' };
+      return { weight: 2, opacity, fillOpacity: opacity, color: 'black', fillColor: 'green' };
     }
   }).addTo(map);
 </script>
