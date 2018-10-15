@@ -53,17 +53,6 @@
 
 <script>
   function onMouseHandler(event) {
-    // console.log(event);
-    // const { properties } = event.layer.feature;
-    
-    // const node = document.createElement('div');
-    // node.innerHTML = JSON.stringify(properties);
-    // node.style.position = 'absolute';
-    // node.style.background = 
-    // node.style.top = event.originalEvent.clientY + 'px';
-    // node.style.left = event.originalEvent.clientX + 'px';
-
-    // document.body.appendChild(node);
     document.getElementById('map').title = event.layer.feature.properties.CDNAME;
   };
 
