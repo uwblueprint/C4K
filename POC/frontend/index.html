@@ -113,7 +113,6 @@
     precision: 5,
     where: `PRNAME = 'Ontario'`,
     style: function (feature) {
-      //console.log(feature);
       const { Pop2016, Area } = feature.properties;
       // manual opacity filtering
       var density = Pop2016/Area;
@@ -125,8 +124,6 @@
   .on('mouseover', onMouseHandler)
   .on('click', onClickHandler)
   .addTo(map);
-
-  //map.on('click', e => {console.log(e)});
 </script>
 
 </body>
