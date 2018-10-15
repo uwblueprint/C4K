@@ -22,6 +22,29 @@
   <style>
     body { margin:0; padding:0; }
     #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+    .overlay {
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+    }
+    .modal {
+      margin: auto;
+      width: 360px;
+      height: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      font-size: 16px;
+      box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+    }
   </style>
 </head>
 <body>
@@ -29,6 +52,55 @@
 <div id="map"></div>
 
 <script>
+  function onMouseHandler(event) {
+    // console.log(event);
+    // const { properties } = event.layer.feature;
+    
+    // const node = document.createElement('div');
+    // node.innerHTML = JSON.stringify(properties);
+    // node.style.position = 'absolute';
+    // node.style.background = 
+    // node.style.top = event.originalEvent.clientY + 'px';
+    // node.style.left = event.originalEvent.clientX + 'px';
+
+    // document.body.appendChild(node);
+    document.getElementById('map').title = event.layer.feature.properties.CDNAME;
+  };
+
+  function closeOverlay(overlay) {
+    document.body.removeChild(overlay);
+  }
+
+  function onClickHandler(event) {
+    const { properties } = event.layer.feature;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.addEventListener('click', () => closeOverlay(overlay));
+
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.addEventListener('click', (e) => { e.stopPropagation(); });
+
+    const title = document.createElement('h2');
+    title.innerHTML = 'DEMOGRAPHIC';
+
+    const region = document.createElement('p');
+    region.innerHTML = `${properties.CDNAME}, ${properties.PRNAME}`;
+
+    const population = document.createElement('p');
+    population.innerHTML = `${properties.Pop2016}`;
+
+
+    modal.appendChild(title);
+    modal.appendChild(region);
+    modal.appendChild(population);
+
+    overlay.appendChild(modal);
+
+    document.body.appendChild(overlay);
+  }
+
   var maxPop = 1000000;
   var map = L.map('map').setView([ 43.6532, -79.3832], 8);
 
@@ -41,6 +113,7 @@
     precision: 5,
     where: `PRNAME = 'Ontario'`,
     style: function (feature) {
+      //console.log(feature);
       const { Pop2016, Area } = feature.properties;
       // manual opacity filtering
       var density = Pop2016/Area;
@@ -48,7 +121,12 @@
       // in the province of Ontario
       return { weight: 2, opacity, fillOpacity: opacity, color: 'black', fillColor: 'green' };
     }
-  }).addTo(map);
+  })
+  .on('mouseover', onMouseHandler)
+  .on('click', onClickHandler)
+  .addTo(map);
+
+  //map.on('click', e => {console.log(e)});
 </script>
 
 </body>
