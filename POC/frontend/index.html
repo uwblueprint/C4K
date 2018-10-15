@@ -98,14 +98,14 @@
 
   L.esri.featureLayer({
     url: 'https://services.arcgis.com/zmLUiqh7X11gGV2d/arcgis/rest/services/CensusDivisions2016_proj/FeatureServer/0',
-    // simplifyFactor: 1,
-    precision: 1, // digits of precision in meters.  we want 4 to identify individual streets. 
+    simplifyFactor: 2,
+    precision: 4, // digits of precision in meters.  we want 4 to identify individual streets. 
     where: `PRNAME = 'Ontario'`,
     style: function (feature) {
       const { Pop2016, Area } = feature.properties;
       // manual opacity filtering
       var density = Pop2016/Area;
-      var opacity = Math.min(1, Math.log(density)/5);
+      var opacity = Math.max(Math.min(1, Math.log(density)/5), 0.05);
       // in the province of Ontario
       return { weight: 1, opacity, fillOpacity: opacity, color: 'black', fillColor: 'green' };
     }
