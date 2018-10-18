@@ -1,5 +1,9 @@
 *.DS_Store
 *.pyc
 node_modules/
-.vscode
+.vscode/
 __pycache__
+
+# For virtual environment
+venv/
+
