@@ -24,7 +24,7 @@ $ pipenv install
 ```
 $ pipenv shell
 ```
-5. Run `setup_db.py` script
+5. Run `setup_db.py` script from within the "scripts" folder
 ```
 $ pipenv run python setup_db.py
 ```
