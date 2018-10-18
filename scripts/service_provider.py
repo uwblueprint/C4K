@@ -10,7 +10,7 @@ websites = {}
 with open(SERVICE_PROVIDER_INITIAL, newline='', encoding="ISO-8859-1") as file:
     reader = csv.reader(file, delimiter=',')
     for row in reader:
-        # Reading name from coloumn 1, and website from column 16
+        # Reading name from column 1, and website from column 16
         site = row[15].split('/')
         name = row[0].split(' - ')[0]
 
