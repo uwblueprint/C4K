@@ -16,17 +16,19 @@ $ brew install postgresql
 $ pg_ctl -D /usr/local/var/postgres start
 $ postgres -V
 ```
-3. Install python libraries
+3. Auto-create python virtual environment and install libraries
 ```
-$ pip install -U pip
-$ pip install psycopg2-binary
-# pip install Flask
+$ pipenv install
 ```
-4. Run `setup_db.py` script
+4. Enter python virtualenv 
 ```
-$ python setup_db.py
+$ pipenv shell
 ```
-5. Verify tables were created
+5. Run `setup_db.py` script from within the "scripts" folder
+```
+$ pipenv run python setup_db.py
+```
+6. Verify tables were created
 ```
 $ psql postgres
 psql (10.5)
@@ -40,7 +42,7 @@ postgres=# \dt
  public | demographics    | table | liruxuan
 (2 rows)
 ```
-6. Verify data is present
+7. Verify data is present
 ```
 $ psql postgres
 psql (10.5)
@@ -62,11 +64,11 @@ postgres=# select * from census_division;
   2 | Chatham/Kent
 (3 rows)
 ```
-7. Start server
+8. Start server
 ```
-$ python server.py
+$ pipenv run python server.py
 ```
-8. Send requests
+9. Send requests
 ```
 $ curl localhost:8080/algoma
 {

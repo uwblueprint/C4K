@@ -1,0 +1,55 @@
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>Styling polygons</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <!-- Load Leaflet from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+    integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+    integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+    crossorigin=""></script>
+
+
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.2.3/dist/esri-leaflet.js"
+    integrity="sha512-YZ6b5bXRVwipfqul5krehD9qlbJzc6KOGXYsDjU9HHXW2gK57xmWl2gU6nAegiErAqFXhygKIsWPKbjLPXVb2g=="
+    crossorigin=""></script>
+
+
+  <style>
+    body { margin:0; padding:0; }
+    #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+  var maxPop = 1000000;
+  var map = L.map('map').setView([ 43.6532, -79.3832], 8);
+
+  L.esri.basemapLayer('Gray').addTo(map);
+  L.esri.basemapLayer('GrayLabels').addTo(map);
+
+  L.esri.featureLayer({
+    url: 'https://services.arcgis.com/zmLUiqh7X11gGV2d/arcgis/rest/services/CensusDivisions2016_proj/FeatureServer/0',
+    simplifyFactor: 0.5,
+    precision: 5,
+    where: `PRNAME = 'Ontario'`,
+    style: function (feature) {
+      const { Pop2016, Area } = feature.properties;
+      // manual opacity filtering
+      var density = Pop2016/Area;
+      var opacity = Math.min(1, Math.log(density)/5);
+      // in the province of Ontario
+      return { weight: 2, opacity, fillOpacity: opacity, color: 'black', fillColor: 'green' };
+    }
+  }).addTo(map);
+</script>
+
+</body>
+</html>

@@ -14,10 +14,10 @@ def get_data_by_division(census_division):
     data = db.get_census_division_data(census_division_id)
     return jsonify({ "error": "", "data": data })
 
-@app.route("/<census_id>")
+@app.route("/id/<int:census_id>")
 def get_data_by_id(census_id):
-   # Check if census_id is valid
-    if census_id not in constants.ID_TO_CENSUS_DIVISION[census_id]:
+    # Check if census_id is valid
+    if census_id not in constants.ID_TO_CENSUS_DIVISION:
         return jsonify({ "error": "Invalid census id" })
 
     data = db.get_census_division_data(census_id)
