@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import MapView from './MapView.js'
-import './App.css';
-import React from 'react';
-=======
 import React, {Component} from 'react';
 import './App.css';
 import * as L from 'leaflet';
@@ -41,7 +34,7 @@ class App extends Component {
 
     esri.featureLayer({
       url: 'https://services.arcgis.com/zmLUiqh7X11gGV2d/arcgis/rest/services/CensusDivisions2016_proj/FeatureServer/0',
-      simplifyFactor: 2,
+      simplifyFactor: 1,
       precision: 4, // digits of precision in meters.  we want 4 to identify individual streets. 
       where: `PRNAME = 'Ontario'`,
       style: function (feature) {
@@ -61,7 +54,6 @@ class App extends Component {
       .addTo(map)
       .bindPopup('A pretty CSS3 popup. <br> Easily customizable.');
   }
->>>>>>> c97e93d643e104e9be0c0a76d838ac884e9ca024
 
   render() {
     if (this.state.map) {
