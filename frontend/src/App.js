@@ -6,9 +6,8 @@ import * as esri from 'esri-leaflet';
 class App extends Component {
   constructor(props) {
     super(props);
-    //the map is handled by the state, so if you want to change the map's property
-    //like zoom or pan, you can just call it by this.state.map.zoomIn(), shown
-    // in line 22
+
+    //the map is handled by the state: e.g. this.state.map.zoomIn() to zoom
     this.state = {currentZoomLevel: 7, map: null, tileLayer: null};
   }
 
@@ -16,11 +15,38 @@ class App extends Component {
     this.initMap();
   }
 
-  //Event Handler for changing the zoom.
-  async changeZoom() {
-    var map = L.marker([51.505, -0.092]).addTo(this.state.map);
-    map = this.state.map.zoomIn();
-    await this.setState({map});
+  onMouseHandler(event) {
+    document.getElementById('map').title = event.layer.feature.properties.CDNAME;
+  }
+
+  onClickHandler = (event) => {
+    const { properties } = event.layer.feature;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.addEventListener('click', () => document.body.removeChild(overlay));
+
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.addEventListener('click', (e) => { e.stopPropagation(); });
+
+    const title = document.createElement('h2');
+    title.innerHTML = 'DEMOGRAPHIC';
+
+    const region = document.createElement('p');
+    region.innerHTML = `${properties.CDNAME}, ${properties.PRNAME}`;
+
+    const population = document.createElement('p');
+    population.innerHTML = `${properties.Pop2016}`;
+
+
+    modal.appendChild(title);
+    modal.appendChild(region);
+    modal.appendChild(population);
+
+    overlay.appendChild(modal);
+
+    document.body.appendChild(overlay);
   }
 
   //Loading the Map, this only gets called once.
@@ -34,7 +60,7 @@ class App extends Component {
 
     esri.featureLayer({
       url: 'https://services.arcgis.com/zmLUiqh7X11gGV2d/arcgis/rest/services/CensusDivisions2016_proj/FeatureServer/0',
-      simplifyFactor: 2,
+      simplifyFactor: 0.5,
       precision: 4, // digits of precision in meters.  we want 4 to identify individual streets. 
       where: `PRNAME = 'Ontario'`,
       style: function (feature) {
@@ -46,6 +72,8 @@ class App extends Component {
         return { weight: 1, opacity, fillOpacity: opacity, color: 'black', fillColor: 'green' };
       }
     })
+    .on('mouseover', this.onMouseHandler)
+    .on('click', this.onClickHandler)
     .addTo(map);
 
     this.setState({map, tileLayer});
@@ -56,22 +84,13 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.map) {
-      window.console.log(
-        'this.state.currentZoomLevel ->',
-        this.state.map._zoom
-      );
-    }
-
     return (
       <div>
         <div
           ref={node => (this._mapNode = node)}
           id="map"
-          style={{width: '100%', height: '400px'}}
+          style={{width: '100%', height: '100%'}}
         />
-        <span> hello</span>
-        <button onClick={() => this.changeZoom()}>Change Zoom</button>
       </div>
     );
   }
