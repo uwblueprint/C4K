@@ -84,6 +84,13 @@ class App extends Component {
   }
 
   render() {
+    if (this.state.map) {
+      window.console.log(
+        'this.state.currentZoomLevel ->',
+        this.state.map._zoom
+      );
+    }
+
     return (
       <div>
         <div
