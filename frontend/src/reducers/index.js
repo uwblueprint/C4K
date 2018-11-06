@@ -1,3 +1,6 @@
 import { combineReducers } from 'redux';
+import emptyReducer from './empty';
 
-export default combineReducers({});
+export default combineReducers({
+    emptyReducer
+});
