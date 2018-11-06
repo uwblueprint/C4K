@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Drawer from '@material-ui/core/Drawer';
+import './Sidebar.css';
 
 
 class Sidebar extends Component {
@@ -8,7 +9,7 @@ class Sidebar extends Component {
 		return (
 			<div>
 				<Drawer open="true" variant="permanent">
-					<h1>Here is the Nav Bar</h1>
+					<h1 class="title">Here is the Nav Bar</h1>
 				</Drawer>
 			</div>
 		);
