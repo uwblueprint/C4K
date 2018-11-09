@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
+import firebase from "firebase";
+import firebaseui from 'firebaseui';
 import configureStore from './store';
 
 import './index.css';
@@ -17,3 +19,19 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+// var config = {
+//     apiKey: "<API_KEY>",
+//     authDomain: "<PROJECT_ID>.firebaseapp.com",
+//     databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
+//     storageBucket: "<BUCKET>.appspot.com",
+// };
+
+// firebase.initializeApp(config);
+
+firebaseui.start('#firebaseui-auth-container', {
+    signInOptions: [
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+    ],
+    // Other config options...
+});
