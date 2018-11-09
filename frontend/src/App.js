@@ -9,8 +9,8 @@ class App extends Component {
     return (
       <div>
         <Sidebar />
-        <ToggleView />
         <Map />
+        <ToggleView />
       </div>
     );
   }

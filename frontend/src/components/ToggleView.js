@@ -7,7 +7,7 @@ class ToggleView extends Component {
 	render() {
 
 		return (
-			<div>
+			<div class="toggleGroup">
 				<ToggleButtonGroup>
 					<ToggleButton value="left" selected>
 						MapView

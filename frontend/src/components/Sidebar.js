@@ -10,14 +10,6 @@ class Sidebar extends Component {
 		return (
 			<div>
 				<Drawer open="true" variant="permanent">
-					<ToggleButtonGroup>
-						<ToggleButton value="left" selected>
-							MapView
-						</ToggleButton>
-						<ToggleButton value="right" selected>
-							ListView
-						</ToggleButton>
-					</ToggleButtonGroup>
 					<h1 class="title">Here is the Nav Bar</h1>
 				</Drawer>
 			</div>
