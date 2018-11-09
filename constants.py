@@ -203,3 +203,6 @@ CENSUS_FILE_PATH = {
         WELLINGTON: "census_divisions/wellington_2016.csv",
         YORK: "census_divisions/york_2016.csv"
 }
+
+SERVICE_PROVIDER_DATA_PATH = "service_provider_data.csv"
+CENSUS_DIVISION_DATA_PATH = "../data/census_divisions/"

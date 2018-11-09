@@ -24,8 +24,6 @@ The report year should be a single year. If the report is for a range, take the 
 ### Budget
 The budget should be the total expenses of the organization for the year. There should be no whitespace between numbers.
 
-TODO: verify that we want to use expenses as the operating budget
-
 ```
 102248      # good
 102,248     # bad
@@ -33,10 +31,7 @@ TODO: verify that we want to use expenses as the operating budget
 ```
 
 ### Client Total, Staff Total
-These counts should be integers. Comments about the totals should be put in the `notes` column.
-
-TODO: how do we count clients served if the org provides multiple counts for multiple services
-TODO: how do we distinguish between youth clients and general clients
+These counts should be integers. If the service provider has several counts for different services, sum them all. There's no need to distinguish between general clients and youth clients. Comments about the totals should be put in the `notes` column.
 
 ```
 70              # good
