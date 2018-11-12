@@ -48,7 +48,7 @@ class Map extends Component {
     this.setState({map, tileLayer});
     window.myMap = map;
     L.marker(position)
-      .addTo(map)
+      .addTo(map);
   }
 
   render() {
