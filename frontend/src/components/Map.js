@@ -19,36 +19,6 @@ class Map extends Component {
     document.getElementById('map').title = event.layer.feature.properties.CDNAME;
   }
 
-  onClickHandler = (event) => {
-    const { properties } = event.layer.feature;
-
-    const overlay = document.createElement('div');
-    overlay.className = 'overlay';
-    overlay.addEventListener('click', () => document.body.removeChild(overlay));
-
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    modal.addEventListener('click', (e) => { e.stopPropagation(); });
-
-    const title = document.createElement('h2');
-    title.innerHTML = 'DEMOGRAPHIC';
-
-    const region = document.createElement('p');
-    region.innerHTML = `${properties.CDNAME}, ${properties.PRNAME}`;
-
-    const population = document.createElement('p');
-    population.innerHTML = `${properties.Pop2016}`;
-
-
-    modal.appendChild(title);
-    modal.appendChild(region);
-    modal.appendChild(population);
-
-    overlay.appendChild(modal);
-
-    document.body.appendChild(overlay);
-  }
-
   //Loading the Map, this only gets called once.
   initMap() {
     const position = [43.6532, -79.3832];
@@ -73,14 +43,12 @@ class Map extends Component {
       }
     })
     .on('mouseover', this.onMouseHandler)
-    .on('click', this.onClickHandler)
     .addTo(map);
 
     this.setState({map, tileLayer});
     window.myMap = map;
     L.marker(position)
       .addTo(map)
-      .bindPopup('A pretty CSS3 popup. <br> Easily customizable.');
   }
 
   render() {
