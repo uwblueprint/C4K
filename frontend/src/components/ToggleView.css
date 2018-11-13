@@ -5,3 +5,8 @@
   z-index: 1000;
   background-color: lightgrey;
 }
+
+.selectedToggle {
+	background-color: #2526A9 !important;
+	color: white !important;
+}

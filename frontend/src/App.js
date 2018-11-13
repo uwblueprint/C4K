@@ -23,7 +23,7 @@ class App extends Component {
       <div>
         <Sidebar />
         {this.props.view === constants.MAP_VIEW ? <Map /> : <ListView /> }
-        <ToggleView changeView={this.props.changeView}/>
+        <ToggleView view={this.props.view} changeView={this.props.changeView}/>
       </div>
     );
   }

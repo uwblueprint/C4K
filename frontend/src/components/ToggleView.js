@@ -15,7 +15,8 @@ class ToggleView extends Component {
 							}
 						}
 						value="left"
-						selected
+						className={this.props.view === constants.MAP_VIEW ?
+						           "selectedToggle" : ""}
 					>
 						MapView
 					</ToggleButton>
@@ -25,7 +26,8 @@ class ToggleView extends Component {
 							}
 						}
 						value="right"
-						selected
+						className={this.props.view === constants.LIST_VIEW ?
+						           "selectedToggle" : ""}
 					>
 						ListView
 					</ToggleButton>
