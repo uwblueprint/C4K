@@ -9,8 +9,8 @@ class Sidebar extends Component {
 	render() {
 		return (
 			<div>
-				<Drawer open="true" variant="permanent">
-					<h1 class="title">Here is the Nav Bar</h1>
+				<Drawer open={true} variant="permanent">
+					<h1 className="title">Here is the Nav Bar</h1>
 				</Drawer>
 			</div>
 		);
