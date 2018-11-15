@@ -3,6 +3,7 @@
 node_modules/
 .vscode/
 __pycache__
+.ipynb_checkpoints/
 
 # For virtual environment
 venv/
