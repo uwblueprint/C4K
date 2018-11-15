@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import './ToggleView.css';
-import * as constants from '../constants/constants';
+import * as constants from '../constants/viewConstants';
 
 class ToggleView extends Component {
 	render() {

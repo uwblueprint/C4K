@@ -4,10 +4,10 @@ import './App.css';
 // Redux
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {changeView} from './actions/appActions';
+import {changeView} from './actions/changeViewActions';
 
 // constants 
-import * as constants from './constants/constants';
+import * as constants from './constants/viewConstants';
 
 // components
 import Map from './components/Map';
@@ -17,8 +17,6 @@ import ListView from './components/ListView';
 
 class App extends Component {
   render() {
-  	console.log(this.props.view)
-  	console.log(this.props.view === constants.MAP_VIEW );
     return (
       <div>
         <Sidebar />
@@ -31,7 +29,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    view: state.appReducer.view
+    view: state.changeViewReducer.view
   };
 }
 
