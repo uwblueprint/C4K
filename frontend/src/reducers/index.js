@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import emptyReducer from './empty';
+import changeViewReducer from './changeViewReducer';
 
 export default combineReducers({
-    emptyReducer
+    changeViewReducer
 });
