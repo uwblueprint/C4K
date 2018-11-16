@@ -1,0 +1,23 @@
+.header {
+  padding-top: 50px;
+  width: 100%;
+}
+
+.searchBar{
+  background-color: white;
+  margin: auto !important;
+  width: 80%;
+  background-color: white;
+  border-radius: 3px;
+}
+
+.searchIcon {
+  float: left;
+  color: grey;
+  padding: 6px;
+  display:inline-block;
+}
+
+.search {
+  display:inline-block;
+}

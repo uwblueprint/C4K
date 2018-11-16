@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Drawer from '@material-ui/core/Drawer';
+import SearchBar from './SearchBar';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 
@@ -14,6 +15,7 @@ class Sidebar extends Component {
 			<div>
 				<Drawer open="true" variant="permanent">
 					<h1 class="title">Here is the Nav Bar</h1>
+					<SearchBar />
 					<LoginDialog />
 				</Drawer>
 			</div>
