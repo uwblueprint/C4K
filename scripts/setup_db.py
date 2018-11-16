@@ -47,6 +47,8 @@ def create_tables(hostname, dbname, user):
                 client_total INTEGER,
                 staff_total INTEGER,
                 address TEXT,
+                longitude DECIMAL(16,14),
+                latitude DECIMAL(16,14),
                 notes TEXT
             )
             """
@@ -138,13 +140,22 @@ def load_demographics(hostname, dbname, user):
         con.close()
 
 def clean_service_provider_data():
-    data = pd.read_csv(constants.SERVICE_PROVIDER_DATA_PATH)
+    data = pd.read_csv(constants.SERVICE_PROVIDER_DATA_PATH,
+            skiprows=1,
+            names=['name', 'website', 'report_year', 'report_link',
+                'expenses', 'client_total', 'staff_total',
+                'address', 'address2', 'coordinate', 'coordinate2',
+                'notes', 'notes2', 'questions'],
+            usecols=['name', 'website', 'report_year', 'report_link',
+                'expenses', 'client_total', 'staff_total',
+                'address', 'coordinate', 'notes'])
     data['id'] = range(1, len(data)+1)
+    coordinates = data['coordinate'].str.split(',', expand=True)
+    data['longitude'] = coordinates[0]
+    data['latitude'] = coordinates[1]
 
-    data.columns = ['name', 'website', 'report_year', 'report_link', 'expenses', 'client_total', 'staff_total', 'address', 'address2', 'notes', 'notes2', 'questions', 'id']
-    data = data[['id', 'name', 'website', 'report_year', 'report_link', 'expenses', 'client_total', 'staff_total', 'address', 'address2', 'notes', 'notes2', 'questions']]
-    data.drop(['address2', 'notes2', 'questions'], axis=1, inplace=True)
-
+    # Re order columns
+    data = data[['id', 'name', 'website', 'report_year', 'report_link', 'expenses', 'client_total', 'staff_total', 'address', 'longitude', 'latitude', 'notes']]
 
     int_columns = ['report_year', 'expenses', 'client_total', 'staff_total']
     str_columns = ['report_link', 'address', 'notes']
@@ -156,8 +167,8 @@ def clean_service_provider_data():
 def load_service_providers(hostname, dbname, user):
 
     query_string = """
-        INSERT INTO service_providers (id, name, website, report_year, report_link, expenses, client_total, staff_total, address, notes)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO service_providers (id, name, website, report_year, report_link, expenses, client_total, staff_total, address, longitude, latitude, notes)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
 
     con = None
