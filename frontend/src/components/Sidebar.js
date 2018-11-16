@@ -1,22 +1,59 @@
 import React, {Component} from 'react';
+
+// Semantic UI components
 import Drawer from '@material-ui/core/Drawer';
-import SearchBar from './SearchBar';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ToggleButton from '@material-ui/lab/ToggleButton';
+import { withStyles } from '@material-ui/core/styles';
+
+// Filter Components
+import SearchBar from './SearchBar';
+import FilterSelect from './FilterSelect';
+import Dropdown from './Dropdown';
+import SlideBar from './SlideBar';
+import Footer from './Footer';
+
+// CSS
 import './Sidebar.css';
 
+const styles = {
+  root: {
+  },
+  paper: {
+		// Add styles to the Drawer Directly
+    width: 400,
+  },
+};
 
 class Sidebar extends Component {
 	render() {
+		console.log(this.props);
+		const { classes } = this.props;
+
 		return (
-			<div>
-				<Drawer open={true} variant="permanent">
+			<div className="sidebar">
+				<Drawer
+					open={true}
+					variant="permanent"
+					containerClassName={"sideBar"}
+					className="sidebar"
+					classes={{
+		        root: classes.root, // class name, e.g. `classes-nesting-root-x`
+		        paper: classes.paper, // class name, e.g. `classes-nesting-label-x`
+		      }}
+				>
 					<SearchBar />
-					<h1 className="title">Here is the Nav Bar</h1>
+					<FilterSelect />
+					<Dropdown />
+					<SlideBar title={"Operation and Budget"} />
+					<SlideBar title={"Operation and Budget"} />
+					<SlideBar title={"Operation and Budget"} />
+					<Footer />
 				</Drawer>
 			</div>
 		);
 	}
 }
 
-export default Sidebar;
+// Need to use withStyles
+export default withStyles(styles)(Sidebar);

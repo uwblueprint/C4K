@@ -21,3 +21,9 @@
 .search {
   display:inline-block;
 }
+
+.inputBar {
+  width: 85%;
+  float: right;
+  margin-right: 5px;
+}

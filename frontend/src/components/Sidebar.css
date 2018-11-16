@@ -1,3 +1,9 @@
-.title {
-	padding: 15px;
+.setWidth {
+	width: 100% !important;
 }
+
+.sidebar {
+	width: 100% !important;
+	background-color: black;
+}
+

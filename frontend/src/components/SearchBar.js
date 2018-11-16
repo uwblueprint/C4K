@@ -76,7 +76,9 @@ class SearchBar extends Component {
 				<AppBar className="header" position="static">
 					<div className="searchBar">
 					 <SearchIcon className="searchIcon" />
-					 <TextField className="search" />
+					 <div className="inputBar">
+					   <TextField fullWidth={true} className="search" />
+					 </div>
 					</div>
 	      </AppBar>
 			</div>
