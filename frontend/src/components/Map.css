@@ -3,26 +3,26 @@ body { margin:0; padding:0; }
 #map { position: absolute; top:0; bottom:0; right:0; left:0; }
 
 .overlay {
-width: 100%;
-height: 100%;
-background: rgba(0, 0, 0, 0.2);
-z-index: 1000;
-display: flex;
-justify-content: center;
-align-items: center;
-position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
 }
 
 .modal {
-margin: auto;
-width: 360px;
-height: 240px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-background: white;
-border-radius: 16px;
-padding: 24px;
-font-size: 16px;
-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+    margin: auto;
+    width: 360px;
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    font-size: 16px;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
 }

@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
-import firebase from "firebase";
-import firebaseui from 'firebaseui';
 import configureStore from './store';
 
 import './index.css';
@@ -26,12 +24,3 @@ serviceWorker.unregister();
 //     databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
 //     storageBucket: "<BUCKET>.appspot.com",
 // };
-
-// firebase.initializeApp(config);
-
-firebaseui.start('#firebaseui-auth-container', {
-    signInOptions: [
-        firebase.auth.EmailAuthProvider.PROVIDER_ID
-    ],
-    // Other config options...
-});
