@@ -1,5 +1,14 @@
 .footer {
 	border-top: solid grey 1px;
 	margin: auto;
-	width: 80%;
+	margin-top: 35px;
+	width: 100%;
+	background-color: #3f51b5;
+	bottom: 0;
+	position: absolute;
+}
+
+.iconButton {
+	margin: 15px !important;
+	color: white !important;
 }

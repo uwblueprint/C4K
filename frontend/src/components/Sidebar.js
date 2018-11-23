@@ -20,7 +20,7 @@ const styles = {
   root: {
   },
   paper: {
-		// Add styles to the Drawer Directly
+	// Add styles to the Drawer Directly
     width: 400,
   },
 };
@@ -45,9 +45,6 @@ class Sidebar extends Component {
 					<SearchBar />
 					<FilterSelect />
 					<Dropdown />
-					<SlideBar title={"Operation and Budget"} />
-					<SlideBar title={"Operation and Budget"} />
-					<SlideBar title={"Operation and Budget"} />
 					<Footer />
 				</Drawer>
 			</div>

@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import deburr from 'lodash/deburr';
+import Downshift from 'downshift';
 
-// For Autocomplete
-import Downshift from 'downshift'
-
-// Material UI components
-import AppBar from '@material-ui/core/AppBar';
+// Material UI
+import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import MenuItem from '@material-ui/core/MenuItem';
+import AppBar from '@material-ui/core/AppBar';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
+// Icons
 import SearchIcon from '@material-ui/icons/Search';
 
-import './SearchBar.css';
+// CSS
+import './SearchBar.css'
 
 const suggestions = [
   { label: 'Afghanistan' },
@@ -47,13 +54,20 @@ const suggestions = [
   { label: 'Brunei Darussalam' },
 ];
 
-
 function renderInput(inputProps) {
-	const { InputProps, classes, ref, ...other } = inputProps;
+  const { InputProps, classes, ref, ...other } = inputProps;
 
   return (
     <TextField
       InputProps={{
+        startAdornment: (
+          <InputAdornment 
+            position="start"
+            className={classes.searchIcon}
+          >
+            <SearchIcon />
+          </InputAdornment>
+        ),
         inputRef: ref,
         classes: {
           root: classes.inputRoot,
@@ -66,24 +80,142 @@ function renderInput(inputProps) {
   );
 }
 
-// Add additional Downshift and material UI layout: https://material-ui.com/demos/autocomplete/
+// User is repsonsible for rendering - downshift knows that state
+function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
+  const isHighlighted = highlightedIndex === index;
+  const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
 
+  return (
+    <MenuItem
+      {...itemProps}
+      key={suggestion.label}
+      selected={isHighlighted}
+      component="div"
+      style={{
+        fontWeight: isSelected ? 500 : 400,
+      }}
+    >
+      {suggestion.label}
+    </MenuItem>
+  );
+}
+renderSuggestion.propTypes = {
+  highlightedIndex: PropTypes.number,
+  index: PropTypes.number,
+  itemProps: PropTypes.object,
+  selectedItem: PropTypes.string,
+  suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired,
+};
 
-class SearchBar extends Component {
-	render() {
-		return (
-			<div>
-				<AppBar className="header" position="static">
-					<div className="searchBar">
-					 <SearchIcon className="searchIcon" />
-					 <div className="inputBar">
-					   <TextField fullWidth={true} className="search" />
-					 </div>
-					</div>
-	      </AppBar>
-			</div>
-		);
-	}
+function getSuggestions(value) {
+  const inputValue = deburr(value.trim()).toLowerCase();
+  const inputLength = inputValue.length;
+  let count = 0;
+
+  return inputLength === 0
+    ? []
+    : suggestions.filter(suggestion => {
+        const keep =
+          count < 5 && suggestion.label.slice(0, inputLength).toLowerCase() === inputValue;
+
+        if (keep) {
+          count += 1;
+        }
+
+        return keep;
+      });
 }
 
-export default SearchBar;
+const styles = theme => ({
+  container: {
+    flexGrow: 1,
+    position: 'relative',
+  },
+  paper: {
+    position: 'absolute',
+    zIndex: 1,
+    marginTop: theme.spacing.unit,
+    left: 0,
+    right: 0,
+  },
+  chip: {
+    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
+  },
+  inputRoot: {
+    flexWrap: 'wrap',
+    height: 49,
+  },
+  inputInput: {
+    width: 'auto',
+    flexGrow: 1,
+  },
+  divider: {
+    height: theme.spacing.unit * 2,
+  },
+  searchIcon: {
+    marginLeft: 10,
+  },
+});
+
+
+class sampleSearchBar extends Component {
+
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <AppBar position="static" className="header">
+        <img 
+          src={require('../assets/C4K_abbrv_gold_WHITE.png')}
+          className="logo"
+        />
+        <div className={classes.root} id="searchBar">
+            <div className="inputBar">
+              <Downshift id="downshift-simple">
+                {({
+                  getInputProps,
+                  getItemProps,
+                  getMenuProps,
+                  highlightedIndex,
+                  inputValue,
+                  isOpen,
+                  selectedItem,
+                }) => (
+                  <div className={classes.container}>
+                    {renderInput({
+                      fullWidth: true,
+                      classes,
+                      InputProps: getInputProps({
+                        placeholder: 'Search',
+                      }),
+                    })}
+                    <div {...getMenuProps()}>
+                      {isOpen ? (
+                        <Paper className={classes.paper} square>
+                          {getSuggestions(inputValue).map((suggestion, index) =>
+                            renderSuggestion({
+                              suggestion,
+                              index,
+                              itemProps: getItemProps({ item: suggestion.label }),
+                              highlightedIndex,
+                              selectedItem,
+                            }),
+                          )}
+                        </Paper>
+                      ) : null}
+                    </div>
+                  </div>
+                )}
+              </Downshift>
+            </div>
+        </div>
+      </AppBar>
+    );
+  }
+}
+
+sampleSearchBar.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(sampleSearchBar);
