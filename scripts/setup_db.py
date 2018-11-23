@@ -10,7 +10,7 @@ import pandas as pd
 import backend.constants as constants
 import backend.db as db
 
-def create_tables(hostname, dbname, user):
+def create_tables():
     commands = [
             """
             DROP TABLE IF EXISTS demographics, sp_census_divisions, sp_locations
@@ -38,12 +38,13 @@ def create_tables(hostname, dbname, user):
             """,
             """
             CREATE TABLE service_providers (
-                id           INTEGER PRIMARY KEY,
-                name         TEXT NOT NULL,
-                website      TEXT,
-                report_year  INTEGER,
-                report_link  TEXT,
-                expenses     INTEGER,
+                id INTEGER PRIMARY KEY,
+                census_division_id INTEGER REFERENCES census_division (id),
+                name TEXT NOT NULL,
+                website TEXT NOT NULL,
+                report_year INTEGER,
+                report_link TEXT,
+                expenses INTEGER,
                 client_total INTEGER,
                 staff_total  INTEGER,
                 notes        TEXT
@@ -71,30 +72,14 @@ def create_tables(hostname, dbname, user):
     for command in commands:
         db.execute(command)
 
-def load_census_divisions(hostname, dbname, user):
+def load_census_divisions():
     census_division_insert_statement = """
         INSERT INTO census_division (id, name)
-        VALUES ({}, '{}')
+        VALUES (%s, %s)
     """
 
-    con = None
-    try:
-        con = psycopg2.connect("host='{}' dbname='{}' user='{}'".format(
-            hostname, dbname, user))
-        cur = con.cursor()
-
-        for i, census_division in constants.ID_TO_CENSUS_DIVISION.items():
-            cur.execute(census_division_insert_statement.format(i, census_division))
-
-        con.commit()
-    except psycopg2.DatabaseError as e:
-        if con:
-            con.rollback()
-        print("Error {}".format(e))
-        sys.exit(1)
-
-    if con:
-        con.close()
+    for i, census_division in constants.ID_TO_CENSUS_DIVISION.items():
+        db.execute(census_division_insert_statement, (i, census_division))
 
 def load_demographics(hostname, dbname, user):
     demographic_insert_statement = """
@@ -209,59 +194,41 @@ def clean_service_provider_data():
 
     return data, sp_census_divisions, sp_locations
 
-def load_service_providers(hostname, dbname, user):
+def load_service_providers():
+    data, sp_cd, sp_loc = clean_service_provider_data()
 
-    con = None
-    try:
-        con = psycopg2.connect("host='{}' dbname='{}' user='{}'".format(
-            hostname, dbname, user))
-        cur = con.cursor()
+    # Insert service provider data
+    for index, row in data.iterrows():
+        query_string = """
+            INSERT INTO service_providers (id, name, website, report_year, report_link, expenses, client_total, staff_total, notes)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        values = tuple(row)
+        db.execute(query_string, values)
 
-        data, sp_cd, sp_loc = clean_service_provider_data()
+    # Insert service provider census divisions
+    for index, row in sp_cd.iterrows():
+        query_string = """
+            INSERT INTO sp_census_divisions (id, sp_id, census_division_id)
+            VALUES (%s, %s, %s)
+        """
+        values = tuple(row)
+        db.execute(query_string, values)
 
-        # Insert service provider data
-        for index, row in data.iterrows():
-            query_string = """
-                INSERT INTO service_providers (id, name, website, report_year, report_link, expenses, client_total, staff_total, notes)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """
-            values = tuple(row)
-            cur.execute(query_string, values)
-        con.commit()
-
-        # Insert service provider census divisions
-        for index, row in sp_cd.iterrows():
-            query_string = """
-                INSERT INTO sp_census_divisions (id, sp_id, census_division_id)
-                VALUES (%s, %s, %s)
-            """
-            values = tuple(row)
-            cur.execute(query_string, values)
-        con.commit()
-
-        # Insert service provider locations
-        for index, row in sp_loc.iterrows():
-            query_string = """
-                INSERT INTO sp_locations (id, sp_id, address, longitude, latitude, main)
-                VALUES (%s, %s, %s, %s, %s, %s)
-            """
-            values = tuple(row)
-            cur.execute(query_string, values)
-        con.commit()
-    except psycopg2.DatabaseError as e:
-        if con:
-            con.rollback()
-        print("Error {}".format(e))
-        sys.exit(1)
-
-    if con:
-        con.close()
+    # Insert service provider locations
+    for index, row in sp_loc.iterrows():
+        query_string = """
+            INSERT INTO sp_locations (id, sp_id, address, longitude, latitude, main)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        values = tuple(row)
+        db.execute(query_string, values)
 
 def setup_db(hostname, dbname, user):
-    create_tables(hostname, dbname, user)
-    load_census_divisions(hostname, dbname, user)
+    create_tables()
+    load_census_divisions()
     load_demographics(hostname, dbname, user)
-    load_service_providers(hostname, dbname, user)
+    load_service_providers()
 
 if __name__ == '__main__':
     hostname = "localhost"
