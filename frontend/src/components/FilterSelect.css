@@ -1,8 +1,13 @@
-.filterGroup {
+.filterSelect {
 	width: 80%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.filterGroup {
+	width: 100%;
 	margin: auto;
 	overflow: auto;
-	border-bottom: solid grey 1px;
 }
 
 .text {

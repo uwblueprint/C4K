@@ -12,13 +12,14 @@ class Dropdown extends Component {
 	render() {
 		return (
 			<div className="dropdown">
+				<h1>Demographic</h1>
 				<Select className="select">
 					<MenuItem value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={10}>Body 1</MenuItem>
+          <MenuItem value={20}>Body 2</MenuItem>
+          <MenuItem value={30}>Body 3</MenuItem>
 				</Select>
 			</div>
 		);

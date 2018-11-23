@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 
 // Material UI components
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import IconButton from '@material-ui/core/IconButton';
+
+// Icons
+import Bookmark from '@material-ui/icons/Bookmark';
+import Subject from '@material-ui/icons/Subject';
+
 
 // CSS
 import './Footer.css';
@@ -13,28 +16,15 @@ class Footer extends Component {
 	render() {
 		return (
 			<div className="footer">
-				<FormGroup row>
-					<FormControlLabel
-						control={
-		          <Switch
-		            value="checkedA"
-		            color="primary"
-		          />
-		        }
-		        label="Notes"
-	        />
-				</FormGroup>
-				<FormGroup row>
-					<FormControlLabel
-						control={
-		          <Switch
-		            value="checkedA"
-		            color="primary"
-		          />
-		        }
-		        label="Bookmarked"
-	        />
-				</FormGroup>
+
+				<IconButton aria-label="Notes" className="iconButton">
+				  <Subject fontSize="large" />
+				</IconButton>
+
+				<IconButton aria-label="Bookmark" className="iconButton">
+				  <Bookmark fontSize="large" />
+				</IconButton>
+
 			</div>
 		);
 	}

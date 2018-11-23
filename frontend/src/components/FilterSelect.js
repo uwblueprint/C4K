@@ -7,8 +7,9 @@ import './FilterSelect.css'
 class FilterSelect extends Component {
 	render() {
 		return (
-			<div>
-				<div className="filterGroup" id="topSelect" >
+			<div className="filterSelect">
+				<h1>Services</h1>
+				<div className="filterGroup" id="topSelect">
 					<span className="text">Lead Agency</span>
 					<div className="checkbox">
 						<Checkbox color="primary"/>
