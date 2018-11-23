@@ -38,16 +38,16 @@ def create_tables():
             """,
             """
             CREATE TABLE service_providers (
-                id INTEGER PRIMARY KEY,
+                id INTEGER         PRIMARY KEY,
                 census_division_id INTEGER REFERENCES census_division (id),
-                name TEXT NOT NULL,
-                website TEXT NOT NULL,
-                report_year INTEGER,
-                report_link TEXT,
-                expenses INTEGER,
-                client_total INTEGER,
-                staff_total  INTEGER,
-                notes        TEXT
+                name               TEXT NOT NULL,
+                website            TEXT NOT NULL,
+                report_year        INTEGER,
+                report_link        TEXT,
+                expenses           INTEGER,
+                client_total       INTEGER,
+                staff_total        INTEGER,
+                notes              TEXT
             )
             """,
             """
@@ -64,7 +64,7 @@ def create_tables():
                 address   TEXT,
                 longitude DECIMAL(16,14),
                 latitude  DECIMAL(16,14),
-                main      BOOLEAN
+                isMain    BOOLEAN
             )
             """
             ]
