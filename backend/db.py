@@ -1,12 +1,29 @@
-import psycopg2 
+import sys
+import psycopg2
 from psycopg2.extras import RealDictCursor
 import getpass
-import constants
-import getpass
+sys.path.append("..")
+
+import backend.constants as constants
 
 hostname = "localhost"
 dbname = "postgres"
 user = getpass.getuser()
+
+def execute(query, values=None, cursor_factory=None):
+    con = psycopg2.connect("host='{}' dbname='{}' user='{}'".format(
+        hostname, dbname, user))
+    cur = con.cursor(cursor_factory=cursor_factory)
+
+    cur.execute(query, values)
+    con.commit()
+
+    rows = None
+    if cur.description:
+        rows = cur.fetchall()
+
+    con.close()
+    return rows
 
 def get_census_division_data(census_division_id):
     query = """
@@ -35,3 +52,13 @@ def get_census_division_data(census_division_id):
         con.close()
 
     return rows
+
+def get_all_service_providers():
+    query = """
+        SELECT *
+        FROM service_providers
+        JOIN sp_locations ON service_providers.id=sp_locations.sp_id
+        JOIN sp_census_divisions ON service_providers.id=sp_census_divisions.sp_id
+    """
+
+    return execute(query, cursor_factory=RealDictCursor)
