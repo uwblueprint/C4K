@@ -24,39 +24,37 @@ const config = {
 };
 firebase.initializeApp(config)
 
-const styles = theme => ({
-  main: {
-    width: 'auto',
-    display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
-  paper: {
-    marginTop: theme.spacing.unit * 8,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-  },
-  avatar: {
-    margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit,
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3,
-  },
-});
-
 class Login extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {email: 'test@test.com', password: 'test123'};
+  }
+
+
+  signIn () {
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(err => {
+      console.log(err);
+    });
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        // User is signed in.
+        firebase.auth().currentUser.getIdToken(true).then(idToken => {
+          console.log(idToken)
+        }).catch(err => {
+          console.log(err)
+        });
+        // ...
+      } else {
+        // User is signed out.
+        // ...
+        console.log('No user')
+      }
+    });
+
+    
+  }
     
   render () {
     const { classes } = this.props;
@@ -89,7 +87,8 @@ class Login extends Component {
 							fullWidth
 							variant="contained"
 							color="primary"
-							className={classes.submit}
+              className={classes.submit}
+              onClick={this.signIn()}
 						>
 							Sign in
 						</Button>
@@ -104,6 +103,36 @@ Login.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
+const styles = theme => ({
+  main: {
+    width: 'auto',
+    display: 'block', // Fix IE 11 issue.
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  paper: {
+    marginTop: theme.spacing.unit * 8,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+  },
+  avatar: {
+    margin: theme.spacing.unit,
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing.unit,
+  },
+  submit: {
+    marginTop: theme.spacing.unit * 3,
+  },
+});
+
 export default withStyles(styles)(Login);
-
-
