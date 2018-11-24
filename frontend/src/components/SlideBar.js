@@ -8,11 +8,18 @@ import './SlideBar.css';
 
 
 class SlideBar extends Component {
+	handleChange = (event, value) => {
+		this.props.changeVal(value);
+	};
+
 	render() {
 		return (
 			<div className="slideBar">
-				<p>{this.props.title}</p>
-				<Slider />
+				<p className="title">{this.props.title}</p>
+				<Slider
+					value={this.props.val}
+					onChange={this.handleChange}
+				/>
 			</div>
 		);
 	}

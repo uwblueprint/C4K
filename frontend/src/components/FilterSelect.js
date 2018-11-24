@@ -7,13 +7,11 @@ import './FilterSelect.css'
 class FilterSelect extends Component {
 	render() {
 		return (
-			<div className="filterSelect">
-				<h1>Services</h1>
-				<div className="filterGroup" id="topSelect">
+			<div className="filterSelect" >
+				<p className="title">Service Type</p>
+				<div className="filterGroup">
 					<span className="text">Lead Agency</span>
-					<div className="checkbox">
-						<Checkbox color="primary"/>
-					</div>
+					<Checkbox className="checkbox" color="primary"/>
 				</div>
 				<div className="filterGroup">
 					<span className="text">Targeted Prevention</span>

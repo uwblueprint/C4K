@@ -3,12 +3,28 @@
 	margin: auto;
 	margin-top: 35px;
 	width: 100%;
-	background-color: #3f51b5;
+	/*background-color: #3f51b5;
 	bottom: 0;
-	position: absolute;
+	position: absolute;*/
+	font-family: 'Open Sans', sans-serif;
 }
 
 .iconButton {
 	margin: 15px !important;
 	color: white !important;
+}
+
+.icon {
+	width: 17px;
+	height: 22.76px;
+	padding: 12.62px;
+}
+
+.row {
+	width: 80%;
+	margin: auto;
+}
+
+.toggle {
+	float: right;
 }

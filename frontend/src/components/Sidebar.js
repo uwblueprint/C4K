@@ -25,9 +25,12 @@ const styles = {
   },
 };
 
+// Should be replaced with data passed from backend
+let dropDownVals = ["Waterloo", "Aboriginal", "Ottawa"]
+
 class Sidebar extends Component {
+
 	render() {
-		console.log(this.props);
 		const { classes } = this.props;
 
 		return (
@@ -43,8 +46,34 @@ class Sidebar extends Component {
 		      }}
 				>
 					<SearchBar />
+					<Dropdown 
+						title={"Census Division"}
+						selectValue={this.props.censusDivision}
+						changeValue={this.props.changeCensusDivision}
+						dropdownVals={dropDownVals}
+					/>
+					<Dropdown 
+						title={"Demographic"}
+						selectValue={this.props.demographic}
+						changeValue={this.props.changeDemographic}
+						dropdownVals={dropDownVals}
+					/>
 					<FilterSelect />
-					<Dropdown />
+					<SlideBar
+						title={"Operating Budget"}
+						val={this.props.operatingBudget}
+						changeVal={this.props.changeOperatingBudget}
+					/>
+					<SlideBar
+						title={"Client Served"}
+						val={this.props.clientServed}
+						changeVal={this.props.changeClientServed}
+					/>
+					<SlideBar
+						title={"Staff Count"}
+						val={this.props.staffCount}
+						changeVal={this.props.changeStaffCount}
+					/>
 					<Footer />
 				</Drawer>
 			</div>

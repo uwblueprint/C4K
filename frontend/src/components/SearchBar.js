@@ -170,44 +170,44 @@ class sampleSearchBar extends Component {
           className="logo"
         />
         <div className={classes.root} id="searchBar">
-            <div className="inputBar">
-              <Downshift id="downshift-simple">
-                {({
-                  getInputProps,
-                  getItemProps,
-                  getMenuProps,
-                  highlightedIndex,
-                  inputValue,
-                  isOpen,
-                  selectedItem,
-                }) => (
-                  <div className={classes.container}>
-                    {renderInput({
-                      fullWidth: true,
-                      classes,
-                      InputProps: getInputProps({
-                        placeholder: 'Search',
-                      }),
-                    })}
-                    <div {...getMenuProps()}>
-                      {isOpen ? (
-                        <Paper className={classes.paper} square>
-                          {getSuggestions(inputValue).map((suggestion, index) =>
-                            renderSuggestion({
-                              suggestion,
-                              index,
-                              itemProps: getItemProps({ item: suggestion.label }),
-                              highlightedIndex,
-                              selectedItem,
-                            }),
-                          )}
-                        </Paper>
-                      ) : null}
-                    </div>
+          <div className="inputBar">
+            <Downshift id="downshift-simple">
+              {({
+                getInputProps,
+                getItemProps,
+                getMenuProps,
+                highlightedIndex,
+                inputValue,
+                isOpen,
+                selectedItem,
+              }) => (
+                <div className={classes.container}>
+                  {renderInput({
+                    fullWidth: true,
+                    classes,
+                    InputProps: getInputProps({
+                      placeholder: 'Search',
+                    }),
+                  })}
+                  <div {...getMenuProps()}>
+                    {isOpen ? (
+                      <Paper className={classes.paper} square>
+                        {getSuggestions(inputValue).map((suggestion, index) =>
+                          renderSuggestion({
+                            suggestion,
+                            index,
+                            itemProps: getItemProps({ item: suggestion.label }),
+                            highlightedIndex,
+                            selectedItem,
+                          }),
+                        )}
+                      </Paper>
+                    ) : null}
                   </div>
-                )}
-              </Downshift>
-            </div>
+                </div>
+              )}
+            </Downshift>
+          </div>
         </div>
       </AppBar>
     );
