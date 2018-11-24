@@ -3,4 +3,9 @@
 	margin-left: auto;
 	margin-right: auto;
 	width: 80%;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.title {
+	margin-bottom: 3px;
 }
