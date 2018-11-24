@@ -1,7 +1,5 @@
-.centerDiv {
-	text-align: center;
-}
-
-.titleText {
-	display: inline-block;
+.listView {
+	margin-left: 441px;
+	margin-top: 120px;
+	font-family: 'Open Sans', sans-serif;
 }
