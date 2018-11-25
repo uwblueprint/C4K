@@ -31,6 +31,7 @@
 .loginLayout .title {
     font-size: 36px;
     color: #2526A9;
+    padding: 0;
 }
 
 .loginLayout input {
