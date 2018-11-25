@@ -1,0 +1,73 @@
+.loginLayout {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.loginLayout .logo {
+    width: 42%;
+    background: #2526A9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.loginLayout .logo img {
+    margin: 88px;
+    width: 460px;
+}
+
+.loginLayout .container {
+    color: rgba(0, 0, 0, 0.87);
+    width: 460px;
+    margin: auto;
+}
+
+.loginLayout .description p {
+    margin: 28px 0;
+}
+
+.loginLayout .title {
+    font-size: 36px;
+    color: #2526A9;
+}
+
+.loginLayout input {
+    width: 100%;
+    outline: none;
+    height: 56px;
+    padding: 18px 16px 14px;
+    margin-bottom: 40px;
+    margin-top: 16px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.87);
+    box-sizing: border-box;
+}
+
+.loginLayout [type="submit"] {
+    background: #2526A9;
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    height: 50px;
+    width: 144px;
+    float: right;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.24), 0px 0px 2px rgba(0, 0, 0, 0.12);
+    border-radius: 2px;
+    font-style: normal;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+
+.loginLayout #submit {
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    height: 50px;
+    width: 144px;
+    float: right;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    margin-top: 16px;
+}

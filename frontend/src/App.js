@@ -4,6 +4,8 @@ import Map from './components/Map';
 import Sidebar from './components/Sidebar';
 import ToggleView from './components/ToggleView';
 
+// import Login from './components/Login';
+
 class App extends Component {
   render() {
     return (
