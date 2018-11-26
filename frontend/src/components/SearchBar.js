@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
 import Downshift from 'downshift';
 
-<<<<<<< HEAD
 // Login Dialog
 import LoginDialog from './LoginDialog'
 
-=======
->>>>>>> d2ee4e4d03a9f90d811ce7b06cc0a7d167effd96
 // Material UI
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -180,7 +177,7 @@ class sampleSearchBar extends Component {
             <LoginDialog />
           </div>
         </div>
-        
+
         <div className={classes.root} id="searchBar">
           <div className="inputBar">
             <Downshift id="downshift-simple">
