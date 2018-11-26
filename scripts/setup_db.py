@@ -158,7 +158,7 @@ def clean_service_provider_data():
 
         sp_location_data.append({
             'sp_id': row['id'],
-            'main': 'true',
+            'isMain': 'true',
             'address': main_addr,
             'long': main_latlong[0],
             'lat': main_latlong[1]
@@ -173,7 +173,7 @@ def clean_service_provider_data():
         for i in range(len(sat_addr)):
             sp_location_data.append({
                 'sp_id': row['id'],
-                'main': 'false',
+                'isMain': 'false',
                 'address': sat_addr[i],
                 'long': sat_latlong[i].split(',')[0],
                 'lat': sat_latlong[i].split(',')[1]
@@ -181,7 +181,7 @@ def clean_service_provider_data():
     sp_locations = pd.DataFrame(sp_location_data)
     sp_locations['id'] = range(1, len(sp_locations)+1)
     # Re order columns
-    sp_locations = sp_locations[['id', 'sp_id', 'address', 'long', 'lat', 'main']]
+    sp_locations = sp_locations[['id', 'sp_id', 'address', 'long', 'lat', 'isMain']]
 
     # Re order columns
     data = data[['id', 'name', 'website', 'report_year', 'report_link',
@@ -218,7 +218,7 @@ def load_service_providers():
     # Insert service provider locations
     for index, row in sp_loc.iterrows():
         query_string = """
-            INSERT INTO sp_locations (id, sp_id, address, longitude, latitude, main)
+            INSERT INTO sp_locations (id, sp_id, address, longitude, latitude, isMain)
             VALUES (%s, %s, %s, %s, %s, %s)
         """
         values = tuple(row)
