@@ -48,6 +48,8 @@ class Login extends React.Component {
                 console.log('No user')
             }
         });
+
+        this.props.closeDialog();
     }
 
     handleSubmit = (e) => {
@@ -91,6 +93,7 @@ class Login extends React.Component {
                         <input id="password" type="password" required onChange={this.onChangePassword}></input>
                         </label>
                         <p className="error">{this.state.errorMessage}</p>
+                        <Button id="close" variant="contained" color="default" onClick={this.props.closeDialog}>Cancel</Button>
                         <Button id="submit" variant="contained" color="primary" onClick={this.handleSubmit}>LOG IN</Button>
                     </form>
                 </div>
