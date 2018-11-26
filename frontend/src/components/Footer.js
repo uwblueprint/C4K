@@ -18,38 +18,39 @@ class Footer extends Component {
 	render() {
 		return (
 			<div className="footer">
-				<FormGroup row className="row">
-					<img 
-					  src={require('../assets/memo.png')}
-					  className="icon"
-					/>
-					<FormControlLabel
-						control={
-		          <Switch
-		            value="checkedA"
-		            color="primary"
-		            className="toggle"
-		          />
-		        }
-		        label="Notes"
-		        labelPlacement="right"
-	        />
-				</FormGroup>
-				<FormGroup row className="row">
-					<BookmarkBorder className="icon" />
-					<FormControlLabel
-						control={
-		          <Switch
-		            value="checkedA"
-		            color="primary"
-		            className="toggle"
-		          />
-		        }
-		        label="Bookmarked"
-		        labelPlacement="left"
-	        />
-				</FormGroup>
+				<div className="footerContent">
+					<div className="row">
+						<span className="label">
+							<img 
+							  src={require('../assets/memo.png')}
+							  className="icon"
+							/>
+							Notes
+						</span>
 
+						<div className="toggle">
+	          	<Switch
+		            value="checkedA"
+		            color="primary"
+		          />
+	          </div>
+	        </div>
+					<div className="row">
+						<span className="label">
+							<BookmarkBorder
+								className="icon"
+							/>
+							Bookmarked
+						</span>
+
+						<div className="toggle">
+		          <Switch
+		            value="checkedA"
+		            color="primary"
+			        />
+			      </div>
+					</div>
+				</div>
 			</div>
 		);
 	}

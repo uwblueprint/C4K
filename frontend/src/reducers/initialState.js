@@ -11,7 +11,7 @@ export let initialDropDownState = {
 
 // Values should be on a scale of 0-100 rn
 export let initialSliderVals = {
-	operatingBudget: 25000,
-	clientServed: 500,
-	staffCount: 100,
+	operatingBudget: 50,
+	clientServed: 50,
+	staffCount: 50,
 }

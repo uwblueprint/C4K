@@ -46,34 +46,36 @@ class Sidebar extends Component {
 		      }}
 				>
 					<SearchBar />
-					<Dropdown 
-						title={"Census Division"}
-						selectValue={this.props.censusDivision}
-						changeValue={this.props.changeCensusDivision}
-						dropdownVals={dropDownVals}
-					/>
-					<Dropdown 
-						title={"Demographic"}
-						selectValue={this.props.demographic}
-						changeValue={this.props.changeDemographic}
-						dropdownVals={dropDownVals}
-					/>
-					<FilterSelect />
-					<SlideBar
-						title={"Operating Budget"}
-						val={this.props.operatingBudget}
-						changeVal={this.props.changeOperatingBudget}
-					/>
-					<SlideBar
-						title={"Client Served"}
-						val={this.props.clientServed}
-						changeVal={this.props.changeClientServed}
-					/>
-					<SlideBar
-						title={"Staff Count"}
-						val={this.props.staffCount}
-						changeVal={this.props.changeStaffCount}
-					/>
+					<div className="body">
+						<Dropdown 
+							title={"Census Division"}
+							selectValue={this.props.censusDivision}
+							changeValue={this.props.changeCensusDivision}
+							dropdownVals={dropDownVals}
+						/>
+						<Dropdown 
+							title={"Demographic"}
+							selectValue={this.props.demographic}
+							changeValue={this.props.changeDemographic}
+							dropdownVals={dropDownVals}
+						/>
+						<FilterSelect />
+						<SlideBar
+							title={"Operating Budget"}
+							val={this.props.operatingBudget}
+							changeVal={this.props.changeOperatingBudget}
+						/>
+						<SlideBar
+							title={"Client Served"}
+							val={this.props.clientServed}
+							changeVal={this.props.changeClientServed}
+						/>
+						<SlideBar
+							title={"Staff Count"}
+							val={this.props.staffCount}
+							changeVal={this.props.changeStaffCount}
+						/>
+					</div>
 					<Footer />
 				</Drawer>
 			</div>
