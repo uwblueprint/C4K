@@ -86,5 +86,3 @@ def get_all_service_providers(is_user=False, is_admin=False):
         query = queries[2]
 
     return execute(query, cursor_factory=RealDictCursor)
-
-def get_
