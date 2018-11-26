@@ -19,6 +19,12 @@
 .search {
   height: 49px;
 }
+
+.loginButton {
+  margin-top: 5px;
+  float: right;
+}
+
 /*.searchIcon {
   float: left;
   color: grey;

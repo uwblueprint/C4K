@@ -4,7 +4,6 @@ import React, {Component} from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ToggleButton from '@material-ui/lab/ToggleButton';
-import LoginDialog from './LoginDialog'
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -79,7 +78,6 @@ class Sidebar extends Component {
 						/>
 					</div>
 					<Footer />
-					<LoginDialog />
 				</Drawer>
 			</div>
 		);

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
 import Downshift from 'downshift';
 
+// Login Dialog
+import LoginDialog from './LoginDialog'
+
 // Material UI
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -165,10 +168,15 @@ class sampleSearchBar extends Component {
 
     return (
       <AppBar position="static" className="header">
-        <img 
-          src={require('../assets/C4K_abbrv_gold_WHITE.png')}
-          className="logo"
-        />
+        <div className="topBar">
+          <img
+            src={require('../assets/C4K_abbrv_gold_WHITE.png')}
+            className="logo"
+          />
+          <div className="loginButton">
+            <LoginDialog />
+          </div>
+        </div>
         <div className={classes.root} id="searchBar">
           <div className="inputBar">
             <Downshift id="downshift-simple">
