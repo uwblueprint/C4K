@@ -47,8 +47,38 @@ def create_user():
 
 @app.route("/service_providers")
 def get_all_service_providers():
-    service_providers = db.get_all_service_providers()
+    is_user = False
+    is_admin = False
+
+    id_token = requests.args.get('id_token')
+    if id_token:
+        claims = auth.verify_id_token(id_token)
+        is_user = True
+        is_admin = claims['admin']
+
+    service_providers = db.get_all_service_providers(is_user, is_admin)
     return jsonify({ "error": "", "data": service_providers })
+
+@app.route("/users/new")
+def create_user():
+    # Check if proper params have been passed in
+    params = ['email', 'password', 'admin']
+    for param in params:
+        if not request.args.get(param, None):
+            return jsonify({"error": "Missing param: {}".format(param)})
+
+    email = str(request.args.get('email', ''))
+    password = str(request.args.get('password', ''))
+    admin = bool(request.args.get('admin'))
+
+    try:
+        user = auth.create_user(email=email, password=password)
+        auth.set_custom_user_claims(user.uid, {'admin': admin})
+    except auth.AuthError:
+        return jsonify({"error": "User with email {} already exists".format(email)})
+
+    return jsonify({'uid': user.uid})
+
 
 if __name__ == "__main__":
     cred = credentials.Certificate("instance/c4k-dashboard-firebase-adminsdk-ypbc3-c66b8c5a1c.json")
