@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import Place from '@material-ui/icons/Place';
 import Phone from '@material-ui/icons/Phone';
 import Public from '@material-ui/icons/Public';
+import BookmarkBorder from '@material-ui/icons/BookmarkBorder';
 
 import './ListViewCard.css';
 
@@ -14,6 +15,13 @@ class ListViewCard extends Component {
 				<div className="content">
 					<span className="name">{ this.props.name }</span>
 					<span className="type">{ this.props.type }</span>
+					<span className="noteBookmark">
+						<img
+						  src={require('../assets/memo.png')}
+						  className="icon"
+						/>
+						<BookmarkBorder className="icon" />
+					</span>
 					<p className="location">{ this.props.location }</p>
 					<div className="subContent">
 						<Place className="icon" />
