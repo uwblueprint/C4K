@@ -23,5 +23,10 @@ def get_data_by_id(census_id):
     data = db.get_census_division_data(census_id)
     return jsonify({ "error": "", "data": data }) 
 
+@app.route("/service_providers")
+def get_all_service_providers():
+    service_providers = db.get_all_service_providers()
+    return jsonify({ "error": "", "data": service_providers })
+
 if __name__ == "__main__":
     app.run("localhost", 8080, debug=True)
