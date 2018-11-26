@@ -3,26 +3,27 @@
 	margin: auto;
 	margin-top: 35px;
 	width: 100%;
-	/*background-color: #3f51b5;
-	bottom: 0;
+	/*bottom: 0;
 	position: absolute;*/
+	display: block;
 	font-family: 'Open Sans', sans-serif;
 }
 
-.iconButton {
-	margin: 15px !important;
-	color: white !important;
+.footerContent {
+	padding-top: 36px;
+	width: 80%;
+	margin: auto;
 }
 
 .icon {
 	width: 17px;
 	height: 22.76px;
-	padding: 12.62px;
+	padding-right: 12.62px;
 }
 
-.row {
-	width: 80%;
-	margin: auto;
+.label {
+	margin-top: 12.62px;
+	padding: 12.62px;
 }
 
 .toggle {
