@@ -25,7 +25,6 @@ def get_data_by_id(census_id):
     data = db.get_census_division_data(census_id)
     return jsonify({ "error": "", "data": data }) 
 
-<<<<<<< HEAD
 @app.route("/service_providers")
 def get_all_service_providers():
     is_user = False
