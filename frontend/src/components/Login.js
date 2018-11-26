@@ -28,21 +28,17 @@ const mapDispatchToProps = (dispatch) => ({
 class Login extends React.Component {
     state = {
         email: '',
-        password: ''    
+        password: '',
+        errorMessage: ''    
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(err => {
-            console.log(err);
-        });
-
+    saveUser = () => {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 // User is signed in.
                 firebase.auth().currentUser.getIdToken(true).then(idToken => {
                     user.token = idToken;
+                    // Save user to state
                     this.props.signIn(user);
                 }).catch(err => {
                     console.log(err)
@@ -52,6 +48,20 @@ class Login extends React.Component {
                 console.log('No user')
             }
         });
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+
+        let login = true;
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(err => {
+            login = false;
+            this.setState({ errorMessage: err.message})
+        });
+
+        if (login) {
+            this.saveUser();
+        }
     }
 
     onChangeEmail = (e) => {
@@ -80,6 +90,7 @@ class Login extends React.Component {
                         <label>Password
                         <input id="password" type="password" required onChange={this.onChangePassword}></input>
                         </label>
+                        <p className="error">{this.state.errorMessage}</p>
                         <Button id="submit" variant="contained" color="primary" onClick={this.handleSubmit}>LOG IN</Button>
                     </form>
                 </div>
