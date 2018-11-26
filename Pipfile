@@ -7,6 +7,7 @@ name = "pypi"
 flask = "*"
 pandas = "*"
 "psycopg2-binary" = "*"
+simplejson = "*"
 
 [dev-packages]
 

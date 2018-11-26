@@ -5,8 +5,7 @@
 Prereqs:
 - homebrew
 - pip
-Navigate to the proof of concept directory `/POC`
-
+  
 1. Install Postgres
 ```
 $ brew install postgresql
@@ -16,19 +15,24 @@ $ brew install postgresql
 $ pg_ctl -D /usr/local/var/postgres start
 $ postgres -V
 ```
-3. Auto-create python virtual environment and install libraries
+3. Install Pipenv
+```
+$ pip install pipenv
+```
+4. Auto-create python virtual environment and install libraries
 ```
 $ pipenv install
 ```
-4. Enter python virtualenv 
+5. Enter python virtualenv
 ```
 $ pipenv shell
 ```
-5. Run `setup_db.py` script from within the "scripts" folder
+6. Run `setup_db.py` script from within the "scripts" folder
 ```
-$ pipenv run python setup_db.py
+$ cd scripts
+$ python setup_db.py
 ```
-6. Verify tables were created
+7. Verify tables were created
 ```
 $ psql postgres
 psql (10.5)
@@ -66,7 +70,7 @@ postgres=# select * from census_division;
 ```
 8. Start server
 ```
-$ pipenv run python server.py
+$ python server.py
 ```
 9. Send requests
 ```
