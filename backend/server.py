@@ -28,7 +28,16 @@ def get_data_by_id(census_id):
 <<<<<<< HEAD
 @app.route("/service_providers")
 def get_all_service_providers():
-    service_providers = db.get_all_service_providers()
+    is_user = False
+    is_admin = False
+
+    id_token = requests.args.get('id_token')
+    if id_token:
+        claims = auth.verify_id_token(id_token)
+        is_user = True
+        is_admin = claims['admin']
+
+    service_providers = db.get_all_service_providers(is_user, is_admin)
     return jsonify({ "error": "", "data": service_providers })
 
 @app.route("/users/new")
