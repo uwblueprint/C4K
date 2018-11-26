@@ -1,21 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { signIn } from '../actions'
+import { signIn } from '../actions';
 
 import Button from '@material-ui/core/Button';
-import * as firebase from 'firebase'
+import * as firebase from 'firebase';
 
 import "./Login.css";
-
-const config = {
-  apiKey: "AIzaSyCleo1v8xaS9vSirU8mn7nzR7AkhN0dyiM",
-  authDomain: "c4k-dashboard.firebaseapp.com",
-  databaseURL: "https://c4k-dashboard.firebaseio.com",
-  projectId: "c4k-dashboard",
-  storageBucket: "c4k-dashboard.appspot.com",
-  messagingSenderId: "551785168434"
-};
-firebase.initializeApp(config)
 
 const mapStateToProps = state => ({
     user: state.user
@@ -36,16 +26,18 @@ class Login extends React.Component {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 // User is signed in.
-                firebase.auth().currentUser.getIdToken(true).then(idToken => {
+                firebase.auth().currentUser.getIdToken(true)
+                .then(idToken => {
                     user.token = idToken;
+                    user.db = firebase;
                     // Save user to state
                     this.props.signIn(user);
                 }).catch(err => {
-                    console.log(err)
+                    console.log(err);
                 });
             } else {
                 // User is signed out.
-                console.log('No user')
+                console.log('No user');
             }
         });
 
@@ -55,15 +47,13 @@ class Login extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        let login = true;
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(err => {
-            login = false;
-            this.setState({ errorMessage: err.message})
-        });
-
-        if (login) {
-            this.saveUser();
-        }
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(() => {
+                this.saveUser();
+            })
+            .catch(err => {
+                this.setState({ errorMessage: err.message});
+            });
     }
 
     onChangeEmail = (e) => {
