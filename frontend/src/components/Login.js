@@ -1,17 +1,59 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { signIn } from '../actions';
+
 import Button from '@material-ui/core/Button';
+import * as firebase from 'firebase';
 
 import "./Login.css";
+
+const mapStateToProps = state => ({
+    user: state.user
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    signIn: (user) => dispatch(signIn(user))
+})
 
 class Login extends React.Component {
     state = {
         email: '',
         password: '',
+        errorMessage: ''    
+    }
+
+    saveUser = () => {
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                // User is signed in.
+                firebase.auth().currentUser.getIdToken(true)
+                .then(idToken => {
+                    user.token = idToken;
+                    user.db = firebase;
+                    // Save user to state
+                    this.props.signIn(user);
+                }).catch(err => {
+                    console.log(err);
+                });
+            } else {
+                // User is signed out.
+                console.log('No user');
+            }
+        });
+
+        this.props.closeDialog();
     }
 
     handleSubmit = (e) => {
-        console.log(this.state);
         e.preventDefault();
+
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(() => {
+                this.saveUser();
+            })
+            .catch(err => {
+                this.setState({ errorMessage: err.message});
+            });
     }
 
     onChangeEmail = (e) => {
@@ -40,6 +82,8 @@ class Login extends React.Component {
                         <label>Password
                         <input id="password" type="password" required onChange={this.onChangePassword}></input>
                         </label>
+                        <p className="error">{this.state.errorMessage}</p>
+                        <Button id="close" variant="contained" color="default" onClick={this.props.closeDialog}>Cancel</Button>
                         <Button id="submit" variant="contained" color="primary" onClick={this.handleSubmit}>LOG IN</Button>
                     </form>
                 </div>
@@ -48,4 +92,7 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Login)

@@ -72,3 +72,20 @@
     font-weight: 600;
     margin-top: 16px;
 }
+
+.loginLayout #close {
+    font-family: "Montserrat", sans-serif;
+    height: 50px;
+    width: 144px;
+    float: right;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    margin-top: 16px;
+    margin-left: 10px;
+}
+
+.loginLayout .error {
+    margin: 0px;
+    color: red;
+}
