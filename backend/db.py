@@ -3,7 +3,6 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import getpass
 sys.path.append("..")
-
 import constants
 
 hostname = "localhost"
@@ -85,3 +84,19 @@ def get_all_service_providers(is_user=False, is_admin=False):
         query = queries[2]
 
     return execute(query, cursor_factory=RealDictCursor)
+
+def get_service_provider(service_provider_id):
+    query = """
+        SELECT * FROM service_providers WHERE id={}
+    """.format(service_provider_id)
+
+    return execute(query, cursor_factory=RealDictCursor)
+
+def update_service_provider_notes(service_provider_id, notes):
+    query = """        
+        UPDATE service_providers 
+        SET notes = '{}'
+        WHERE id = {}
+    """.format(notes, service_provider_id)
+
+    execute(query, cursor_factory=RealDictCursor)
