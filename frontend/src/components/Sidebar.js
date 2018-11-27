@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 
 // Semantic UI components
 import Drawer from '@material-ui/core/Drawer';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import ToggleButton from '@material-ui/lab/ToggleButton';
 
 import { withStyles } from '@material-ui/core/styles';
 
