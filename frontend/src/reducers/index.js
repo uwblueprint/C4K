@@ -1,6 +1,12 @@
 import { combineReducers } from 'redux';
-import user from './authReducer';
+import changeViewReducer from './changeViewReducer';
+import changeDropdownReducer from './changeDropdownReducer';
+import changeSliderReducer from './changeSliderReducer';
+import authReducer from './authReducer';
 
 export default combineReducers({
-    user
+    changeViewReducer,
+    changeDropdownReducer,
+    changeSliderReducer,
+    authReducer,
 });

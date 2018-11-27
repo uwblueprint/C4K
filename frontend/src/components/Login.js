@@ -67,7 +67,7 @@ class Login extends React.Component {
     render() {
         return (
             <div className="loginLayout">
-                <div className="logo">
+                <div className="loginLogo">
                     <img src="./assets/C4K_logo_hor_gold_WHITE.png" alt="Capitalize for Kids"/>
                 </div>
                 <div className="container">

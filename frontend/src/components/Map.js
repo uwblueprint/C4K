@@ -60,11 +60,13 @@ class Map extends Component {
     }
 
     return (
-      <div
-        ref={node => (this._mapNode = node)}
-        id="map"
-        style={{width: '100%', height: '100%'}}
-      />
+      <div>
+        <div
+          ref={node => (this._mapNode = node)}
+          id="map"
+          style={{width: '100%', height: '100%', marginLeft: '441px'}}
+        />
+      </div>
     );
   }
 }

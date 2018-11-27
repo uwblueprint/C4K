@@ -1,4 +1,4 @@
-export const signIn = user => ({
-    type: 'SIGN_IN',
-    user
-})
+export * from './signInActions';
+export * from './changeDropdownActions';
+export * from './changeSliderActions';
+export * from './changeViewActions';
