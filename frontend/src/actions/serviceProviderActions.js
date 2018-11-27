@@ -1,6 +1,6 @@
 import { LOAD_SERVICE_PROVIDERS } from './actionsTypes';
 
-function getServiceProviders() {
+export const getServiceProviders = () => {
     return function(dispatch) {
         fetch('/service_providers', {
             mode: 'no-cors'
@@ -19,5 +19,3 @@ function getServiceProviders() {
         })
     }
 }
-
-export const getServiceProviders;
