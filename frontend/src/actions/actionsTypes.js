@@ -9,3 +9,6 @@ export const CHANGE_STAFF_COUNT = "CHANGE_STAFF_COUNT";
 
 // auth
 export const SIGN_IN = 'SIGN_IN';
+
+// thunks
+export const LOAD_SERVICE_PROVIDERS = 'LOAD_SERVICE_PROVIDERS'
