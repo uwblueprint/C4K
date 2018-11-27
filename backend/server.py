@@ -2,7 +2,6 @@ from firebase_admin import auth, credentials, initialize_app
 from flask import Flask, jsonify, request, url_for
 import constants
 import db
-import pdb
 import argparse
 
 IS_DEV = False
@@ -44,6 +43,20 @@ def get_all_service_providers():
 
     service_providers = db.get_all_service_providers(is_user, is_admin)
     return jsonify({ "error": "", "data": service_providers })
+
+@app.route("/service_providers/<int:service_provider_id>/notes")
+def update_service_provider_notes(service_provider_id):
+    notes = request.args.get('notes')
+    if notes is None:
+        return jsonify({"error": "Expecting an argument for notes"})
+    
+    service_provider = db.get_service_provider(service_provider_id)
+    if not service_provider:
+        return jsonify({"error": "Invalid service_provider_id"})
+
+    db.update_service_provider_notes(service_provider_id, notes)
+
+    return jsonify({"success": True})
 
 @app.route("/users/new")
 def create_user():
