@@ -68,11 +68,17 @@ postgres=# select * from census_division;
   2 | Chatham/Kent
 (3 rows)
 ```
-8. Start server
+7. Start server
+To run in debug mode
 ```
-$ python server.py
+$ python server.py --debug
 ```
-9. Send requests
+
+To test user-related features like authentication, you need the private key associated with our Firebase service account. This can currently be found in the C4K Slack channel, and should be placed in `C4K/instance/`. Then, run
+```
+$ python server.py 
+```
+8. Send requests
 ```
 $ curl localhost:8080/algoma
 {
