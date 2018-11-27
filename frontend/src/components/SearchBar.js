@@ -170,7 +170,8 @@ class sampleSearchBar extends Component {
       <AppBar position="static" className="header">
         <div className="topBar">
           <img
-            src={require('../assets/C4K_abbrv_gold_WHITE.png')}
+            alt="Capitalize for Kids"
+            src="../assets/C4K_abbrv_gold_WHITE.png"
             className="logo"
           />
           <div className="loginButton">

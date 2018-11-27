@@ -17,7 +17,8 @@ class ListViewCard extends Component {
 					<span className="type">{ this.props.type }</span>
 					<span className="noteBookmark">
 						<img
-						  src={require('../assets/memo.png')}
+						  src="../assets/memo.png"
+						  alt="Notes"
 						  className="icon"
 						/>
 						<BookmarkBorder className="icon" />

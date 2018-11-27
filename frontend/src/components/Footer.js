@@ -22,7 +22,8 @@ class Footer extends Component {
 					<div className="row">
 						<span className="label">
 							<img 
-							  src={require('../assets/memo.png')}
+							  src="../assets/memo.png"
+							  alt="Notes"
 							  className="icon"
 							/>
 							Notes
