@@ -20,7 +20,13 @@ function set_service_providers() {
   }
 }
 
+let signIn = user => ({
+  type: 'SIGN_IN',
+  user
+})
+
 export {
   LOAD_SERVICE_PROVIDERS,
-  set_service_providers
+  set_service_providers,
+  signIn
 }

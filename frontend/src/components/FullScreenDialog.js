@@ -31,7 +31,7 @@ class FullScreenDialog extends React.Component {
                     onClose={this.handleClose}
                     TransitionComponent={Transition}
                 >
-                    <PageComponent />
+                    <PageComponent closeDialog={this.handleClose}/>
                 </Dialog>
             </div>
         )
