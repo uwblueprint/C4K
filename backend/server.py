@@ -1,5 +1,6 @@
 from firebase_admin import auth, credentials, initialize_app
 from flask import Flask, jsonify, request, url_for
+from flask_cors import CORS
 import constants
 import db
 import pdb
@@ -7,6 +8,7 @@ import argparse
 
 IS_DEV = False
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/division/<census_division>")
 def get_data_by_division(census_division):
