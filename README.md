@@ -46,7 +46,7 @@ postgres=# \dt
  public | demographics    | table | liruxuan
 (2 rows)
 ```
-7. Verify data is present
+8. Verify data is present
 ```
 $ psql postgres
 psql (10.5)
@@ -68,7 +68,8 @@ postgres=# select * from census_division;
   2 | Chatham/Kent
 (3 rows)
 ```
-7. Start server
+9. Start server
+
 To run in debug mode
 ```
 $ python server.py --debug
@@ -78,7 +79,7 @@ To test user-related features like authentication, you need the private key asso
 ```
 $ python server.py 
 ```
-8. Send requests
+10. Send requests
 ```
 $ curl localhost:8080/algoma
 {
