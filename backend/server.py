@@ -37,9 +37,8 @@ def get_all_service_providers():
     else:
         id_token = request.args.get('id_token')
         if id_token:
-            claims = auth.verify_id_token(id_token)
             is_user = True
-            is_admin = claims['admin']
+            is_admin = is_admin(id_token)
 
     service_providers = db.get_all_service_providers(is_user, is_admin)
     return jsonify({ "error": "", "data": service_providers })
