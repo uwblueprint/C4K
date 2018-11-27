@@ -74,7 +74,7 @@ if __name__ == "__main__":
     IS_DEV = args.dev
 
     if not IS_DEV:
-        cred = credentials.Certificate("instance/c4k-dashboard-firebase-adminsdk-ypbc3-c66b8c5a1c.json")
+        cred = credentials.Certificate("../instance/c4k-dashboard-firebase-adminsdk-ypbc3-c66b8c5a1c.json")
         initialize_app(cred)
 
     app.run("localhost", 8080, debug=IS_DEV)
