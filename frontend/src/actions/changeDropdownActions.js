@@ -1,9 +1,9 @@
 import * as types from './actionsTypes';
 
-export function changeCensusDivision(value) {
+export const changeCensusDivision = (value) => {
 	return {type: types.CHANGE_CENSUS_DIVISION, payload: value}
 }
 
-export function changeDemographic(value) {
+export const changeDemographic = (value) => {
 	return {type: types.CHANGE_DEMOGRAPHIC, payload: value}
 }

@@ -1,26 +1,20 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
 import * as firebase from 'firebase';
-import { signIn } from './actions';
+
+import * as constants from './constants/viewConstants';
+import {
+    changeView,
+    changeCensusDivision,
+    changeDemographic,
+    changeOperatingBudget,
+    changeClientServed,
+    changeStaffCount,
+    signIn
+} from './actions';
 
 import './App.css';
-
-// Redux
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import { changeView } from './actions/changeViewActions';
-import { 
-  changeCensusDivision,
-  changeDemographic,
-} from './actions/changeDropdownActions';
-import {
-  changeOperatingBudget,
-  changeClientServed,
-  changeStaffCount,
-} from './actions/changeSliderActions';
-
-// constants 
-import * as constants from './constants/viewConstants';
 
 // components
 import Map from './components/Map';
