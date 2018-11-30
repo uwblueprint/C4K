@@ -2,14 +2,21 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import getpass
 import constants
+import os
 
 hostname = "localhost"
 dbname = "postgres"
 user = getpass.getuser()
 
+def get_db_connection():
+    if os.getenv("DATABASE_URL"):
+        return psycopg2.connect(os.getenv("DATABASE_URL"), sslmode="require")
+    else:
+        return psycopg2.connect("host='{}' dbname='{}' user='{}'".format(
+            hostname, dbname, user))
+
 def execute(query, values=None, cursor_factory=None):
-    con = psycopg2.connect("host='{}' dbname='{}' user='{}'".format(
-        hostname, dbname, user))
+    con = get_db_connection()
     cur = con.cursor(cursor_factory=cursor_factory)
 
     cur.execute(query, values)
@@ -29,26 +36,7 @@ def get_census_division_data(census_division_id):
         INNER JOIN demographics ON census_division.id = demographics.census_division_id
         WHERE id={}
     """.format(census_division_id)
-
-    con = None
-    try:
-        con = psycopg2.connect("host='{}' dbname='{}' user='{}'".format(
-            hostname, dbname, user))
-        cur = con.cursor(cursor_factory=RealDictCursor)
-
-        cur.execute(query)
-        rows = cur.fetchall()
-
-        con.commit()
-    except psycopg2.DatabaseError as e:
-        if con:
-            con.rollback()
-        print("Error {}".format(e))
-    
-    if con:
-        con.close()
-
-    return rows
+    return execute(query, cursor_factory=RealDictCursor)
 
 def get_all_service_providers(is_user=False, is_admin=False):
     queries = [

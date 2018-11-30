@@ -1,6 +1,7 @@
 from firebase_admin import auth, credentials, initialize_app
 from flask import Flask, jsonify, request, url_for
 from flask_cors import CORS
+import os
 import constants
 import db
 import argparse
@@ -96,4 +97,11 @@ if __name__ == "__main__":
         cred = credentials.Certificate("../instance/c4k-dashboard-firebase-adminsdk-ypbc3-c66b8c5a1c.json")
         initialize_app(cred)
 
-    app.run("localhost", 8080, debug=IS_DEV)
+    if os.getenv("PORT"):
+        port = os.getenv("PORT")
+        host = "0.0.0.0"
+    else:
+        port = 8080
+        host = "localhost"
+
+    app.run(host, port, debug=IS_DEV)

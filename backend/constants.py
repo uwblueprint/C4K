@@ -1,3 +1,5 @@
+import os
+
 ALGOMA = "algoma"
 BRANT = "brant"
 BRUCE = "bruce"
@@ -204,5 +206,5 @@ CENSUS_FILE_PATH = {
         YORK: "census_divisions/york_2016.csv"
 }
 
-SERVICE_PROVIDER_DATA_PATH = "service_provider_data.csv"
-CENSUS_DIVISION_DATA_PATH = "../data/census_divisions/"
+SERVICE_PROVIDER_DATA_PATH = os.getenv("PROJECTROOT") + "/scripts/service_provider_data.csv"
+CENSUS_DIVISION_DATA_PATH = os.getenv("PROJECTROOT") + "/data/census_divisions/"
