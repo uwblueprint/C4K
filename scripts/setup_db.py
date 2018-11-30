@@ -1,14 +1,10 @@
 import getpass
-import os 
 import sys
 import io
-sys.path.append("..")
-
 import psycopg2
 import pandas as pd
-
-import backend.constants as constants
-import backend.db as db
+import constants
+import db
 
 def create_tables():
     commands = [
