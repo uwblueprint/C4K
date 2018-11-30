@@ -7,8 +7,16 @@ import db
 import argparse
 
 IS_DEV = False
-app = Flask(__name__)
+STATIC_DIR = os.getenv("PROJECTROOT") + "/frontend/build"
+
+app = Flask(__name__,
+        static_url_path="",
+        static_folder=STATIC_DIR)
 CORS(app)
+
+@app.route("/")
+def index():
+    return app.send_static_file("index.html")
 
 @app.route("/division/<census_division>")
 def get_data_by_division(census_division):
