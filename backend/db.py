@@ -1,8 +1,6 @@
-import sys
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import getpass
-sys.path.append("..")
 import constants
 
 hostname = "localhost"
