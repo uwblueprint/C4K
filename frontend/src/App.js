@@ -11,6 +11,7 @@ import {
     changeOperatingBudget,
     changeClientServed,
     changeStaffCount,
+    getServiceProviders,
     signIn
 } from './actions';
 
@@ -55,6 +56,7 @@ class App extends Component {
                 console.log('No user');
             }
         });
+        this.props.getServiceProviders();
     }
     render() {
         return (
@@ -86,7 +88,8 @@ function mapStateToProps(state) {
     operatingBudget: state.changeSliderReducer.operatingBudget,
     clientServed: state.changeSliderReducer.clientServed,
     staffCount: state.changeSliderReducer.staffCount,
-    authReducer: state.authReducer,
+    serviceProviders: state.serviceProviderReducer,
+    user: state.authReducer,
   };
 }
 
@@ -98,6 +101,7 @@ function mapDispatchToProps(dispatch) {
     changeOperatingBudget: bindActionCreators(changeOperatingBudget, dispatch),
     changeClientServed: bindActionCreators(changeClientServed, dispatch),
     changeStaffCount: bindActionCreators(changeStaffCount, dispatch),
+    getServiceProviders: () => dispatch(getServiceProviders()),
     signIn: user => dispatch(signIn(user)),
   };
 }
