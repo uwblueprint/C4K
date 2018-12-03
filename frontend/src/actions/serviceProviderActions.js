@@ -6,7 +6,7 @@ export const getServiceProviders = () => {
             mode: 'no-cors'
         })
         .then(function(response) {
-            return response.json
+            return response.json()
         })
         .then(function(json) {
             return json.data
