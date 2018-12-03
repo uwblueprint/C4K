@@ -60,16 +60,16 @@ class App extends Component {
         return (
             <div>
                 <Sidebar 
-                censusDivision={this.props.censusDivision}
-                demographic={this.props.demographic}
-                changeCensusDivision={this.props.changeCensusDivision}
-                changeDemographic={this.props.changeDemographic}
-                operatingBudget={this.props.operatingBudget}
-                clientServed={this.props.clientServed}
-                staffCount={this.props.staffCount}
-                changeOperatingBudget={this.props.changeOperatingBudget}
-                changeClientServed={this.props.changeClientServed}
-                changeStaffCount={this.props.changeStaffCount}
+                    censusDivision={this.props.censusDivision}
+                    demographic={this.props.demographic}
+                    changeCensusDivision={this.props.changeCensusDivision}
+                    changeDemographic={this.props.changeDemographic}
+                    operatingBudget={this.props.operatingBudget}
+                    clientServed={this.props.clientServed}
+                    staffCount={this.props.staffCount}
+                    changeOperatingBudget={this.props.changeOperatingBudget}
+                    changeClientServed={this.props.changeClientServed}
+                    changeStaffCount={this.props.changeStaffCount}
                 />
                 {this.props.view === constants.MAP_VIEW ? <Map /> : <ListView /> }
                 <ToggleView view={this.props.view} changeView={this.props.changeView} />
