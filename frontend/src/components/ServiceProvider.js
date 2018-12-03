@@ -28,9 +28,13 @@ const OPERATION_KEYS = {
     type: 'Service Provider Type',
     censusDivision: 'Census Division',
     serviceType: 'Service Type',
+}
+
+const OPERATION_KEYS_FULL = {
+    ...OPERATION_KEYS,
     budget: 'Operating Budget',
     numClients: 'Clients Served',
-    numStaff: 'Staff Count',
+    numStaff: 'Staff Count,'
 }
 
 const BookmarkIcon = ({ isBookmarked, handleBookmarkClick }) => {
@@ -57,8 +61,8 @@ class ServiceProvider extends React.Component {
             const info = { type: 'info', key, value: serviceProviderData[key]};
             return contactData.concat(label).concat(info);
         }, []);
-        const operationData = Object.keys(OPERATION_KEYS).reduce((operationData, key) => {
-            const label = { type: 'label', key, value: OPERATION_KEYS[key]}
+        const operationData = Object.keys(OPERATION_KEYS_FULL).reduce((operationData, key) => {
+            const label = { type: 'label', key, value: OPERATION_KEYS_FULL[key]}
             const info = { type: 'info', key, value: serviceProviderData[key]}
             return operationData.concat(label).concat(info);
         }, []);
