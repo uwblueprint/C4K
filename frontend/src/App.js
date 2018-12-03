@@ -86,7 +86,7 @@ function mapStateToProps(state) {
     operatingBudget: state.changeSliderReducer.operatingBudget,
     clientServed: state.changeSliderReducer.clientServed,
     staffCount: state.changeSliderReducer.staffCount,
-    user: state.user,
+    authReducer: state.authReducer,
   };
 }
 
