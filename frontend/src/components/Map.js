@@ -19,6 +19,28 @@ class Map extends Component {
     document.getElementById('map').title = event.layer.feature.properties.CDNAME;
   }
 
+  onMouseClick(event) {
+    
+    // Get the values of a feature
+    let layer_id = event.layer.feature.id;
+    let feature = event.layer.feature;
+    let properties = feature.properties;
+    console.log(event.layer._leaflet_id);
+    console.log(event.layer.feature.id);
+    console.log(this);
+    // this is not bound to props here
+    //console.log(this.props.selectedCensusDivision);
+
+    // change selected Census Division
+    //this.props.selectCensusDivision(properties.CDNAME);
+
+    // Highlight the Census Division
+    this._layers[layer_id].setStyle(
+    {
+      'weight': 3,
+    })
+  }
+
   //Loading the Map, this only gets called once.
   initMap() {
     const position = [43.6532, -79.3832];
@@ -37,12 +59,13 @@ class Map extends Component {
         const { Pop2016, Area } = feature.properties;
         // manual opacity filtering
         var density = Pop2016/Area;
-        var opacity = Math.max(Math.min(1, Math.log(density)/5), 0.05);
+        var opacity = Math.max(Math.min(1, Math.log(density)/5), 0.05); // not used for now
         // in the province of Ontario
-        return { weight: 1, opacity, fillOpacity: opacity, color: 'black', fillColor: 'green' };
+        return { weight: 1, opacity, fillOpacity: 0.3, color: 'black', fillColor: '#2526A9' };
       }
     })
     .on('mouseover', this.onMouseHandler)
+    .on('click', this.onMouseClick)
     .addTo(map);
 
     this.setState({map, tileLayer});

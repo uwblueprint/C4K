@@ -11,7 +11,8 @@ import {
     changeOperatingBudget,
     changeClientServed,
     changeStaffCount,
-    signIn
+    selectCensusDivision,
+    signIn,
 } from './actions';
 
 import './App.css';
@@ -71,7 +72,12 @@ class App extends Component {
                 changeClientServed={this.props.changeClientServed}
                 changeStaffCount={this.props.changeStaffCount}
                 />
-                {this.props.view === constants.MAP_VIEW ? <Map /> : <ListView /> }
+                {this.props.view === constants.MAP_VIEW ? 
+                    <Map 
+                        selectedCensusDivision={this.props.selectedCensusDivision}
+                        selectCensusDivision={this.props.selectCensusDivision}
+                    /> : 
+                    <ListView /> }
                 <ToggleView view={this.props.view} changeView={this.props.changeView} />
             </div>
         );
@@ -87,6 +93,7 @@ function mapStateToProps(state) {
     clientServed: state.changeSliderReducer.clientServed,
     staffCount: state.changeSliderReducer.staffCount,
     user: state.user,
+    selectedCensusDivision: state.selectCensusDivisionReducer.selectedCensusDivision,
   };
 }
 
@@ -98,6 +105,7 @@ function mapDispatchToProps(dispatch) {
     changeOperatingBudget: bindActionCreators(changeOperatingBudget, dispatch),
     changeClientServed: bindActionCreators(changeClientServed, dispatch),
     changeStaffCount: bindActionCreators(changeStaffCount, dispatch),
+    selectCensusDivision: bindActionCreators(selectCensusDivision, dispatch),
     signIn: user => dispatch(signIn(user)),
   };
 }

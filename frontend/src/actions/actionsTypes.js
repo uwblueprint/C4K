@@ -12,3 +12,6 @@ export const SIGN_IN = 'SIGN_IN';
 
 // thunks
 export const LOAD_SERVICE_PROVIDERS = 'LOAD_SERVICE_PROVIDERS'
+
+// Map
+export const SELECT_CENSUS_DIVISION = "SELECT_CENSUS_DIVISION";
