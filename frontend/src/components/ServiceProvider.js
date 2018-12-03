@@ -67,6 +67,7 @@ class ServiceProvider extends React.Component {
             ...serviceProviderData,
             isBookmarked: serviceProviderData.isBookmarked || false,
             notes: serviceProviderData.notes || '',
+            name: serviceProviderData.name || 'Algoma Family Services',
             contactData: contactData || [],
             operationData: operationData || [],
         };
@@ -98,7 +99,7 @@ class ServiceProvider extends React.Component {
                 </AppBar>
                 <div className="serviceProvider content">
                     <div className="contentTitle">
-                        <span>Algoma Family Services</span>
+                        <span>{this.state.name}</span>
                         <BookmarkIcon
                             isBookmarked={this.state.isBookmarked}
                             handleBookmarkClick={this.handleBookmarkClick}
