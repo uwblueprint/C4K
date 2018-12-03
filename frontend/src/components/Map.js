@@ -9,6 +9,7 @@ class Map extends Component {
 
     //the map is handled by the state: e.g. this.state.map.zoomIn() to zoom
     this.state = {currentZoomLevel: 7, map: null, tileLayer: null};
+    this.onMouseClick = this.onMouseClick.bind(this);
   }
 
   componentDidMount() {
@@ -28,17 +29,19 @@ class Map extends Component {
     console.log(event.layer._leaflet_id);
     console.log(event.layer.feature.id);
     console.log(this);
+    console.log(this.props);
     // this is not bound to props here
-    //console.log(this.props.selectedCensusDivision);
+    console.log(this.state.map)
+    console.log(this.props.selectedCensusDivision);
 
     // change selected Census Division
-    //this.props.selectCensusDivision(properties.CDNAME);
+    this.props.selectCensusDivision(properties.CDNAME);
 
     // Highlight the Census Division
-    this._layers[layer_id].setStyle(
-    {
-      'weight': 3,
-    })
+    // this.state.map._layers[layer_id].setStyle(
+    // {
+    //   'weight': 3,
+    // })
   }
 
   //Loading the Map, this only gets called once.
