@@ -1,0 +1,31 @@
+.filterSelect {
+	width: 80%;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 39px;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.filterGroup {
+	width: 100%;
+	margin: auto;
+	overflow: auto;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-bottom: solid 1px #a6a6a6;
+}
+
+.text {
+	float: left;
+	padding-top: 15px;
+}
+
+.checkbox {
+	float: right;
+	overflow: auto;
+}
+
+.title {
+	color: #616A7C;
+	margin-bottom: 0px;
+}

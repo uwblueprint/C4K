@@ -1,10 +1,22 @@
 from firebase_admin import auth, credentials, initialize_app
 from flask import Flask, jsonify, request, url_for
+from flask_cors import CORS
+import os
 import constants
 import db
-import pdb
+import argparse
 
-app = Flask(__name__)
+IS_DEV = False
+STATIC_DIR = os.getenv("PROJECTROOT") + "/frontend/build"
+
+app = Flask(__name__,
+        static_url_path="",
+        static_folder=STATIC_DIR)
+CORS(app)
+
+@app.route("/")
+def index():
+    return app.send_static_file("index.html")
 
 @app.route("/division/<census_division>")
 def get_data_by_division(census_division):
@@ -25,39 +37,39 @@ def get_data_by_id(census_id):
     data = db.get_census_division_data(census_id)
     return jsonify({ "error": "", "data": data }) 
 
-@app.route("/users/new")
-def create_user():
-    # Check if proper params have been passed in
-    params = ['email', 'password', 'admin']
-    for param in params:
-        if not request.args.get(param, None):
-            return jsonify({"error": "Missing param: {}".format(param)})
-
-    email = str(request.args.get('email', ''))
-    password = str(request.args.get('password', ''))
-    admin = bool(request.args.get('admin'))
-
-    try:
-        user = auth.create_user(email=email, password=password)
-        auth.set_custom_user_claims(user.uid, {'admin': admin})
-    except auth.AuthError:
-        return jsonify({"error": "User with email {} already exists".format(email)})
-
-    return jsonify({'uid': user.uid})
-
 @app.route("/service_providers")
 def get_all_service_providers():
     is_user = False
     is_admin = False
 
-    id_token = requests.args.get('id_token')
-    if id_token:
-        claims = auth.verify_id_token(id_token)
+    if IS_DEV:
         is_user = True
-        is_admin = claims['admin']
+        is_admin = True
+    else:
+        id_token = request.args.get('id_token')
+        if id_token:
+            is_user = True
+            is_admin = is_admin(id_token)
 
     service_providers = db.get_all_service_providers(is_user, is_admin)
     return jsonify({ "error": "", "data": service_providers })
+
+@app.route("/service_providers/<int:service_provider_id>/notes")
+def update_service_provider_notes(service_provider_id):
+    if not is_admin(request.args.get('id_token')):
+        return jsonify({"error": "User is not an admin"})
+    
+    notes = request.args.get('notes')
+    if notes is None:
+        return jsonify({"error": "Expecting an argument for notes"})
+    
+    service_provider = db.get_service_provider(service_provider_id)
+    if not service_provider:
+        return jsonify({"error": "Invalid service_provider_id"})
+
+    db.update_service_provider_notes(service_provider_id, notes)
+
+    return jsonify({"success": True})
 
 @app.route("/users/new")
 def create_user():
@@ -79,9 +91,25 @@ def create_user():
 
     return jsonify({'uid': user.uid})
 
+def is_admin(id_token):
+    return auth.verify_id_token(id_token)['admin']
 
 if __name__ == "__main__":
-    cred = credentials.Certificate("instance/c4k-dashboard-firebase-adminsdk-ypbc3-c66b8c5a1c.json")
-    initialize_app(cred)
+    parser = argparse.ArgumentParser(description='Server arguments')
+    parser.add_argument('--dev', action='store_true')
+    args = parser.parse_args()
 
-    app.run("localhost", 8080, debug=True)
+    IS_DEV = args.dev
+
+    if not IS_DEV:
+        cred = credentials.Certificate("../instance/c4k-dashboard-firebase-adminsdk-ypbc3-c66b8c5a1c.json")
+        initialize_app(cred)
+
+    if os.getenv("PORT"):
+        port = os.getenv("PORT")
+        host = "0.0.0.0"
+    else:
+        port = 8080
+        host = "localhost"
+
+    app.run(host, port, debug=IS_DEV)

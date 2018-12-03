@@ -5,9 +5,11 @@ name = "pypi"
 
 [packages]
 flask = "*"
+flask-cors = "*"
 pandas = "*"
 "psycopg2-binary" = "*"
 simplejson = "*"
+firebase_admin = "*"
 
 [dev-packages]
 

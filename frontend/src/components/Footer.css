@@ -1,0 +1,31 @@
+.footer {
+	border-top: solid grey 1px;
+	margin: auto;
+	margin-top: 35px;
+	width: 100%;
+	/*bottom: 0;
+	position: absolute;*/
+	display: block;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.footerContent {
+	padding-top: 36px;
+	width: 80%;
+	margin: auto;
+}
+
+.icon {
+	width: 17px;
+	height: 22.76px;
+	padding-right: 12.62px;
+}
+
+.label {
+	margin-top: 12.62px;
+	padding: 12.62px;
+}
+
+.toggle {
+	float: right;
+}

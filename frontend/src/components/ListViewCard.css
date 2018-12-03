@@ -1,27 +1,32 @@
 .listViewCard {
+	font-family: 'Open Sans', sans-serif;
 	box-shadow: 0px 2px 5px 1px #BABABA;
 	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
 	height: 195px;
-	margin: auto;
-	margin-top: 20px;
-}
-
-.title {
-	font-weight: 600;
-}
-
-.container {
-	width: 80%;
-	margin-left: 35px;
-	margin-right: 35px;
+	margin-bottom: 41px;
+	padding-left: 35px;
 	padding-top: 20px;
 	padding-bottom: 20px;
 }
 
-.subTitle {
-	padding-left: 10px;
+.noteBookmark {
+	float: right;
 }
 
-.textDecoration {
-	margin-left: 7px;
+.name {
+	font-weight: 600;
+}
+
+.type {
+	padding-left: 20px;
+}
+
+.subContent {
+	margin-bottom: 12px;
+}
+
+.icon {
+	color: rgba(0, 0, 0, 0.38);
 }

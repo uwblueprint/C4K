@@ -1,14 +1,10 @@
 import getpass
-import os 
 import sys
 import io
-sys.path.append("..")
-
 import psycopg2
 import pandas as pd
-
-import backend.constants as constants
-import backend.db as db
+import constants
+import db
 
 def create_tables():
     commands = [
@@ -81,7 +77,7 @@ def load_census_divisions():
     for i, census_division in constants.ID_TO_CENSUS_DIVISION.items():
         db.execute(census_division_insert_statement, (i, census_division))
 
-def load_demographics(hostname, dbname, user):
+def load_demographics():
     demographic_insert_statement = """
         INSERT INTO demographics (census_division_id, characteristic, total, male, female)
         VALUES ({}, '{}', {}, {}, {})
@@ -89,8 +85,7 @@ def load_demographics(hostname, dbname, user):
 
     con = None
     try:
-        con = psycopg2.connect("host='{}' dbname='{}' user='{}'".format(
-            hostname, dbname, user))
+        con = db.get_db_connection()
 
         for census_division, file_path in constants.CENSUS_FILE_PATH.items():
             with io.open(constants.CENSUS_DIVISION_DATA_PATH + file_path, "r", encoding="ISO-8859-1") as file_object:
@@ -224,15 +219,11 @@ def load_service_providers():
         values = tuple(row)
         db.execute(query_string, values)
 
-def setup_db(hostname, dbname, user):
+def setup_db():
     create_tables()
     load_census_divisions()
-    load_demographics(hostname, dbname, user)
+    load_demographics()
     load_service_providers()
 
 if __name__ == '__main__':
-    hostname = "localhost"
-    dbname = "postgres"
-    user = getpass.getuser()
-
-    setup_db(hostname, dbname, user)
+    setup_db()
