@@ -11,8 +11,8 @@ import {
     changeOperatingBudget,
     changeClientServed,
     changeStaffCount,
-    selectCensusDivision,
-    signIn,
+    getServiceProviders,
+    signIn
 } from './actions';
 
 import './App.css';
@@ -48,37 +48,34 @@ class App extends Component {
                     user.db = firebase;
                     // Save user to state
                     this.props.signIn(user);
+                    this.props.getServiceProviders(idToken);
                 }).catch(err => {
                     console.log(err);
                 });
             } else {
-                // User is signed out.
-                console.log('No user');
+                // No user is signed in
+                this.props.getServiceProviders();
             }
         });
+        
     }
     render() {
         return (
             <div>
                 <Sidebar 
-                censusDivision={this.props.censusDivision}
-                demographic={this.props.demographic}
-                changeCensusDivision={this.props.changeCensusDivision}
-                changeDemographic={this.props.changeDemographic}
-                operatingBudget={this.props.operatingBudget}
-                clientServed={this.props.clientServed}
-                staffCount={this.props.staffCount}
-                changeOperatingBudget={this.props.changeOperatingBudget}
-                changeClientServed={this.props.changeClientServed}
-                changeStaffCount={this.props.changeStaffCount}
+                    censusDivision={this.props.censusDivision}
+                    demographic={this.props.demographic}
+                    changeCensusDivision={this.props.changeCensusDivision}
+                    changeDemographic={this.props.changeDemographic}
+                    operatingBudget={this.props.operatingBudget}
+                    clientServed={this.props.clientServed}
+                    staffCount={this.props.staffCount}
+                    changeOperatingBudget={this.props.changeOperatingBudget}
+                    changeClientServed={this.props.changeClientServed}
+                    changeStaffCount={this.props.changeStaffCount}
                 />
-                {this.props.view === constants.MAP_VIEW ? 
-                    <Map 
-                        selectedCensusDivision={this.props.selectedCensusDivision}
-                        selectCensusDivision={this.props.selectCensusDivision}
-                    /> : 
-                    <ListView /> }
-                <ToggleView view={this.props.view} changeView={this.props.changeView} />
+                {this.props.view === constants.MAP_VIEW ? <Map /> : <ListView /> }
+                <ToggleView view={this.props.view} changeView={this.props.changeView}/>
             </div>
         );
     }
@@ -92,8 +89,8 @@ function mapStateToProps(state) {
     operatingBudget: state.changeSliderReducer.operatingBudget,
     clientServed: state.changeSliderReducer.clientServed,
     staffCount: state.changeSliderReducer.staffCount,
-    user: state.user,
-    selectedCensusDivision: state.selectCensusDivisionReducer.selectedCensusDivision,
+    serviceProviders: state.serviceProviderReducer,
+    user: state.authReducer,
   };
 }
 
@@ -105,7 +102,7 @@ function mapDispatchToProps(dispatch) {
     changeOperatingBudget: bindActionCreators(changeOperatingBudget, dispatch),
     changeClientServed: bindActionCreators(changeClientServed, dispatch),
     changeStaffCount: bindActionCreators(changeStaffCount, dispatch),
-    selectCensusDivision: bindActionCreators(selectCensusDivision, dispatch),
+    getServiceProviders: (token) => dispatch(getServiceProviders(token)),
     signIn: user => dispatch(signIn(user)),
   };
 }
