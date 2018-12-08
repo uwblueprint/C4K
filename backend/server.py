@@ -5,6 +5,7 @@ import os
 import constants
 import db
 import argparse
+import pandas as pd
 
 IS_DEV = False
 STATIC_DIR = os.getenv("PROJECTROOT") + "/frontend/build"
@@ -60,7 +61,7 @@ def update_service_provider_data(service_provider_id):
         return jsonify({"error": "User is not an admin"})
 
     data = request.args.get('data')
-    if notes is None:
+    if data is None:
         return jsonify({"error": "Expecting a map for data"})
 
     service_provider = db.get_service_provider(service_provider_id)

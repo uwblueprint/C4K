@@ -87,9 +87,9 @@ def update_service_provider_data(service_provider_id, data):
         SET {} = '{}'
         WHERE id = {}
     """
-    for col, val in data.iteritems():
+    for col, val in data.items():
         if col in constants.SERVICE_PROVIDER_FIELDS:
-            query = query_template.format(key, column, data)
+            query = query_template.format(col, val, service_provider_id)
             execute(query, cursor_factory=RealDictCursor)
 
     return data
