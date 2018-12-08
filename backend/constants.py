@@ -208,3 +208,4 @@ CENSUS_FILE_PATH = {
 
 SERVICE_PROVIDER_DATA_PATH = os.getenv("PROJECTROOT") + "/scripts/service_provider_data.csv"
 CENSUS_DIVISION_DATA_PATH = os.getenv("PROJECTROOT") + "/data/census_divisions/"
+FIREBASE_AUTH_FILE_PATH = os.getenv("PROJECTROOT") + "/instance/c4k-dashboard-firebase-adminsdk-ypbc3-c66b8c5a1c.json"
