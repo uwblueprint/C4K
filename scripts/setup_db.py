@@ -5,7 +5,6 @@ import psycopg2
 import pandas as pd
 import constants
 import db
-import pdb
 
 def create_tables():
     commands = [
