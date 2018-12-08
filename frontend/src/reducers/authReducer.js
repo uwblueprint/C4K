@@ -1,4 +1,4 @@
-const user = (state = {}, action) => {
+export default (state = {}, action) => {
     switch (action.type) {
         case 'SIGN_IN':
             return {
@@ -16,5 +16,3 @@ const user = (state = {}, action) => {
             return state
     }
 }
-
-export default user;

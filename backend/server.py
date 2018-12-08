@@ -92,7 +92,8 @@ def create_user():
     return jsonify({'uid': user.uid})
 
 def verify_admin(id_token):
-    return auth.verify_id_token(id_token)['admin']
+    user = auth.verify_id_token(id_token) 
+    return user.get('admin', False)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Server arguments')
