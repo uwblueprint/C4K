@@ -1,13 +1,8 @@
 import { LOAD_SERVICE_PROVIDERS } from './actionsTypes';
 
 export const getServiceProviders = (token) => {
-    const url = new URL('http://localhost:8080/service_providers')
-
-    // Send request without token if none is provided
-    if (token) {
-        const params = {id_token: token}
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-    }
+    // Attatch id_token to service provider call if provided
+    const url = '/service_providers' + (token ? '?id_token=' + token : '')
 
     return function(dispatch) {
         fetch(url, {

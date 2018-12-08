@@ -48,7 +48,6 @@ def get_all_service_providers():
     else:
         id_token = request.args.get('id_token')
         if id_token:
-            id_token = 'asdf'
             is_user = True
             is_admin = verify_admin(id_token)
 
@@ -93,7 +92,11 @@ def create_user():
     return jsonify({'uid': user.uid})
 
 def verify_admin(id_token):
-    return auth.verify_id_token(id_token)['admin']
+    user = auth.verify_id_token(id_token) 
+    if hasattr(user, 'admin'):
+        return True
+    else:
+        return False
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Server arguments')
