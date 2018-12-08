@@ -83,6 +83,32 @@ def load_demographics():
         VALUES ({}, '{}', {}, {}, {})
     """
 
+    def is_important(line_num):
+        # Population data
+        if 11 <= line_num <= 34:
+            return True
+        # Median income
+        if line_num == 665:
+            return True
+        # Average income
+        if line_num == 676:
+            return True
+        # Median household income
+        if line_num == 744:
+            return True
+        # Average household income
+        if line_num == 753:
+            return True
+        # Aboriginal identity
+        if line_num == 1292:
+            return True
+        # Total visible minority population
+        if line_num == 1326:
+            return True
+
+        return False
+
+
     con = None
     try:
         con = db.get_db_connection()
@@ -90,14 +116,14 @@ def load_demographics():
         for census_division, file_path in constants.CENSUS_FILE_PATH.items():
             with io.open(constants.CENSUS_DIVISION_DATA_PATH + file_path, "r", encoding="ISO-8859-1") as file_object:
                 for i, line in enumerate(file_object, 1):
-                    if 11 <= i <= 34:
+                    if is_important(i):
                         data = [val.strip(" \"") for val in line.split(",")]
 
                         census_division_id = constants.CENSUS_DIVISION_TO_ID[census_division]
                         characteristic = data[1]
-                        total = data[3]
-                        male = data[5]
-                        female = data[7]
+                        total = int(data[3])
+                        male = int(data[5]) if data[5] else 0
+                        female = int(data[7]) if data[7] else 0
 
                         cur = con.cursor()
                         cur.execute(demographic_insert_statement.format(
