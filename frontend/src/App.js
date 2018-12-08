@@ -74,7 +74,7 @@ class App extends Component {
                     changeStaffCount={this.props.changeStaffCount}
                 />
                 {this.props.view === constants.MAP_VIEW ? <Map /> : <ListView /> }
-                <ToggleView view={this.props.view} changeView={this.props.changeView} />
+                <ToggleView view={this.props.view} changeView={this.props.changeView}/>
             </div>
         );
     }
