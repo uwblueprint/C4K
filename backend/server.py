@@ -48,7 +48,6 @@ def get_all_service_providers():
     else:
         id_token = request.args.get('id_token')
         if id_token:
-            id_token = 'asdf'
             is_user = True
             is_admin = verify_admin(id_token)
 
@@ -57,7 +56,7 @@ def get_all_service_providers():
 
 @app.route("/service_providers/<int:service_provider_id>/update")
 def update_service_provider_data(service_provider_id):
-    if not is_admin(request.args.get('id_token')):
+    if not verify_admin(request.args.get('id_token')):
         return jsonify({"error": "User is not an admin"})
 
     data = request.args.get('data')
@@ -95,7 +94,6 @@ def create_user():
     return jsonify({'uid': user.uid})
 
 def verify_admin(id_token):
-    pdb.set_trace()
     return auth.verify_id_token(id_token)['admin']
 
 if __name__ == "__main__":
