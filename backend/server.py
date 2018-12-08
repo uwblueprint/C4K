@@ -93,7 +93,6 @@ def create_user():
     return jsonify({'uid': user.uid})
 
 def verify_admin(id_token):
-    pdb.set_trace()
     return auth.verify_id_token(id_token)['admin']
 
 if __name__ == "__main__":
