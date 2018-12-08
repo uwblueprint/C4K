@@ -48,7 +48,6 @@ def get_all_service_providers():
     else:
         id_token = request.args.get('id_token')
         if id_token:
-            id_token = 'asdf'
             is_user = True
             is_admin = verify_admin(id_token)
 
@@ -57,7 +56,7 @@ def get_all_service_providers():
 
 @app.route("/service_providers/<int:service_provider_id>/notes")
 def update_service_provider_notes(service_provider_id):
-    if not is_admin(request.args.get('id_token')):
+    if not verify_admin(request.args.get('id_token')):
         return jsonify({"error": "User is not an admin"})
 
     notes = request.args.get('notes')
