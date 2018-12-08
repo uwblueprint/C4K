@@ -12,7 +12,8 @@ import {
     changeClientServed,
     changeStaffCount,
     getServiceProviders,
-    signIn
+    signIn,
+    selectCensusDivision
 } from './actions';
 
 import './App.css';
@@ -74,7 +75,12 @@ class App extends Component {
                     changeClientServed={this.props.changeClientServed}
                     changeStaffCount={this.props.changeStaffCount}
                 />
-                {this.props.view === constants.MAP_VIEW ? <Map /> : <ListView /> }
+                {this.props.view === constants.MAP_VIEW ? 
+                    <Map
+                        selectedCensusDivision={this.props.selectedCensusDivision}
+                        selectCensusDivision={this.props.selectCensusDivision}
+                    /> :
+                    <ListView /> }
                 <ToggleView view={this.props.view} changeView={this.props.changeView}/>
             </div>
         );
@@ -91,6 +97,7 @@ function mapStateToProps(state) {
     staffCount: state.changeSliderReducer.staffCount,
     serviceProviders: state.serviceProviderReducer,
     user: state.authReducer,
+    selectedCensusDivision: state.selectCensusDivisionReducer.selectedCensusDivision,
   };
 }
 
@@ -104,6 +111,7 @@ function mapDispatchToProps(dispatch) {
     changeStaffCount: bindActionCreators(changeStaffCount, dispatch),
     getServiceProviders: (token) => dispatch(getServiceProviders(token)),
     signIn: user => dispatch(signIn(user)),
+    selectCensusDivision: bindActionCreators(selectCensusDivision, dispatch),
   };
 }
 
