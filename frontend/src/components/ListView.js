@@ -14,18 +14,20 @@ class ListView extends Component {
 	render() {
 		return (
 			<div className="listView">
-				{this.props.serviceProviders.map(provider => {
-					return (
-						<ListViewCard
-							name={provider.name}
-							type={''}
-							location={''}
-							address={provider.address}
-							phone={''}
-							site={provider.website}
-						/>
-					)
-				})}
+				{this.props.serviceProviders
+					.filter(provider => provider.ismain)
+					.map(provider => {
+						return (
+							<ListViewCard
+								name={provider.name}
+								type={provider.type}
+								location={provider.location}
+								address={provider.address}
+								phone={provider.phone}
+								site={provider.website}
+							/>
+						)
+					})}
 				{/* Dummy Data */}
 				<ListViewCard
 					name={"Lutherwood - Safe Haven"}
