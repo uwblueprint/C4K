@@ -5,6 +5,7 @@ import psycopg2
 import pandas as pd
 import constants
 import db
+import pdb
 
 def create_tables():
     commands = [
@@ -43,6 +44,7 @@ def create_tables():
                 expenses           INTEGER,
                 client_total       INTEGER,
                 staff_total        INTEGER,
+                is_bookmarked      BOOLEAN NOT NULL,
                 notes              TEXT
             )
             """,
@@ -128,6 +130,7 @@ def clean_service_provider_data():
                 'census_divisions',
                 'notes', 'notes2', 'questions'])
     data['id'] = range(1, len(data)+1)
+    data['is_bookmarked'] = [False] * len(data)
 
     # Build sp_census_division table
     sp_cd_data = []
@@ -180,7 +183,7 @@ def clean_service_provider_data():
 
     # Re order columns
     data = data[['id', 'name', 'website', 'report_year', 'report_link',
-        'expenses', 'client_total', 'staff_total', 'notes']]
+        'expenses', 'client_total', 'staff_total', 'is_bookmarked', 'notes']]
 
     int_columns = ['report_year', 'expenses', 'client_total', 'staff_total']
     str_columns = ['report_link', 'notes']
@@ -195,8 +198,8 @@ def load_service_providers():
     # Insert service provider data
     for index, row in data.iterrows():
         query_string = """
-            INSERT INTO service_providers (id, name, website, report_year, report_link, expenses, client_total, staff_total, notes)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO service_providers (id, name, website, report_year, report_link, expenses, client_total, staff_total, is_bookmarked, notes)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         values = tuple(row)
         db.execute(query_string, values)
