@@ -208,3 +208,5 @@ CENSUS_FILE_PATH = {
 
 SERVICE_PROVIDER_DATA_PATH = os.getenv("PROJECTROOT") + "/scripts/service_provider_data.csv"
 CENSUS_DIVISION_DATA_PATH = os.getenv("PROJECTROOT") + "/data/census_divisions/"
+
+SERVICE_PROVIDER_FIELDS = ['name', 'website', 'report_year', 'report_link', 'expenses', 'client_total', 'staff_total', 'is_bookmarked', 'notes']

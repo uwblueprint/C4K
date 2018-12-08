@@ -55,22 +55,24 @@ def get_all_service_providers():
     service_providers = db.get_all_service_providers(is_user, is_admin)
     return jsonify({ "error": "", "data": service_providers })
 
-@app.route("/service_providers/<int:service_provider_id>/notes")
-def update_service_provider_notes(service_provider_id):
+@app.route("service_providers/<int:service_provider_id>/update")
+def update_service_provider_data(service_provider_id):
     if not is_admin(request.args.get('id_token')):
         return jsonify({"error": "User is not an admin"})
 
-    notes = request.args.get('notes')
+    data = request.args.get('data')
     if notes is None:
-        return jsonify({"error": "Expecting an argument for notes"})
+        return jsonify({"error": "Expecting a map for data"})
 
     service_provider = db.get_service_provider(service_provider_id)
     if not service_provider:
         return jsonify({"error": "Invalid service_provider_id"})
 
-    db.update_service_provider_notes(service_provider_id, notes)
+    data['updated_at'] = pd.Timestamp.today()
 
-    return jsonify({"success": True})
+    db.update_service_provider_data(service_provider_id, data)
+
+    return jsonify({"success": data})
 
 @app.route("/users/new")
 def create_user():
