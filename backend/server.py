@@ -93,10 +93,7 @@ def create_user():
 
 def verify_admin(id_token):
     user = auth.verify_id_token(id_token) 
-return user.get('admin', False)
-        return True
-    else:
-        return False
+    return user.get('admin', False)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Server arguments')
