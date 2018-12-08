@@ -48,15 +48,16 @@ class App extends Component {
                     user.db = firebase;
                     // Save user to state
                     this.props.signIn(user);
+                    this.props.getServiceProviders(idToken);
                 }).catch(err => {
                     console.log(err);
                 });
             } else {
-                // User is signed out.
-                console.log('No user');
+                // No user is signed in
+                this.props.getServiceProviders();
             }
         });
-        this.props.getServiceProviders();
+        
     }
     render() {
         return (
@@ -101,7 +102,7 @@ function mapDispatchToProps(dispatch) {
     changeOperatingBudget: bindActionCreators(changeOperatingBudget, dispatch),
     changeClientServed: bindActionCreators(changeClientServed, dispatch),
     changeStaffCount: bindActionCreators(changeStaffCount, dispatch),
-    getServiceProviders: () => dispatch(getServiceProviders()),
+    getServiceProviders: (token) => dispatch(getServiceProviders(token)),
     signIn: user => dispatch(signIn(user)),
   };
 }

@@ -1,19 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { signIn } from '../actions';
+import { 
+    signIn,
+    getServiceProviders 
+} from '../actions';
 
 import Button from '@material-ui/core/Button';
 import * as firebase from 'firebase';
 
 import "./Login.css";
 
-const mapStateToProps = state => ({
-    user: state.user
-})
-
-const mapDispatchToProps = (dispatch) => ({
-    signIn: (user) => dispatch(signIn(user))
-})
 
 class Login extends React.Component {
     state = {
@@ -32,6 +28,7 @@ class Login extends React.Component {
                     user.db = firebase;
                     // Save user to state
                     this.props.signIn(user);
+                    this.props.getServiceProviders(idToken);
                 }).catch(err => {
                     console.log(err);
                 });
@@ -91,6 +88,15 @@ class Login extends React.Component {
         )
     }
 }
+
+const mapStateToProps = state => ({
+    user: state.user
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    signIn: (user) => dispatch(signIn(user)),
+    getServiceProviders: (token) => dispatch(getServiceProviders(token))
+})
 
 export default connect(
     mapStateToProps,
