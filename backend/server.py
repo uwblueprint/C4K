@@ -93,7 +93,7 @@ def create_user():
 
 def verify_admin(id_token):
     user = auth.verify_id_token(id_token) 
-    if hasattr(user, 'admin'):
+return user.get('admin', False)
         return True
     else:
         return False
