@@ -103,7 +103,7 @@ if __name__ == "__main__":
     IS_DEV = args.dev
 
     if not IS_DEV:
-        cred = credentials.Certificate("../instance/c4k-dashboard-firebase-adminsdk-ypbc3-c66b8c5a1c.json")
+        cred = credentials.Certificate(constants.FIREBASE_AUTH_FILE_PATH)
         initialize_app(cred)
 
     if os.getenv("PORT"):
