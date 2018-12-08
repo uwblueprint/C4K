@@ -99,6 +99,9 @@ def load_demographics():
         # Average household income
         if line_num == 753:
             return True
+        # Aboriginal identity
+        if line_num == 1292:
+            return True
         # Total visible minority population
         if line_num == 1326:
             return True
