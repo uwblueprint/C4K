@@ -55,7 +55,7 @@ def get_all_service_providers():
     service_providers = db.get_all_service_providers(is_user, is_admin)
     return jsonify({ "error": "", "data": service_providers })
 
-@app.route("service_providers/<int:service_provider_id>/update")
+@app.route("/service_providers/<int:service_provider_id>/update")
 def update_service_provider_data(service_provider_id):
     if not is_admin(request.args.get('id_token')):
         return jsonify({"error": "User is not an admin"})
