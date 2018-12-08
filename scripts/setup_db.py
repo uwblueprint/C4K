@@ -45,7 +45,8 @@ def create_tables():
                 client_total       INTEGER,
                 staff_total        INTEGER,
                 is_bookmarked      BOOLEAN NOT NULL,
-                notes              TEXT
+                notes              TEXT,
+                updated_at         TIMESTAMP NOT NULL
             )
             """,
             """
@@ -131,6 +132,7 @@ def clean_service_provider_data():
                 'notes', 'notes2', 'questions'])
     data['id'] = range(1, len(data)+1)
     data['is_bookmarked'] = [False] * len(data)
+    data['updated_at'] = [pd.Timestamp.today()] * len(data)
 
     # Build sp_census_division table
     sp_cd_data = []
@@ -183,7 +185,7 @@ def clean_service_provider_data():
 
     # Re order columns
     data = data[['id', 'name', 'website', 'report_year', 'report_link',
-        'expenses', 'client_total', 'staff_total', 'is_bookmarked', 'notes']]
+        'expenses', 'client_total', 'staff_total', 'is_bookmarked', 'notes', 'updated_at']]
 
     int_columns = ['report_year', 'expenses', 'client_total', 'staff_total']
     str_columns = ['report_link', 'notes']
@@ -198,8 +200,8 @@ def load_service_providers():
     # Insert service provider data
     for index, row in data.iterrows():
         query_string = """
-            INSERT INTO service_providers (id, name, website, report_year, report_link, expenses, client_total, staff_total, is_bookmarked, notes)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO service_providers (id, name, website, report_year, report_link, expenses, client_total, staff_total, is_bookmarked, notes, updated_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         values = tuple(row)
         db.execute(query_string, values)
