@@ -35,7 +35,7 @@ def get_data_by_id(census_id):
         return jsonify({ "error": "Invalid census id" })
 
     data = db.get_census_division_data(census_id)
-    return jsonify({ "error": "", "data": data }) 
+    return jsonify({ "error": "", "data": data })
 
 @app.route("/service_providers")
 def get_all_service_providers():
@@ -49,20 +49,20 @@ def get_all_service_providers():
         id_token = request.args.get('id_token')
         if id_token:
             is_user = True
-            is_admin = is_admin(id_token)
+            is_admin = verify_admin(id_token)
 
     service_providers = db.get_all_service_providers(is_user, is_admin)
     return jsonify({ "error": "", "data": service_providers })
 
 @app.route("/service_providers/<int:service_provider_id>/notes")
 def update_service_provider_notes(service_provider_id):
-    if not is_admin(request.args.get('id_token')):
+    if not verify_admin(request.args.get('id_token')):
         return jsonify({"error": "User is not an admin"})
-    
+
     notes = request.args.get('notes')
     if notes is None:
         return jsonify({"error": "Expecting an argument for notes"})
-    
+
     service_provider = db.get_service_provider(service_provider_id)
     if not service_provider:
         return jsonify({"error": "Invalid service_provider_id"})
@@ -91,8 +91,9 @@ def create_user():
 
     return jsonify({'uid': user.uid})
 
-def is_admin(id_token):
-    return auth.verify_id_token(id_token)['admin']
+def verify_admin(id_token):
+    user = auth.verify_id_token(id_token) 
+    return user.get('admin', False)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Server arguments')
