@@ -106,7 +106,7 @@ if __name__ == "__main__":
 
     if os.path.isfile(constants.FIREBASE_AUTH_FILE_PATH):
         cred = credentials.Certificate(constants.FIREBASE_AUTH_FILE_PATH)
-    if os.getenv("FIREBASE_TYPE"):
+    elif os.getenv("FIREBASE_TYPE"):
         firebase_auth = {
                 "type":           os.getenv("FIREBASE_TYPE"),
                 "project_id":     os.getenv("FIREBASE_PROJECT_ID"),
