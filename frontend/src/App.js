@@ -11,6 +11,7 @@ import {
     changeOperatingBudget,
     changeClientServed,
     changeStaffCount,
+    getServiceProviders,
     signIn
 } from './actions';
 
@@ -47,14 +48,16 @@ class App extends Component {
                     user.db = firebase;
                     // Save user to state
                     this.props.signIn(user);
+                    this.props.getServiceProviders(idToken);
                 }).catch(err => {
                     console.log(err);
                 });
             } else {
-                // User is signed out.
-                console.log('No user');
+                // No user is signed in
+                this.props.getServiceProviders();
             }
         });
+        
     }
     render() {
         return (
@@ -72,7 +75,7 @@ class App extends Component {
                     changeStaffCount={this.props.changeStaffCount}
                 />
                 {this.props.view === constants.MAP_VIEW ? <Map /> : <ListView /> }
-                <ToggleView view={this.props.view} changeView={this.props.changeView} />
+                <ToggleView view={this.props.view} changeView={this.props.changeView}/>
             </div>
         );
     }
@@ -86,7 +89,8 @@ function mapStateToProps(state) {
     operatingBudget: state.changeSliderReducer.operatingBudget,
     clientServed: state.changeSliderReducer.clientServed,
     staffCount: state.changeSliderReducer.staffCount,
-    user: state.user,
+    serviceProviders: state.serviceProviderReducer,
+    user: state.authReducer,
   };
 }
 
@@ -98,6 +102,7 @@ function mapDispatchToProps(dispatch) {
     changeOperatingBudget: bindActionCreators(changeOperatingBudget, dispatch),
     changeClientServed: bindActionCreators(changeClientServed, dispatch),
     changeStaffCount: bindActionCreators(changeStaffCount, dispatch),
+    getServiceProviders: (token) => dispatch(getServiceProviders(token)),
     signIn: user => dispatch(signIn(user)),
   };
 }

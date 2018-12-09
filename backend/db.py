@@ -49,14 +49,14 @@ def get_all_service_providers(is_user=False, is_admin=False):
         """,
         # regular user query
         """
-        SELECT sp.id, spcd.census_division_id, sp.name, sp.website, sp.client_total, sp.staff_total, spl.address, spl.longitude, spl.latitude
+        SELECT sp.id, spcd.census_division_id, sp.name, sp.website, sp.client_total, sp.staff_total, spl.address, spl.longitude, spl.latitude, spl.isMain
         FROM service_providers sp
         JOIN sp_locations spl ON sp.id=spl.sp_id
         JOIN sp_census_divisions spcd ON sp.id=spcd.sp_id
         """,
         # guest user query
         """
-        SELECT sp.id, spcd.census_division_id, sp.name, sp.website, spl.address, spl.longitude, spl.latitude
+        SELECT sp.id, spcd.census_division_id, sp.name, sp.website, spl.address, spl.longitude, spl.latitude, spl.isMain
         FROM service_providers sp
         JOIN sp_locations spl ON sp.id=spl.sp_id
         JOIN sp_census_divisions spcd ON sp.id=spcd.sp_id

@@ -210,3 +210,6 @@ SERVICE_PROVIDER_DATA_PATH = os.getenv("PROJECTROOT") + "/scripts/service_provid
 CENSUS_DIVISION_DATA_PATH = os.getenv("PROJECTROOT") + "/data/census_divisions/"
 
 SERVICE_PROVIDER_FIELDS = ['name', 'website', 'report_year', 'report_link', 'expenses', 'client_total', 'staff_total', 'is_bookmarked', 'notes']
+
+FIREBASE_AUTH_FILE_PATH = os.getenv("PROJECTROOT") + "/instance/c4k-dashboard-firebase-adminsdk-ypbc3-c66b8c5a1c.json"
+

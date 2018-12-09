@@ -1,8 +1,11 @@
 import { LOAD_SERVICE_PROVIDERS } from './actionsTypes';
 
-export const getServiceProviders = () => {
+export const getServiceProviders = (token) => {
+    // Attatch id_token to service provider call if provided
+    const url = '/service_providers' + (token ? '?id_token=' + token : '')
+
     return function(dispatch) {
-        fetch('/service_providers', {
+        fetch(url, {
             mode: 'no-cors'
         })
         .then(function(response) {
