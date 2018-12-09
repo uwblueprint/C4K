@@ -1,7 +1,9 @@
 from firebase_admin import auth, credentials, initialize_app
 from flask import Flask, jsonify, request, url_for
 from flask_cors import CORS
+import sys
 import os
+import os.path
 import constants
 import db
 import argparse
@@ -102,9 +104,27 @@ if __name__ == "__main__":
 
     IS_DEV = args.dev
 
-    if not IS_DEV:
+    if os.path.isfile(constants.FIREBASE_AUTH_FILE_PATH):
         cred = credentials.Certificate(constants.FIREBASE_AUTH_FILE_PATH)
-        initialize_app(cred)
+    if os.getenv("FIREBASE_TYPE"):
+        firebase_auth = {
+                "type":           os.getenv("FIREBASE_TYPE"),
+                "project_id":     os.getenv("FIREBASE_PROJECT_ID"),
+                "private_key_id": os.getenv("FIREBASE_PRIVATE_KEY_ID"),
+                "private_key":    os.getenv("FIREBASE_PRIVATE_KEY"),
+                "client_email":   os.getenv("FIREBASE_CLIENT_EMAIL"),
+                "client_id":      os.getenv("FIREBASE_CLIENT_ID"),
+                "auth_uri":       os.getenv("FIREBASE_AUTH_URI"),
+                "token_uri":      os.getenv("FIREBASE_TOKEN_URI"),
+                "auth_provider_x509_cert_url": os.getenv("FIREBASE_AUTH_PROVIDER_X509_CERT_URL"),
+                "client_x509_cert_url":        os.getenv("FIREBASE_CLIENT_X509_CERT_URL")
+            }
+        cred = credentials.Certificate(firebase_auth)
+    else:
+        print("Error: no Firebase cert found")
+        sys.exit(1)
+
+    initialize_app(cred)
 
     if os.getenv("PORT"):
         port = os.getenv("PORT")
