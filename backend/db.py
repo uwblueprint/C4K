@@ -40,18 +40,21 @@ def get_census_division_data(census_division_id):
 
 def get_all_service_providers(is_user=False, is_admin=False):
     queries = [
+        # admin user query
         """
         SELECT *
         FROM service_providers
         JOIN sp_locations ON service_providers.id=sp_locations.sp_id
         JOIN sp_census_divisions ON service_providers.id=sp_census_divisions.sp_id
         """,
+        # regular user query
         """
         SELECT sp.id, spcd.census_division_id, sp.name, sp.website, sp.client_total, sp.staff_total, spl.address, spl.longitude, spl.latitude, spl.isMain
         FROM service_providers sp
         JOIN sp_locations spl ON sp.id=spl.sp_id
         JOIN sp_census_divisions spcd ON sp.id=spcd.sp_id
         """,
+        # guest user query
         """
         SELECT sp.id, spcd.census_division_id, sp.name, sp.website, spl.address, spl.longitude, spl.latitude, spl.isMain
         FROM service_providers sp
@@ -78,11 +81,15 @@ def get_service_provider(service_provider_id):
 
     return execute(query, cursor_factory=RealDictCursor)
 
-def update_service_provider_notes(service_provider_id, notes):
-    query = """        
-        UPDATE service_providers 
-        SET notes = '{}'
+def update_service_provider_data(service_provider_id, data):
+    query_template = """
+        UPDATE service_providers
+        SET {} = '{}'
         WHERE id = {}
-    """.format(notes, service_provider_id)
+    """
+    for col, val in data.items():
+        if col in constants.SERVICE_PROVIDER_FIELDS:
+            query = query_template.format(col, val, service_provider_id)
+            execute(query, cursor_factory=RealDictCursor)
 
-    execute(query, cursor_factory=RealDictCursor)
+    return data
