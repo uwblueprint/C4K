@@ -3,6 +3,8 @@ import './Map.css';
 import * as L from 'leaflet';
 import * as esri from 'esri-leaflet';
 import { connect } from 'react-redux';
+import ReactDOM from 'react-dom';
+import Popup from './Popup';
 
 import {
     getServiceProviders,
@@ -19,7 +21,7 @@ class Map extends Component {
       currentZoomLevel: 7, 
       map: null, 
       tileLayer: null,
-      providersLoaded: false,
+      selectedProvider: {},
     };
     //this.onEachFeature = this.onEachFeature.bind(this);
   }
@@ -31,9 +33,26 @@ class Map extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.serviceProviders !== this.props.serviceProviders) {
       if (this.props.serviceProviders.length > 0) {
+        var popup = document.createElement('div');
+
         this.props.serviceProviders
           .filter(provider => provider.ismain)
-          .map(provider => L.marker([provider.longitude, provider.latitude]).addTo(this.state.map));
+          .forEach(provider => {
+            ReactDOM.render(
+              <Popup
+                name={provider.name}
+                type={provider.type}
+                location={provider.location}
+                address={provider.address}
+                phone={provider.phone}
+                site={provider.website}
+              />,
+              popup
+            );
+            L.marker([provider.longitude, provider.latitude])
+              .addTo(this.state.map)
+              .bindPopup(popup)
+          });
       }
     }
   }
@@ -103,8 +122,6 @@ class Map extends Component {
 
     this.setState({map, tileLayer});
     window.myMap = map;
-    L.marker(position)
-      .addTo(map);
   }
 
   render() {
