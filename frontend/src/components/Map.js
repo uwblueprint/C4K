@@ -2,21 +2,95 @@ import React, {Component} from 'react';
 import './Map.css';
 import * as L from 'leaflet';
 import * as esri from 'esri-leaflet';
+import { connect } from 'react-redux';
+import ReactDOM from 'react-dom';
+import Popup from './Popup';
+
+import {
+    getServiceProviders,
+} from '../actions';
+
 
 class Map extends Component {
+
   constructor(props) {
     super(props);
 
     //the map is handled by the state: e.g. this.state.map.zoomIn() to zoom
-    this.state = {currentZoomLevel: 7, map: null, tileLayer: null};
+    this.state = {
+      currentZoomLevel: 7, 
+      map: null, 
+      tileLayer: null,
+      selectedProvider: {},
+    };
+    //this.onEachFeature = this.onEachFeature.bind(this);
   }
 
   componentDidMount() {
     this.initMap();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.serviceProviders !== this.props.serviceProviders) {
+      if (this.props.serviceProviders.length > 0) {
+        var popup = document.createElement('div');
+
+        this.props.serviceProviders
+          .filter(provider => provider.ismain)
+          .forEach(provider => {
+            ReactDOM.render(
+              <Popup
+                name={provider.name}
+                type={provider.type}
+                location={provider.location}
+                address={provider.address}
+                phone={provider.phone}
+                site={provider.website}
+              />,
+              popup
+            );
+            L.marker([provider.longitude, provider.latitude])
+              .addTo(this.state.map)
+              .bindPopup(popup)
+          });
+      }
+    }
+  }
+
   onMouseHandler(event) {
     document.getElementById('map').title = event.layer.feature.properties.CDNAME;
+  }
+
+  onEachFeature(feature, layer) {
+    
+    layer.on('click', (e) => { 
+      layer.setStyle({fillColor: '#FFFF00'});
+
+      // Check if layer is already selected
+      let cdID = parseInt(feature.properties.CDUID, 10);
+      if (cdID !== this.props.selectedCensusDivision) {
+        // fire an action to change the new census division
+        this.props.changeSelectedCensusDivision(cdID);
+        // this.state.map.onEachLayers
+      }
+      // else do nothing - they already have the census division selected
+
+      // update the style of all the census divisions
+      this.state.map.eachLayer(function (censusDivision) {
+        // Note Not all layers on the map are features
+        let feature = censusDivision.feature;
+        if (feature !== undefined){
+          let cdID = parseInt(feature.properties.CDUID, 10);
+
+          if (cdID === this.props.selectedCensusDivision) {
+            censusDivision.setStyle({fillColor: '#FFFF00'});
+          } else {
+            censusDivision.setStyle({fillColor: '#2526A9'})
+          }
+        }
+      }.bind(this));
+
+    });
   }
 
   //Loading the Map, this only gets called once.
@@ -37,18 +111,17 @@ class Map extends Component {
         const { Pop2016, Area } = feature.properties;
         // manual opacity filtering
         var density = Pop2016/Area;
-        var opacity = Math.max(Math.min(1, Math.log(density)/5), 0.05);
+        var opacity = Math.max(Math.min(1, Math.log(density)/5), 0.05); // not used for now
         // in the province of Ontario
-        return { weight: 1, opacity, fillOpacity: opacity, color: 'black', fillColor: 'green' };
-      }
+        return { weight: 1, opacity, fillOpacity: 0.3, color: 'black', fillColor: '#2526A9' };
+      },
+      onEachFeature: this.onEachFeature.bind(this),
     })
     .on('mouseover', this.onMouseHandler)
     .addTo(map);
 
     this.setState({map, tileLayer});
     window.myMap = map;
-    L.marker(position)
-      .addTo(map);
   }
 
   render() {
@@ -71,5 +144,19 @@ class Map extends Component {
   }
 }
 
-export default Map;
+function mapStateToProps(state) {
+	return {
+		serviceProviders: state.serviceProviderReducer
+	};
+}
+  
+function mapDispatchToProps(dispatch) {
+	return {
+		getServiceProviders: () => dispatch(getServiceProviders())
+	};
+}
 
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Map);
