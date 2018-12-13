@@ -4,7 +4,7 @@
     height: 100vh;
 }
 
-.loginLayout .logo {
+.loginLayout .loginLogo {
     width: 42%;
     background: #2526A9;
     display: flex;
@@ -13,7 +13,7 @@
     color: white;
 }
 
-.loginLayout .logo img {
+.loginLayout .loginLogo img {
     margin: 88px;
     width: 460px;
 }

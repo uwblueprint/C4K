@@ -1,0 +1,29 @@
+.Popup {
+	font-family: 'Open Sans', sans-serif;
+	margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+}
+
+.noteBookmark {
+	float: right;
+}
+
+.name {
+	font-weight: 600;
+}
+
+.type {
+	padding-left: 20px;
+}
+
+.subContent {
+	margin-bottom: 15px;
+}
+
+.icon {
+    color: rgba(0, 0, 0, 0.38);
+}

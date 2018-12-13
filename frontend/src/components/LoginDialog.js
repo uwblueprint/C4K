@@ -1,11 +1,12 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import Person from '@material-ui/icons/Person';
+import IconButton from '@material-ui/core/IconButton';
 
 import FullScreenDialog from './FullScreenDialog';
 import Login from './Login';
 
 const LoginPopupButton = (props) => {
-    return <Button onClick={props.onClick}>Log in</Button>
+    return <IconButton onClick={props.onClick}><Person style={{ color: '#fcfcfc' }}/></IconButton>
 }
 
 const LoginDialog = () => {

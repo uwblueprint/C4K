@@ -1,8 +1,16 @@
 import { combineReducers } from 'redux';
-import emptyReducer from './empty';
-import user from './user';
+import changeViewReducer from './changeViewReducer';
+import changeDropdownReducer from './changeDropdownReducer';
+import changeSliderReducer from './changeSliderReducer';
+import selectCensusDivisionReducer from './selectCensusDivisionReducer'
+import authReducer from './authReducer';
+import serviceProviderReducer from './serviceProviderReducer';
 
 export default combineReducers({
-    emptyReducer,
-    user
+    changeViewReducer,
+    changeDropdownReducer,
+    changeSliderReducer,
+    authReducer,
+    serviceProviderReducer,
+    selectCensusDivisionReducer,
 });
