@@ -13,7 +13,7 @@ import {
     changeStaffCount,
     getServiceProviders,
     signIn,
-    selectCensusDivision
+    changeSelectedCensusDivision
 } from './actions';
 
 import './App.css';
@@ -66,7 +66,7 @@ class App extends Component {
                 <Sidebar 
                     censusDivision={this.props.censusDivision}
                     demographic={this.props.demographic}
-                    changeCensusDivision={this.props.changeCensusDivision}
+                    changeSelectedCensusDivision={this.props.changeSelectedCensusDivision}
                     changeDemographic={this.props.changeDemographic}
                     operatingBudget={this.props.operatingBudget}
                     clientServed={this.props.clientServed}
@@ -78,7 +78,7 @@ class App extends Component {
                 {this.props.view === constants.MAP_VIEW ? 
                     <Map
                         selectedCensusDivision={this.props.selectedCensusDivision}
-                        selectCensusDivision={this.props.selectCensusDivision}
+                        changeSelectedCensusDivision={this.props.changeSelectedCensusDivision}
                     /> :
                     <ListView /> }
                 <ToggleView view={this.props.view} changeView={this.props.changeView}/>
@@ -111,7 +111,7 @@ function mapDispatchToProps(dispatch) {
     changeStaffCount: bindActionCreators(changeStaffCount, dispatch),
     getServiceProviders: (token) => dispatch(getServiceProviders(token)),
     signIn: user => dispatch(signIn(user)),
-    selectCensusDivision: bindActionCreators(selectCensusDivision, dispatch),
+    changeSelectedCensusDivision: bindActionCreators(changeSelectedCensusDivision, dispatch),
   };
 }
 

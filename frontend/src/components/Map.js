@@ -70,7 +70,7 @@ class Map extends Component {
       let cdID = parseInt(feature.properties.CDUID, 10);
       if (cdID !== this.props.selectedCensusDivision) {
         // fire an action to change the new census division
-        this.props.selectCensusDivision(cdID);
+        this.props.changeSelectedCensusDivision(cdID);
         // this.state.map.onEachLayers
       }
       // else do nothing - they already have the census division selected
