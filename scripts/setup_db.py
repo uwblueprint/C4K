@@ -35,7 +35,6 @@ def create_tables():
             """
             CREATE TABLE service_providers (
                 id INTEGER         PRIMARY KEY,
-                census_division_id INTEGER REFERENCES census_division (id),
                 name               TEXT NOT NULL,
                 website            TEXT NOT NULL,
                 report_year        INTEGER,

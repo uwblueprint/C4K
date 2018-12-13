@@ -33,9 +33,25 @@ def get_census_division_data(census_division_id):
     query = """
         SELECT name, characteristic, total, male, female
         FROM census_division
-        INNER JOIN demographics ON census_division.id = demographics.census_division_id
+        JOIN demographics ON census_division.id = demographics.census_division_id
         WHERE id={}
     """.format(census_division_id)
+
+    return execute(query, cursor_factory=RealDictCursor)
+
+def get_census_division_aggregate():
+    query = """
+        SELECT
+            census_division.name    AS cd_name,
+            census_division.id      AS cd_id,
+            SUM(expenses)           AS total_expenses,
+            SUM(client_total)       AS total_clients,
+            SUM(staff_total)        AS total_staff
+        FROM sp_census_divisions
+        JOIN service_providers ON sp_census_divisions.sp_id = service_providers.id
+        JOIN census_division ON sp_census_divisions.census_division_id = census_division.id
+        GROUP BY cd_id, cd_name
+    """
     return execute(query, cursor_factory=RealDictCursor)
 
 def get_all_service_providers(is_user=False, is_admin=False):
