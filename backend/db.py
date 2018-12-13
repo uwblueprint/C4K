@@ -46,7 +46,10 @@ def get_census_division_aggregate():
             census_division.id      AS cd_id,
             SUM(expenses)           AS total_expenses,
             SUM(client_total)       AS total_clients,
-            SUM(staff_total)        AS total_staff
+            SUM(staff_total)        AS total_staff,
+            AVG(expenses)           AS avg_expenses,
+            AVG(client_total)       AS avg_client,
+            AVG(staff_total)        AS avg_staff
         FROM sp_census_divisions
         JOIN service_providers ON sp_census_divisions.sp_id = service_providers.id
         JOIN census_division ON sp_census_divisions.census_division_id = census_division.id
