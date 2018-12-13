@@ -40,22 +40,53 @@ def get_census_division_data(census_division_id):
     return execute(query, cursor_factory=RealDictCursor)
 
 def get_census_division_aggregate():
-    query = """
+    # TODO: add permission levels
+
+    query_service_providers = """
         SELECT
-            census_division.name    AS cd_name,
-            census_division.id      AS cd_id,
-            SUM(expenses)           AS total_expenses,
-            SUM(client_total)       AS total_clients,
-            SUM(staff_total)        AS total_staff,
+            census_division_id      AS cd_id,
+            SUM(expenses)           AS sum_expenses,
+            SUM(client_total)       AS sum_clients,
+            SUM(staff_total)        AS sum_staff,
             AVG(expenses)           AS avg_expenses,
             AVG(client_total)       AS avg_client,
             AVG(staff_total)        AS avg_staff
         FROM sp_census_divisions
         JOIN service_providers ON sp_census_divisions.sp_id = service_providers.id
-        JOIN census_division ON sp_census_divisions.census_division_id = census_division.id
-        GROUP BY cd_id, cd_name
+        GROUP BY cd_id
     """
-    return execute(query, cursor_factory=RealDictCursor)
+
+    # Crosstab is used to pivot the table
+    query_demographics = """
+        SELECT *
+        FROM crosstab (
+            'SELECT census_division_id, characteristic, total
+             FROM demographics
+             ORDER BY 1,2'
+        ) AS ct (
+            census_division_id  INTEGER,
+            "0_to_14_years"     INTEGER,
+            "15_to_19_years"    INTEGER,
+            aboriginal          INTEGER,
+            avg_income            INTEGER,
+            avg_houshold_income   INTEGER,
+            median_income             INTEGER,
+            median_household_income   INTEGER,
+            total_population    INTEGER,
+            minority            INTEGER
+        )
+        """
+
+    # tablefunc extension includes the crosstab function which we use to pivot
+    query_census_division = """
+        CREATE EXTENSION IF NOT EXISTS tablefunc;
+        SELECT *
+        FROM census_division
+        JOIN ({}) sp ON census_division.id = sp.cd_id
+        JOIN ({}) demographics ON census_division.id = demographics.census_division_id
+        """.format(query_service_providers, query_demographics)
+
+    return execute(query_census_division, cursor_factory=RealDictCursor)
 
 def get_all_service_providers(is_user=False, is_admin=False):
     queries = [

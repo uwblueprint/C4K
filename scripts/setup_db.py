@@ -85,8 +85,14 @@ def load_demographics():
     """
 
     def is_important(line_num):
-        # Population data
-        if 11 <= line_num <= 34:
+        # Total population
+        if line_num == 3:
+            return True
+        # 0-14 pop
+        if line_num == 11:
+            return True
+        # 15-19 pop
+        if line_num == 16:
             return True
         # Median income
         if line_num == 665:
@@ -108,7 +114,6 @@ def load_demographics():
             return True
 
         return False
-
 
     con = None
     try:
