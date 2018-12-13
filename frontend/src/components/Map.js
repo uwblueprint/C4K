@@ -15,12 +15,27 @@ class Map extends Component {
     super(props);
 
     //the map is handled by the state: e.g. this.state.map.zoomIn() to zoom
-    this.state = {currentZoomLevel: 7, map: null, tileLayer: null};
+    this.state = {
+      currentZoomLevel: 7, 
+      map: null, 
+      tileLayer: null,
+      providersLoaded: false,
+    };
     //this.onEachFeature = this.onEachFeature.bind(this);
   }
 
   componentDidMount() {
     this.initMap();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.serviceProviders !== this.props.serviceProviders) {
+      if (this.props.serviceProviders.length > 0) {
+        this.props.serviceProviders
+          .filter(provider => provider.ismain)
+          .map(provider => L.marker([provider.longitude, provider.latitude]).addTo(this.state.map));
+      }
+    }
   }
 
   onMouseHandler(event) {
@@ -98,11 +113,6 @@ class Map extends Component {
         'this.state.currentZoomLevel ->',
         this.state.map._zoom
       );
-      if (this.props.serviceProviders.length > 0) {
-        this.props.serviceProviders
-          .filter(provider => provider.ismain)
-          .map(provider => L.marker([provider.longitude, provider.latitude]).addTo(this.state.map));
-      }
     }
 
     return (
