@@ -22,6 +22,7 @@ import Map from './components/Map';
 import Sidebar from './components/Sidebar';
 import ToggleView from './components/ToggleView';
 import ListView from './components/ListView';
+import ServiceProviderDialog from './components/ServiceProviderDialog';
 
 // Move to environment variables in production
 const config = {
@@ -75,7 +76,8 @@ class App extends Component {
                     changeStaffCount={this.props.changeStaffCount}
                 />
                 {this.props.view === constants.MAP_VIEW ? <Map /> : <ListView /> }
-                <ToggleView view={this.props.view} changeView={this.props.changeView}/>
+                <ToggleView view={this.props.view} changeView={this.props.changeView} />
+                <div style={{ zIndex: '100000000', position: 'absolute' }}><ServiceProviderDialog/></div>
             </div>
         );
     }
