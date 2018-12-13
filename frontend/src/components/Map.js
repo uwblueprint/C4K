@@ -5,6 +5,7 @@ import * as esri from 'esri-leaflet';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Popup from './Popup';
+import * as constants from '../constants/viewConstants';
 
 import {
     getServiceProviders,
@@ -30,30 +31,34 @@ class Map extends Component {
     this.initMap();
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.serviceProviders !== this.props.serviceProviders) {
-      if (this.props.serviceProviders.length > 0) {
-        this.props.serviceProviders
-          .filter(provider => provider.ismain)
-          .forEach(provider => {
-            const popup = document.createElement('div');
-            ReactDOM.render(
-              <Popup
-                name={provider.name}
-                type={provider.type}
-                location={provider.location}
-                address={provider.address}
-                phone={provider.phone}
-                site={provider.website}
-              />,
-              popup
-            );
+  populateServiceProviders() {
+    if (this.props.serviceProviders.length > 0) {
+      this.props.serviceProviders
+        .filter(provider => provider.ismain)
+        .forEach(provider => {
+          const popup = document.createElement('div');
+          ReactDOM.render(
+            <Popup
+              name={provider.name}
+              type={provider.type}
+              location={provider.location}
+              address={provider.address}
+              phone={provider.phone}
+              site={provider.website}
+            />,
+            popup
+          );
 
-            L.marker([provider.longitude, provider.latitude])
-              .addTo(this.state.map)
-              .bindPopup(popup)
-          });
-      }
+          L.marker([provider.longitude, provider.latitude])
+            .addTo(this.state.map)
+            .bindPopup(popup)
+        });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if ((prevProps.serviceProviders !== this.props.serviceProviders) || this.props.view === constants.MAP_VIEW) {
+      this.populateServiceProviders();
     }
   }
 
@@ -146,6 +151,7 @@ class Map extends Component {
 
 function mapStateToProps(state) {
 	return {
+    view: state.changeViewReducer.view,
 		serviceProviders: state.serviceProviderReducer
 	};
 }
