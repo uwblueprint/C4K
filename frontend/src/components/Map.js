@@ -4,35 +4,6 @@ import * as L from 'leaflet';
 import * as esri from 'esri-leaflet';
 
 
-// This is the default style of layers when the user isn't interacting
-// with the map
-let quiet = {
-  fillColor: '#3399FF',
-  fillOpacity: 0.2,
-  color: 'white',
-  opacity: 0.6,
-  weight: 1,
-  dashArray: 0
-};
-
-// The style of a layer that's been filtered to but not the specific
-// shape the user selected
-let medium = {
-  fillColor: '#D6EBFF',
-  fillOpacity: 0.4,
-  opacity: 1,
-  weight: 1
-};
-
-// The specific shape selected
-let loud = {
-  fillColor: '#FFFF00',
-  fillOpacity: 0.8,
-  opacity: 0.2,
-  weight: 3,
-  dashArray: '3'
-};
-
 class Map extends Component {
 
   constructor(props) {
@@ -52,10 +23,7 @@ class Map extends Component {
   }
 
   onEachFeature(feature, layer) {
-    console.log(layer);
-    console.log(this.state.map._layers);
-    // console.log(feature);
-    // console.log(this.props);
+    
     layer.on('click', (e) => { 
       layer.setStyle({fillColor: '#FFFF00'});
 
@@ -69,7 +37,19 @@ class Map extends Component {
       // else do nothing - they already have the census division selected
 
       // update the style of all the census divisions
+      this.state.map.eachLayer(function (censusDivision) {
+        // Note Not all layers on the map are features
+        let feature = censusDivision.feature;
+        if (feature !== undefined){
+          let cdID = parseInt(feature.properties.CDUID, 10);
 
+          if (cdID === this.props.selectedCensusDivision) {
+            censusDivision.setStyle({fillColor: '#FFFF00'});
+          } else {
+            censusDivision.setStyle({fillColor: '#2526A9'})
+          }
+        }
+      }.bind(this));
 
     });
   }
