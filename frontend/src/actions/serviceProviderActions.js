@@ -20,5 +20,8 @@ export const getServiceProviders = (token) => {
                 service_providers: data
             })
         })
+        .catch(function(error) {
+            console.log(error)
+        })
     }
 }
