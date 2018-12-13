@@ -2,6 +2,11 @@ import React, {Component} from 'react';
 import './Map.css';
 import * as L from 'leaflet';
 import * as esri from 'esri-leaflet';
+import { connect } from 'react-redux';
+
+import {
+    getServiceProviders,
+} from '../actions';
 
 
 class Map extends Component {
@@ -93,6 +98,11 @@ class Map extends Component {
         'this.state.currentZoomLevel ->',
         this.state.map._zoom
       );
+      if (this.props.serviceProviders.length > 0) {
+        this.props.serviceProviders
+          .filter(provider => provider.ismain)
+          .map(provider => L.marker([provider.longitude, provider.latitude]).addTo(this.state.map));
+      }
     }
 
     return (
@@ -107,5 +117,19 @@ class Map extends Component {
   }
 }
 
-export default Map;
+function mapStateToProps(state) {
+	return {
+		serviceProviders: state.serviceProviderReducer
+	};
+}
+  
+function mapDispatchToProps(dispatch) {
+	return {
+		getServiceProviders: () => dispatch(getServiceProviders())
+	};
+}
 
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Map);
