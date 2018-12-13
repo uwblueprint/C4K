@@ -1,0 +1,28 @@
+
+.searchBar{
+  background-color: white;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 50px;
+  width: 80%;
+  background-color: #f7f7f7;
+  border-radius: 1px;
+  border-bottom: #b2b2b2 2px solid;
+}
+
+.searchIcon {
+  float: left;
+  color: grey;
+  padding: 6px;
+  display:inline-block;
+}
+
+.search {
+  display:inline-block;
+}
+
+.inputBar {
+  width: 85%;
+  float: right;
+  margin-right: 5px;
+}

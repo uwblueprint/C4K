@@ -12,7 +12,8 @@ import {
     changeClientServed,
     changeStaffCount,
     getServiceProviders,
-    signIn
+    signIn,
+    changeSelectedCensusDivision
 } from './actions';
 
 import './App.css';
@@ -66,7 +67,7 @@ class App extends Component {
                 <Sidebar 
                     censusDivision={this.props.censusDivision}
                     demographic={this.props.demographic}
-                    changeCensusDivision={this.props.changeCensusDivision}
+                    changeSelectedCensusDivision={this.props.changeSelectedCensusDivision}
                     changeDemographic={this.props.changeDemographic}
                     operatingBudget={this.props.operatingBudget}
                     clientServed={this.props.clientServed}
@@ -75,9 +76,13 @@ class App extends Component {
                     changeClientServed={this.props.changeClientServed}
                     changeStaffCount={this.props.changeStaffCount}
                 />
-                {this.props.view === constants.MAP_VIEW ? <Map /> : <ListView /> }
-                <ToggleView view={this.props.view} changeView={this.props.changeView} />
-                <div style={{ zIndex: '100000000', position: 'absolute' }}><ServiceProviderDialog/></div>
+                {this.props.view === constants.MAP_VIEW ? 
+                    <Map
+                        selectedCensusDivision={this.props.selectedCensusDivision}
+                        changeSelectedCensusDivision={this.props.changeSelectedCensusDivision}
+                    /> :
+                    <ListView /> }
+                <ToggleView view={this.props.view} changeView={this.props.changeView}/>
             </div>
         );
     }
@@ -93,6 +98,7 @@ function mapStateToProps(state) {
     staffCount: state.changeSliderReducer.staffCount,
     serviceProviders: state.serviceProviderReducer,
     user: state.authReducer,
+    selectedCensusDivision: state.selectCensusDivisionReducer.selectedCensusDivision,
   };
 }
 
@@ -106,6 +112,7 @@ function mapDispatchToProps(dispatch) {
     changeStaffCount: bindActionCreators(changeStaffCount, dispatch),
     getServiceProviders: (token) => dispatch(getServiceProviders(token)),
     signIn: user => dispatch(signIn(user)),
+    changeSelectedCensusDivision: bindActionCreators(changeSelectedCensusDivision, dispatch),
   };
 }
 

@@ -6,12 +6,12 @@ import Phone from '@material-ui/icons/Phone';
 import Public from '@material-ui/icons/Public';
 import BookmarkBorder from '@material-ui/icons/BookmarkBorder';
 
-import './ListViewCard.css';
+import './Popup.css';
 
-class ListViewCard extends Component {
+class Popup extends Component {
 	render() {
 		return (
-			<div className="listViewCard">
+			<div className="Popup">
 				<div className="content">
 					<span className="name">{ this.props.name }</span>
 					<span className="type">{ this.props.type }</span>
@@ -42,4 +42,4 @@ class ListViewCard extends Component {
 	}
 }
 
-export default ListViewCard;
+export default Popup;
