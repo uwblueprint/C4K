@@ -33,11 +33,10 @@ class Map extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.serviceProviders !== this.props.serviceProviders) {
       if (this.props.serviceProviders.length > 0) {
-        var popup = document.createElement('div');
-
         this.props.serviceProviders
           .filter(provider => provider.ismain)
           .forEach(provider => {
+            const popup = document.createElement('div');
             ReactDOM.render(
               <Popup
                 name={provider.name}
@@ -49,6 +48,7 @@ class Map extends Component {
               />,
               popup
             );
+
             L.marker([provider.longitude, provider.latitude])
               .addTo(this.state.map)
               .bindPopup(popup)
