@@ -14,12 +14,12 @@ class ListView extends Component {
         .map(provider => {
           return (
             <ListViewCard
-            name={provider.name}
-            type={provider.type}
-            location={provider.location}
-            address={provider.address}
-            phone={provider.phone}
-            site={provider.website}
+              name={provider.name}
+              type={provider.type}
+              location={provider.location}
+              address={provider.address}
+              phone={provider.phone}
+              site={provider.website}
             />
           )
         })}

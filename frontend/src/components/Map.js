@@ -142,10 +142,10 @@ class Map extends Component {
 }
 
 function mapStateToProps(state) {
-	return {
+  return {
     view: state.changeViewReducer.view,
-		serviceProviders: state.dataReducer.serviceProviders
-	};
+    serviceProviders: state.dataReducer.serviceProviders
+  };
 }
   
 export default connect(
