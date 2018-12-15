@@ -40,6 +40,11 @@ def get_data_by_id(census_id):
     data = db.get_census_division_data(census_id)
     return jsonify({ "error": "", "data": data })
 
+@app.route("/census_division_aggregate")
+def get_census_division_aggregate():
+    aggregate = db.get_census_division_aggregate()
+    return jsonify({ "error": "", "data": aggregate })
+
 @app.route("/service_providers")
 def get_all_service_providers():
     is_user = False
