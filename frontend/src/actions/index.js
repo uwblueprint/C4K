@@ -1,5 +1,5 @@
 export * from './signInActions';
-export * from './serviceProviderActions';
+export * from './dataActions';
 export * from './changeDropdownActions';
 export * from './changeSliderActions';
 export * from './changeViewActions';
