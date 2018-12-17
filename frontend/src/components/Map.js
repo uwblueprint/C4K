@@ -24,7 +24,6 @@ class Map extends Component {
       tileLayer: null,
       selectedProvider: {},
     };
-    //this.onEachFeature = this.onEachFeature.bind(this);
   }
 
   componentDidMount() {
@@ -57,7 +56,7 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if ((prevProps.serviceProviders !== this.props.serviceProviders) || this.props.view === constants.MAP_VIEW) {
+    if ((prevProps.serviceProviders !== this.props.serviceProviders)) {
       this.populateServiceProviders();
     }
   }
@@ -67,7 +66,6 @@ class Map extends Component {
   }
 
   onEachFeature(feature, layer) {
-    
     layer.on('click', (e) => { 
       layer.setStyle({fillColor: '#FFFF00'});
 
@@ -81,7 +79,7 @@ class Map extends Component {
       // else do nothing - they already have the census division selected
 
       // update the style of all the census divisions
-      this.state.map.eachLayer(function (censusDivision) {
+      this.state.map.eachLayer((censusDivision) => {
         // Note Not all layers on the map are features
         let feature = censusDivision.feature;
         if (feature !== undefined){
@@ -93,7 +91,7 @@ class Map extends Component {
             censusDivision.setStyle({fillColor: '#2526A9'})
           }
         }
-      }.bind(this));
+      });
 
     });
   }
@@ -125,7 +123,9 @@ class Map extends Component {
     .on('mouseover', this.onMouseHandler)
     .addTo(map);
 
-    this.setState({map, tileLayer});
+    this.setState({map, tileLayer},() => {
+      this.populateServiceProviders();
+    });
     window.myMap = map;
   }
 
