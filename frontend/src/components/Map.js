@@ -7,11 +7,6 @@ import ReactDOM from 'react-dom';
 import Popup from './Popup';
 import * as constants from '../constants/viewConstants';
 
-import {
-    getServiceProviders,
-} from '../actions';
-
-
 class Map extends Component {
 
   constructor(props) {
@@ -31,28 +26,26 @@ class Map extends Component {
   }
 
   populateServiceProviders() {
-    if (this.props.serviceProviders.length > 0) {
-      this.props.serviceProviders
-        .filter(provider => provider.ismain)
-        .forEach(provider => {
-          const popup = document.createElement('div');
-          ReactDOM.render(
-            <Popup
-              name={provider.name}
-              type={provider.type}
-              location={provider.location}
-              address={provider.address}
-              phone={provider.phone}
-              site={provider.website}
-            />,
-            popup
-          );
+    this.props.serviceProviders
+      .filter(provider => provider.ismain)
+      .forEach(provider => {
+        const popup = document.createElement('div');
+        ReactDOM.render(
+          <Popup
+            name={provider.name}
+            type={provider.type}
+            location={provider.location}
+            address={provider.address}
+            phone={provider.phone}
+            site={provider.website}
+          />,
+          popup
+        );
 
-          L.marker([provider.longitude, provider.latitude])
-            .addTo(this.state.map)
-            .bindPopup(popup)
-        });
-    }
+        L.marker([provider.longitude, provider.latitude])
+          .addTo(this.state.map)
+          .bindPopup(popup)
+      });
   }
 
   componentDidUpdate(prevProps) {
@@ -150,19 +143,12 @@ class Map extends Component {
 }
 
 function mapStateToProps(state) {
-	return {
+  return {
     view: state.changeViewReducer.view,
-		serviceProviders: state.serviceProviderReducer
-	};
+    serviceProviders: state.serviceProviderReducer
+  };
 }
   
-function mapDispatchToProps(dispatch) {
-	return {
-		getServiceProviders: () => dispatch(getServiceProviders())
-	};
-}
-
 export default connect(
-	mapStateToProps,
-	mapDispatchToProps
+  mapStateToProps
 )(Map);
