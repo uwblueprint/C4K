@@ -29,16 +29,6 @@ def execute(query, values=None, cursor_factory=None):
     con.close()
     return rows
 
-def get_census_division_data(census_division_id):
-    query = """
-        SELECT name, characteristic, total, male, female
-        FROM census_division
-        JOIN demographics ON census_division.id = demographics.census_division_id
-        WHERE id={}
-    """.format(census_division_id)
-
-    return execute(query, cursor_factory=RealDictCursor)
-
 def get_census_division_aggregate():
     # TODO: add permission levels
 
