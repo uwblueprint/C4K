@@ -30,7 +30,7 @@ class ListView extends Component {
 
 function mapStateToProps(state) {
   return {
-    serviceProviders: state.dataReducer.serviceProviders
+    serviceProviders: state.serviceProviderReducer
   };
 }
 
