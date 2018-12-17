@@ -9,6 +9,8 @@ import BookmarkBorder from '@material-ui/icons/BookmarkBorder';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 
+
+
 import "./ServiceProvider.css";
 
 const CONTACT_KEYS = {
@@ -36,7 +38,7 @@ const OPERATION_KEYS_FULL = {
     ...OPERATION_KEYS,
     budget: 'Operating Budget',
     numClients: 'Clients Served',
-    numStaff: 'Staff Count,'
+    numStaff: 'Staff Count',
 }
 
 const BookmarkIcon = ({ isBookmarked, handleBookmarkClick }) => {
@@ -119,13 +121,15 @@ class ServiceProvider extends React.Component {
     renderCell = ({ type, key, value, icon }) => {
         if (this.state.isEditing && type === 'info') {
             return (
-                <input
-                    id={`${key}-info`}
-                    className={`sectionCell section-info`} 
-                    value={value}
-                    onChange={this.handleInputChange(key)}
-                >
-                </input>
+                <div style={{ background: "white", padding: "0" }}>
+                    <input
+                        id={`${key}-info`}
+                        className={`sectionCell section-info`} 
+                        value={value}
+                        onChange={this.handleInputChange(key)}
+                    >
+                    </input>
+                </div>
             )
         }
 
@@ -164,7 +168,7 @@ class ServiceProvider extends React.Component {
                             <BookmarkIcon
                                 isBookmarked={this.state.isBookmarked}
                                 handleBookmarkClick={this.handleBookmarkClick}
-                                />
+                            />
                             <EditIcon isEditing={this.state.isEditing} handleClick={this.handleEditClick}/>
                         </div>
                     </div>
@@ -188,7 +192,7 @@ class ServiceProvider extends React.Component {
                         <div className="sectionTitle">Notes</div>
                         <div className="notesContainer" onClick={() => { this.notesRef.focus() }}>
                             <textarea
-                                className="notes"
+                                className={`notes ${this.state.isEditing ? 'notesHighlighted' : ''}`}
                                 ref={r => { this.notesRef = r }}
                                 onChange={this.handleInputChange('notes')}
                                 readOnly={!this.state.isEditing}

@@ -83,6 +83,7 @@ class App extends Component {
                     /> :
                     <ListView /> }
                 <ToggleView view={this.props.view} changeView={this.props.changeView}/>
+                <div style={{ zIndex: '100000000', position: 'absolute' }}><ServiceProviderDialog/></div>
             </div>
         );
     }
