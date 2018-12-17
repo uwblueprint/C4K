@@ -6,7 +6,7 @@ import FullScreenDialog from './FullScreenDialog';
 import Login from './Login';
 
 const LoginPopupButton = (props) => {
-    return <IconButton onClick={props.onClick}><Person style={{ color: '#fcfcfc' }}/></IconButton>
+    return <Person style={{ color: '#fcfcfc' }} size="small" onClick={props.onClick} />
 }
 
 const LoginDialog = () => {

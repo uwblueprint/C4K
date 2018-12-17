@@ -4,7 +4,7 @@ import deburr from 'lodash/deburr';
 import Downshift from 'downshift';
 
 // Login Dialog
-import LoginDialog from './LoginDialog'
+import UserMenu from './UserMenu'
 
 // Material UI
 import { withStyles } from '@material-ui/core/styles';
@@ -175,7 +175,7 @@ class sampleSearchBar extends Component {
             className="logo"
           />
           <div className="loginButton">
-            <LoginDialog />
+            <UserMenu />
           </div>
         </div>
 

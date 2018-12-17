@@ -14,7 +14,7 @@ class ListView extends Component {
 	render() {
 		return (
 			<div className="listView">
-				{this.props.serviceProviders
+				{/* {this.props.serviceProviders
 					.filter(provider => provider.ismain)
 					.map(provider => {
 						return (
@@ -27,7 +27,7 @@ class ListView extends Component {
 								site={provider.website}
 							/>
 						)
-					})}
+					})} */}
 				{/* Dummy Data */}
 				<ListViewCard
 					name={"Lutherwood - Safe Haven"}

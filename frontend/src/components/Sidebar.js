@@ -20,7 +20,7 @@ const styles = {
   },
   paper: {
 	// Add styles to the Drawer Directly
-    width: 441,
+    width: 400,
   },
 };
 
