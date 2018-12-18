@@ -21,7 +21,7 @@ CORS(app)
 def index():
     return app.send_static_file("index.html")
 
-@app.route("/division/<census_division>")
+@app.route("/division/<census_division>", methods=['POST'])
 def get_data_by_division(census_division):
     # Check if census_divison is valid
     if census_division not in constants.CENSUS_DIVISION_TO_ID:
@@ -31,7 +31,7 @@ def get_data_by_division(census_division):
     data = db.get_census_division_data(census_division_id)
     return jsonify({ "error": "", "data": data })
 
-@app.route("/division/id/<int:census_id>")
+@app.route("/division/id/<int:census_id>", methods=['POST'])
 def get_data_by_id(census_id):
     # Check if census_id is valid
     if census_id not in constants.ID_TO_CENSUS_DIVISION:
@@ -40,7 +40,7 @@ def get_data_by_id(census_id):
     data = db.get_census_division_data(census_id)
     return jsonify({ "error": "", "data": data })
 
-@app.route("/service_providers")
+@app.route("/service_providers", methods=['POST'])
 def get_all_service_providers():
     is_user = False
     is_admin = False
@@ -49,7 +49,7 @@ def get_all_service_providers():
         is_user = True
         is_admin = True
     else:
-        id_token = request.args.get('id_token')
+        id_token = request.get_json().get('id_token')
         if id_token:
             is_user = True
             is_admin = verify_admin(id_token)
@@ -57,13 +57,13 @@ def get_all_service_providers():
     service_providers = db.get_all_service_providers(is_user, is_admin)
     return jsonify({ "error": "", "data": service_providers })
 
-@app.route("/service_providers/<int:service_provider_id>/update")
+@app.route("/service_providers/<int:service_provider_id>/update", methods=['POST'])
 def update_service_provider_data(service_provider_id):
-    if not verify_admin(request.args.get('id_token')):
+    params = request.get_json()
+    if not verify_admin(params.get('id_token')):
         return jsonify({"error": "User is not an admin"})
 
-    data = request.args.get('data')
-    if data is None:
+    if params.get('data') is None:
         return jsonify({"error": "Expecting a map for data"})
 
     service_provider = db.get_service_provider(service_provider_id)
@@ -76,17 +76,20 @@ def update_service_provider_data(service_provider_id):
 
     return jsonify({"success": data})
 
-@app.route("/users/new")
+@app.route("/users/new", methods=['POST'])
 def create_user():
+    params = request.get_json()
+    if not verify_admin(params.get('id_token')):
+        return jsonify({"error": "User is not an admin"})
+
     # Check if proper params have been passed in
-    params = ['email', 'password', 'admin']
-    for param in params:
-        if not request.args.get(param, None):
+    for param in ['email', 'password', 'admin']:
+        if not params.get(param):
             return jsonify({"error": "Missing param: {}".format(param)})
 
-    email = str(request.args.get('email', ''))
-    password = str(request.args.get('password', ''))
-    admin = bool(request.args.get('admin'))
+    email = params['email']
+    password = params['password']
+    admin = bool(params['email'])
 
     try:
         user = auth.create_user(email=email, password=password)
@@ -97,7 +100,7 @@ def create_user():
     return jsonify({'uid': user.uid})
 
 def verify_admin(id_token):
-    user = auth.verify_id_token(id_token) 
+    user = auth.verify_id_token(id_token)
     return user.get('admin', False)
 
 if __name__ == "__main__":
@@ -106,7 +109,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     IS_DEV = args.dev
-
+    print(constants.FIREBASE_AUTH_FILE_PATH)
     if os.path.isfile(constants.FIREBASE_AUTH_FILE_PATH):
         cred = credentials.Certificate(constants.FIREBASE_AUTH_FILE_PATH)
     elif os.getenv("FIREBASE_TYPE"):
