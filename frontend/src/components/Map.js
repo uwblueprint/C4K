@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import './Map.css';
 import * as L from 'leaflet';
 import * as esri from 'esri-leaflet';
+import { connect } from 'react-redux';
+import ReactDOM from 'react-dom';
+import Popup from './Popup';
+import * as constants from '../constants/viewConstants';
 
 
 class Map extends Component {
@@ -10,7 +14,12 @@ class Map extends Component {
     super(props);
 
     //the map is handled by the state: e.g. this.state.map.zoomIn() to zoom
-    this.state = {currentZoomLevel: 7, map: null, tileLayer: null};
+    this.state = {
+      currentZoomLevel: 7, 
+      map: null, 
+      tileLayer: null,
+      selectedProvider: {},
+    };
     //this.onEachFeature = this.onEachFeature.bind(this);
   }
 
@@ -18,12 +27,40 @@ class Map extends Component {
     this.initMap();
   }
 
+  populateServiceProviders() {
+    this.props.serviceProviders
+      .filter(provider => provider.ismain)
+      .forEach(provider => {
+        const popup = document.createElement('div');
+        ReactDOM.render(
+          <Popup
+            name={provider.name}
+            type={provider.type}
+            location={provider.location}
+            address={provider.address}
+            phone={provider.phone}
+            site={provider.website}
+          />,
+          popup
+        );
+
+        L.marker([provider.longitude, provider.latitude])
+          .addTo(this.state.map)
+          .bindPopup(popup)
+      });
+  }
+
+  componentDidUpdate(prevProps) {
+    if ((prevProps.serviceProviders !== this.props.serviceProviders)) {
+      this.populateServiceProviders();
+    }
+  }
+
   onMouseHandler(event) {
     document.getElementById('map').title = event.layer.feature.properties.CDNAME;
   }
 
   onEachFeature(feature, layer) {
-    
     layer.on('click', (e) => { 
       layer.setStyle({fillColor: '#FFFF00'});
 
@@ -37,7 +74,7 @@ class Map extends Component {
       // else do nothing - they already have the census division selected
 
       // update the style of all the census divisions
-      this.state.map.eachLayer(function (censusDivision) {
+      this.state.map.eachLayer((censusDivision) => {
         // Note Not all layers on the map are features
         let feature = censusDivision.feature;
         if (feature !== undefined){
@@ -50,6 +87,7 @@ class Map extends Component {
           }
         }
       }.bind(this));
+      });
 
     });
   }
@@ -81,10 +119,10 @@ class Map extends Component {
     .on('mouseover', this.onMouseHandler)
     .addTo(map);
 
-    this.setState({map, tileLayer});
+    this.setState({map, tileLayer},() => {
+      this.populateServiceProviders();
+    });
     window.myMap = map;
-    L.marker(position)
-      .addTo(map);
   }
 
   render() {
@@ -107,5 +145,13 @@ class Map extends Component {
   }
 }
 
-export default Map;
-
+function mapStateToProps(state) {
+  return {
+    view: state.changeViewReducer.view,
+    serviceProviders: state.serviceProviderReducer
+  };
+}
+  
+export default connect(
+  mapStateToProps
+)(Map);

@@ -35,7 +35,6 @@ def create_tables():
             """
             CREATE TABLE service_providers (
                 id INTEGER         PRIMARY KEY,
-                census_division_id INTEGER REFERENCES census_division (id),
                 name               TEXT NOT NULL,
                 website            TEXT NOT NULL,
                 report_year        INTEGER,
@@ -43,7 +42,9 @@ def create_tables():
                 expenses           INTEGER,
                 client_total       INTEGER,
                 staff_total        INTEGER,
-                notes              TEXT
+                is_bookmarked      BOOLEAN NOT NULL,
+                notes              TEXT,
+                updated_at         TIMESTAMP NOT NULL
             )
             """,
             """
@@ -83,6 +84,37 @@ def load_demographics():
         VALUES ({}, '{}', {}, {}, {})
     """
 
+    def is_important(line_num):
+        # Total population
+        if line_num == 3:
+            return True
+        # 0-14 pop
+        if line_num == 11:
+            return True
+        # 15-19 pop
+        if line_num == 16:
+            return True
+        # Median income
+        if line_num == 665:
+            return True
+        # Average income
+        if line_num == 676:
+            return True
+        # Median household income
+        if line_num == 744:
+            return True
+        # Average household income
+        if line_num == 753:
+            return True
+        # Aboriginal identity
+        if line_num == 1292:
+            return True
+        # Total visible minority population
+        if line_num == 1326:
+            return True
+
+        return False
+
     con = None
     try:
         con = db.get_db_connection()
@@ -90,14 +122,14 @@ def load_demographics():
         for census_division, file_path in constants.CENSUS_FILE_PATH.items():
             with io.open(constants.CENSUS_DIVISION_DATA_PATH + file_path, "r", encoding="ISO-8859-1") as file_object:
                 for i, line in enumerate(file_object, 1):
-                    if 11 <= i <= 34:
+                    if is_important(i):
                         data = [val.strip(" \"") for val in line.split(",")]
 
                         census_division_id = constants.CENSUS_DIVISION_TO_ID[census_division]
                         characteristic = data[1]
-                        total = data[3]
-                        male = data[5]
-                        female = data[7]
+                        total = int(data[3])
+                        male = int(data[5]) if data[5] else 0
+                        female = int(data[7]) if data[7] else 0
 
                         cur = con.cursor()
                         cur.execute(demographic_insert_statement.format(
@@ -128,6 +160,8 @@ def clean_service_provider_data():
                 'census_divisions',
                 'notes', 'notes2', 'questions'])
     data['id'] = range(1, len(data)+1)
+    data['is_bookmarked'] = [False] * len(data)
+    data['updated_at'] = [pd.Timestamp.today()] * len(data)
 
     # Build sp_census_division table
     sp_cd_data = []
@@ -180,7 +214,7 @@ def clean_service_provider_data():
 
     # Re order columns
     data = data[['id', 'name', 'website', 'report_year', 'report_link',
-        'expenses', 'client_total', 'staff_total', 'notes']]
+        'expenses', 'client_total', 'staff_total', 'is_bookmarked', 'notes', 'updated_at']]
 
     int_columns = ['report_year', 'expenses', 'client_total', 'staff_total']
     str_columns = ['report_link', 'notes']
@@ -195,8 +229,8 @@ def load_service_providers():
     # Insert service provider data
     for index, row in data.iterrows():
         query_string = """
-            INSERT INTO service_providers (id, name, website, report_year, report_link, expenses, client_total, staff_total, notes)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO service_providers (id, name, website, report_year, report_link, expenses, client_total, staff_total, is_bookmarked, notes, updated_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         values = tuple(row)
         db.execute(query_string, values)
