@@ -41,24 +41,24 @@ class App extends Component {
     constructor(props) {
         super(props);
         
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                // User is signed in.
-                firebase.auth().currentUser.getIdToken(true)
-                .then(idToken => {
-                    user.token = idToken;
-                    user.db = firebase;
-                    // Save user to state
-                    this.props.signIn(user);
-                    this.props.getServiceProviders(idToken);
-                }).catch(err => {
-                    console.log(err);
-                });
-            } else {
-                // No user is signed in
-                this.props.getServiceProviders();
-            }
-        });
+        // firebase.auth().onAuthStateChanged(user => {
+        //     if (user) {
+        //         // User is signed in.
+        //         firebase.auth().currentUser.getIdToken(true)
+        //         .then(idToken => {
+        //             user.token = idToken;
+        //             user.db = firebase;
+        //             // Save user to state
+        //             this.props.signIn(user);
+        //             this.props.getServiceProviders(idToken);
+        //         }).catch(err => {
+        //             console.log(err);
+        //         });
+        //     } else {
+        //         // No user is signed in
+        //         this.props.getServiceProviders();
+        //     }
+        // });
         
     }
     render() {

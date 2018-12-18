@@ -47,9 +47,15 @@ class UserMenu extends React.Component {
                     open={Boolean(this.state.anchorRef)}
                     onClose={this.handleClose}
                     PaperProps={{
-                        height: "40px",
-                        margin: "8px",
+                        style: {
+                            height: "fit-content",
+                        }
                     }}
+                    // anchorReference="anchorPosition"
+                    // anchorPosition={{
+                    //     top: "52px",
+                    //     left: "376px",
+                    // }}
                     transformOrigin={{
                         vertical: 'top',
                         horizontal: 'right',
