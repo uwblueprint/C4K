@@ -6,14 +6,14 @@ import * as firebase from 'firebase';
 import * as constants from './constants/viewConstants';
 import {
   changeView,
-  changeCensusDivision,
   changeDemographic,
   changeOperatingBudget,
   changeClientServed,
   changeStaffCount,
   getServiceProviders,
+  getCensusDivisionData,
+  selectCensusDivision,
   signIn,
-  changeSelectedCensusDivision
 } from './actions';
 
 import './App.css';
@@ -40,8 +40,8 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-
-    // TODO: fetch /census_division_aggregate
+    // TODO: put it under authentication
+    this.props.getCensusDivisionData()
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -64,12 +64,24 @@ class App extends Component {
 
   }
   render() {
+    if (this.props.view === constants.MAP_VIEW) {
+      var mainView = (
+        <Map
+          selected={this.props.selected}
+          selectCensusDivision={this.props.selectCensusDivision}
+          serviceProviders={this.props.serviceProviders}/>
+      )
+    } else {
+      var mainView = <ListView />
+    }
+
     return (
       <div>
         <Sidebar
-          censusDivision={this.props.censusDivision}
+          selected={this.props.selected}
+          selectCensusDivision={this.props.selectCensusDivision}
+          censusDivisionData={this.props.censusDivisionData}
           demographic={this.props.demographic}
-          changeSelectedCensusDivision={this.props.changeSelectedCensusDivision}
           changeDemographic={this.props.changeDemographic}
           operatingBudget={this.props.operatingBudget}
           clientServed={this.props.clientServed}
@@ -78,12 +90,7 @@ class App extends Component {
           changeClientServed={this.props.changeClientServed}
           changeStaffCount={this.props.changeStaffCount}
         />
-          {this.props.view === constants.MAP_VIEW ?
-          <Map
-            selectedCensusDivision={this.props.selectedCensusDivision}
-            changeSelectedCensusDivision={this.props.changeSelectedCensusDivision}
-            /> :
-          <ListView />}
+        {mainView}
         <ToggleView view={this.props.view} changeView={this.props.changeView}/>
       </div>
     );
@@ -92,29 +99,30 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    view:                   state.changeViewReducer.view,
-    censusDivision:         state.changeDropdownReducer.censusDivision,
-    demographic:            state.changeDropdownReducer.demographic,
-    operatingBudget:        state.changeSliderReducer.operatingBudget,
-    clientServed:           state.changeSliderReducer.clientServed,
-    staffCount:             state.changeSliderReducer.staffCount,
-    user:                   state.authReducer,
-    selectedCensusDivision: state.selectCensusDivisionReducer.selectedCensusDivision,
+    view:               state.changeViewReducer.view,
+    demographic:        state.changeDropdownReducer.demographic,
+    operatingBudget:    state.changeSliderReducer.operatingBudget,
+    clientServed:       state.changeSliderReducer.clientServed,
+    staffCount:         state.changeSliderReducer.staffCount,
+    user:               state.authReducer,
+    selected:           state.censusDivisionReducer.selected,
+    censusDivisionData: state.censusDivisionReducer.data,
+    serviceProviders:   state.serviceProviderReducer
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    changeView:                   bindActionCreators(changeView, dispatch),
-    changeCensusDivision:         bindActionCreators(changeCensusDivision, dispatch),
-    changeDemographic:            bindActionCreators(changeDemographic, dispatch),
-    changeOperatingBudget:        bindActionCreators(changeOperatingBudget, dispatch),
-    changeClientServed:           bindActionCreators(changeClientServed, dispatch),
-    changeStaffCount:             bindActionCreators(changeStaffCount, dispatch),
-    getServiceProviders:          (token) => dispatch(getServiceProviders(token)),
-    signIn:                       user => dispatch(signIn(user)),
-    changeSelectedCensusDivision: bindActionCreators(changeSelectedCensusDivision, dispatch),
-  };
+  return bindActionCreators({
+    changeView,
+    changeDemographic,
+    changeOperatingBudget,
+    changeClientServed,
+    changeStaffCount,
+    getServiceProviders,
+    getCensusDivisionData,
+    selectCensusDivision,
+    signIn,
+  }, dispatch)
 }
 
 export default connect(

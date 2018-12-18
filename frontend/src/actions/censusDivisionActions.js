@@ -1,5 +1,6 @@
 import {
-  LOAD_CENSUS_DIVISION_DATA
+  LOAD_CENSUS_DIVISION_DATA,
+  SELECT_CENSUS_DIVISION
 } from './actionsTypes';
 
 export const getCensusDivisionData = () => {
@@ -14,9 +15,9 @@ export const getCensusDivisionData = () => {
       })
       .then((data) => {
         const censusDivisionMap = {}
-        for (var cd in data) {
+        data.forEach((cd) => {
           censusDivisionMap[cd.id] = cd
-        }
+        })
         dispatch({
           type: LOAD_CENSUS_DIVISION_DATA,
           censusDivisionData: censusDivisionMap
@@ -25,5 +26,12 @@ export const getCensusDivisionData = () => {
       .catch((error) => {
         console.log(error)
       })
+  }
+}
+
+export const selectCensusDivision = (censusDivisionId) => {
+  return {
+    type: SELECT_CENSUS_DIVISION,
+    payload: censusDivisionId
   }
 }

@@ -10,47 +10,45 @@ import './Dropdown.css';
 
 const styles = {
   root: {
-  	paddingLeft: 8,
+    paddingLeft: 8,
   },
 };
 
 class Dropdown extends Component {
-	handleChange = event => {
-		this.props.changeValue(event.target.value);
-	}
+  handleChange = event => {
+    this.props.changeValue(event.target.value);
+  }
 
-	renderMenuItems() {
-		let retval = [];
+  renderMenuItems() {
+    const sortedNames = Object.keys(this.props.dropdownVals)
+    sortedNames.sort()
 
-		this.props.dropdownVals.map( val => {
-			retval.push(
-				<MenuItem value={val}>{val}</MenuItem>
-			);
-		});
+    return sortedNames.map((name) => {
+      const val = this.props.dropdownVals[name]
+      return <MenuItem value={ val }>{ name }</MenuItem>
+    })
+  }
 
-		return retval
-	}
+  render() {
+    const { classes } = this.props;
 
-	render() {
-		const { classes } = this.props;
-
-		return (
-			<div className="dropdown">
-				<p class="title">{this.props.title}</p>
-				<Select 
-					className="select"
-					value={ this.props.selectValue }
-          onChange={ this.handleChange }
-          classes={{ root: classes.root }}
-				>
-					<MenuItem value="">
-            <em>None</em>
+    return (
+      <div className="dropdown">
+        <p className="title">{this.props.title}</p>
+        <Select 
+            className="select"
+            value={ this.props.selectValue }
+            onChange={ this.handleChange }
+            classes={{ root: classes.root }}
+            displayEmpty >
+          <MenuItem value="">
+            <em>All</em>
           </MenuItem>
           { this.renderMenuItems() }
-				</Select>
-			</div>
-		);
-	}
+        </Select>
+      </div>
+    );
+  }
 }
 
 export default withStyles(styles)(Dropdown);
