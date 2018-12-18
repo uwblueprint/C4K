@@ -86,7 +86,6 @@ class Map extends Component {
             censusDivision.setStyle({fillColor: '#2526A9'})
           }
         }
-      }.bind(this));
       });
 
     });
