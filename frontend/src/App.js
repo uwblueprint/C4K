@@ -23,6 +23,7 @@ import Map from './components/Map';
 import Sidebar from './components/Sidebar';
 import ToggleView from './components/ToggleView';
 import ListView from './components/ListView';
+import CensusDivisionInfo from './components/CensusDivisionInfo';
 
 // Move to environment variables in production
 const config = {
@@ -63,18 +64,26 @@ class App extends Component {
     });
 
   }
-  render() {
+
+  renderMainView() {
     if (this.props.view === constants.MAP_VIEW) {
-      var mainView = (
-        <Map
-          selected={this.props.selected}
-          selectCensusDivision={this.props.selectCensusDivision}
-          serviceProviders={this.props.serviceProviders}/>
+      return (
+        <div>
+          <Map
+            selected={this.props.selected}
+            selectCensusDivision={this.props.selectCensusDivision}
+            serviceProviders={this.props.serviceProviders} />
+          <CensusDivisionInfo
+            selected={this.props.selected}
+            censusDivisionData={this.props.censusDivisionData} />
+        </div>
       )
     } else {
-      var mainView = <ListView />
+      return <ListView />
     }
+  }
 
+  render() {
     return (
       <div>
         <Sidebar
@@ -90,7 +99,7 @@ class App extends Component {
           changeClientServed={this.props.changeClientServed}
           changeStaffCount={this.props.changeStaffCount}
         />
-        {mainView}
+        { this.renderMainView() }
         <ToggleView view={this.props.view} changeView={this.props.changeView}/>
       </div>
     );
