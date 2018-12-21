@@ -72,8 +72,8 @@ def get_census_division_aggregate():
         CREATE EXTENSION IF NOT EXISTS tablefunc;
         SELECT *
         FROM census_division
-        JOIN ({}) sp ON census_division.id = sp.cd_id
-        JOIN ({}) demographics ON census_division.id = demographics.census_division_id
+        LEFT JOIN ({}) sp ON census_division.id = sp.cd_id
+        LEFT JOIN ({}) demographics ON census_division.id = demographics.census_division_id
         """.format(query_service_providers, query_demographics)
 
     return execute(query_census_division, cursor_factory=RealDictCursor)
