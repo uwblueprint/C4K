@@ -7,7 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 // Filter Components
 import SearchBar from './SearchBar';
-import FilterSelect from './FilterSelect';
 import Dropdown from './Dropdown';
 import SlideBar from './SlideBar';
 import Footer from './Footer';
