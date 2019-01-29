@@ -64,7 +64,6 @@ class Sidebar extends Component {
               selectValue={this.props.demographic}
               changeValue={this.props.changeDemographic}
               dropdownVals={dropDownVals} />
-            <FilterSelect />
             <SlideBar
               title={"Operating Budget"}
               val={this.props.operatingBudget}

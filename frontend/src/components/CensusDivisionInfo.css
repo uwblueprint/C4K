@@ -1,0 +1,10 @@
+.censusDivisionInfoGroup {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  width: 300px;
+  height: 300px;
+  background-color: white;
+  z-index: 1000;
+  overflow: scroll;
+}
