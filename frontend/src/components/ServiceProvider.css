@@ -23,36 +23,59 @@
     margin: 128px 176px;
 }
 
+.serviceProvider .contentHeader {
+    display: grid;
+    grid-template-columns: auto 108px;
+}
+
+.serviceProvider .contentTitleContainer {
+    grid-column: 1;
+}
+
 .serviceProvider .contentTitle {
     color: rgba(0, 0, 0, 0.38);
-    font-size: 36px;
-    letter-spacing: 0.0357143em;
+    font-size: 24px;
     font-weight: 600;
-    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-bottom: 12px;
 }
 
-.serviceProvider .bookmarkIcon.iconContainer {
-    position: absolute;
-    margin-left: 16px;
-    margin-top: -8px;
+.serviceProvider .last-updated-at {
+    font-size: 16px;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.6);
 }
 
-.serviceProvider .bookmarkIcon.iconContainer svg {
-    font-size: 48px;
+.serviceProvider .iconContainer {
+    grid-column: 2;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.serviceProvider .bookmarkIcon svg {
+    font-size: 32px;
     cursor: pointer;
     fill: rgba(0, 0, 0, 0.38);
 }
 
-.serviceProvider .bookmarkIcon.iconContainer.bookmarked svg {
+.serviceProvider .editIcon svg {
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.serviceProvider .bookmarkIcon.bookmarked svg {
     fill: #FF6319;
 }
 
 .serviceProvider .informationSection {
-    margin-top: 48px;
+    margin-top: 36px;
     box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.12), 0px 3px 3px rgba(0, 0, 0, 0.14);
 }
 
-.serviceProvider .informationSection div {
+.serviceProvider .informationSection div,
+.serviceProvider .informationSection input
+{
     padding-left: 32px;
     padding-right: 32px;
 }
@@ -77,6 +100,22 @@
     padding-top: 28px;
     padding-bottom: 26px;
     background: white;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+}
+
+.serviceProvider .informationSection input {
+    background: rgba(255, 99, 25, 0.05) !important;
+    transition: 2ms;
+}
+
+.serviceProvider .informationSection input:focus {
+    border: 1px solid #FF6319;
+    box-sizing: border-box;
 }
 
 .serviceProvider .informationSection .section-label {
@@ -86,20 +125,44 @@
 }
 
 .serviceProvider .notesContainer {
-    padding: 16px 16px 16px 32px !important;
+    height: 240px;
+    padding: 0 !important;
     cursor: text;
     background: white;
 }
 
 .serviceProvider .notes {
     width: 100%;
-    height: 240px;
+    height: 100%;
     outline: none;
     border: none;
     resize: none;
     box-sizing: border-box;
     font-size: 16px;
-    padding: 0;
+    padding: 16px 16px 16px 32px;
+    transition: 2ms;
+    cursor: default;
+}
+
+.serviceProvider .notes.notesHighlighted {
+    background: rgba(255, 99, 25, 0.05);
+    cursor: text;
+}
+
+.serviceProvider .notes.notesHighlighted:focus {
+    border: 1px solid #FF6319;
+    box-sizing: border-box;
+}
+
+.serviceProvider .buttonContainer {
+    display: flex;
+    margin: 36px 0;
+    justify-content: flex-end;
+}
+
+.serviceProvider .buttonWidth {
+    width: 96px;
+    margin-left: 32px;
 }
 
 .margin-right-12 {
