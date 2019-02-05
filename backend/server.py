@@ -109,7 +109,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     IS_DEV = args.dev
-    print(constants.FIREBASE_AUTH_FILE_PATH)
+
     if os.path.isfile(constants.FIREBASE_AUTH_FILE_PATH):
         cred = credentials.Certificate(constants.FIREBASE_AUTH_FILE_PATH)
     elif os.getenv("FIREBASE_TYPE"):
