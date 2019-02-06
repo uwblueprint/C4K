@@ -23,6 +23,7 @@ import Map from './components/Map';
 import Sidebar from './components/Sidebar';
 import ToggleView from './components/ToggleView';
 import ListView from './components/ListView';
+import ServiceProviderDialog from './components/ServiceProviderDialog';
 import CensusDivisionInfo from './components/CensusDivisionInfo';
 
 // Move to environment variables in production
@@ -101,6 +102,7 @@ class App extends Component {
         />
         { this.renderMainView() }
         <ToggleView view={this.props.view} changeView={this.props.changeView}/>
+        <div style={{ zIndex: '100000000', position: 'absolute' }}><ServiceProviderDialog/></div>
       </div>
     );
   }
