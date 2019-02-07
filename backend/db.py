@@ -40,7 +40,8 @@ def get_census_division_aggregate():
             SUM(staff_total)        AS sum_staff,
             AVG(expenses)           AS avg_expenses,
             AVG(client_total)       AS avg_client,
-            AVG(staff_total)        AS avg_staff
+            AVG(staff_total)        AS avg_staff,
+            COUNT(*)                AS num_service_providers
         FROM sp_census_divisions
         JOIN service_providers ON sp_census_divisions.sp_id = service_providers.id
         GROUP BY cd_id
@@ -48,29 +49,62 @@ def get_census_division_aggregate():
 
     # Crosstab is used to pivot the table
     query_demographics = """
-        SELECT *
+        SELECT
+            census_division_id,
+            "0_to_14_years" + "15_to_19_years" AS youth,
+            aboriginal,
+            avg_income,
+            avg_household_income,
+            median_income,
+            median_household_income,
+            total_population,
+            minority
         FROM crosstab (
             'SELECT census_division_id, characteristic, total
              FROM demographics
              ORDER BY 1,2'
         ) AS ct (
-            census_division_id  INTEGER,
-            "0_to_14_years"     INTEGER,
-            "15_to_19_years"    INTEGER,
-            aboriginal          INTEGER,
-            avg_income            INTEGER,
-            avg_houshold_income   INTEGER,
-            median_income             INTEGER,
-            median_household_income   INTEGER,
-            total_population    INTEGER,
-            minority            INTEGER
+            census_division_id      INTEGER,
+            "0_to_14_years"         INTEGER,
+            "15_to_19_years"        INTEGER,
+            aboriginal              INTEGER,
+            avg_income              INTEGER,
+            avg_household_income    INTEGER,
+            median_income           INTEGER,
+            median_household_income INTEGER,
+            total_population        INTEGER,
+            minority                INTEGER
         )
         """
 
     # tablefunc extension includes the crosstab function which we use to pivot
     query_census_division = """
         CREATE EXTENSION IF NOT EXISTS tablefunc;
-        SELECT *
+        SELECT
+            id,
+            name,
+            aboriginal                  AS aboriginal_population,
+            minority                    AS minority_population,
+            youth                       AS youth_population,
+            total_population,
+            aboriginal          * 0.20  AS aboriginal_pop_mental_health_issues_estimate,
+            minority            * 0.20  AS minority_pop_mental_health_issues_estimate,
+            youth               * 0.20  AS youth_pop_mental_health_issues_estimate,
+            total_population    * 0.20  AS total_pop_mental_health_issues_estimate,
+            avg_income,
+            avg_household_income,
+            median_income,
+            median_household_income,
+            avg_expenses,
+            avg_client,
+            avg_staff,
+            sum_expenses,
+            sum_clients,
+            sum_staff,
+            num_service_providers,
+            youth * 0.20 - sum_clients      AS service_gap_estimate,
+            youth / NULLIF(sum_staff, 0)    AS youth_per_staff,
+            sum_expenses / youth            AS budget_per_youth
         FROM census_division
         LEFT JOIN ({}) sp ON census_division.id = sp.cd_id
         LEFT JOIN ({}) demographics ON census_division.id = demographics.census_division_id

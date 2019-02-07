@@ -7,21 +7,23 @@ export const getServiceProviders = (token) => {
   const url = '/service_providers' + (token ? '?id_token=' + token : '')
 
   return (dispatch) => {
-    fetch(url)
-      .then((response) => {
-        return response.json()
+    fetch(url, {
+      method: "POST"
+    })
+    .then((response) => {
+      return response.json()
+    })
+    .then((json) => {
+      return json.data
+    })
+    .then((data) => {
+      dispatch({
+        type: LOAD_SERVICE_PROVIDERS,
+        service_providers: data
       })
-      .then((json) => {
-        return json.data
-      })
-      .then((data) => {
-        dispatch({
-          type: LOAD_SERVICE_PROVIDERS,
-          service_providers: data
-        })
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 }
