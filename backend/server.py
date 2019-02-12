@@ -44,7 +44,7 @@ def get_census_division_aggregate():
     aggregate = db.get_census_division_aggregate()
     return jsonify({ "error": "", "data": aggregate })
 
-@app.route("/service_providers", methods=['POST'])
+@app.route("/service_providers", methods=['GET'])
 def get_all_service_providers():
     is_user = False
     is_admin = False
