@@ -15,7 +15,8 @@ class Map extends Component {
       currentZoomLevel: 7, 
       map: null, 
       baseMapLayer: null,
-      featureLayer: null
+      featureLayer: null,
+      stopPropagationEvent: true
     };
   }
 
@@ -78,7 +79,15 @@ class Map extends Component {
       position,
       this.state.currentZoomLevel
     );
-    const baseMapLayer = esri.basemapLayer('Topographic').addTo(map);
+    map.on('click', (e) => {
+      console.log("map click", e)
+      // clear the selection
+      if (!this.state.stopPropagationEvent) {
+        this.props.selectCensusDivision(null)
+      }
+      this.setState({ stopPropagationEvent: false })
+    })
+    const baseMapLayer = esri.basemapLayer('Topographic').on('click').addTo(map);
     const featureLayer = esri.featureLayer({
       url: 'https://services.arcgis.com/zmLUiqh7X11gGV2d/arcgis/rest/services/CensusDivisions2016_proj/FeatureServer/0',
       simplifyFactor: 0.5,
@@ -93,7 +102,8 @@ class Map extends Component {
         return { weight: 1, opacity, fillOpacity: 0.3, color: 'black', fillColor: '#2526A9' };
       },
       onEachFeature: (feature, layer) => {
-        layer.on('click', (e) => {
+        layer.on('click', () => {
+          this.setState({ stopPropagationEvent: true })
           const CDUID = parseInt(feature.properties.CDUID)
           this.props.selectCensusDivision(CDUID)
         });
@@ -102,6 +112,8 @@ class Map extends Component {
     .on('mouseover', this.onMouseHandler)
     .on('load', () => this.highlightCensusDivision())
     .addTo(map);
+
+    
 
     this.setState({
       map,
