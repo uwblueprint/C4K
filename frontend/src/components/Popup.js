@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 
 // Material UI Icons
 import Place from '@material-ui/icons/Place';
-import Phone from '@material-ui/icons/Phone';
 import Public from '@material-ui/icons/Public';
 import BookmarkBorder from '@material-ui/icons/BookmarkBorder';
 
@@ -27,10 +26,6 @@ class Popup extends Component {
 					<div className="subContent">
 						<Place className="icon" />
 						<span className="address">{ this.props.address }</span>
-					</div>
-					<div className="subContent">
-						<Phone className="icon" />
-						<span className="phone">{ this.props.phone }</span>
 					</div>
 					<div className="subContent">
 						<Public className="icon" />
