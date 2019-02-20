@@ -11,9 +11,11 @@ class ListView extends Component {
       <div className="listView">
       {this.props.serviceProviders
         .filter(provider => provider.ismain)
+        .filter(provider => !this.props.selected || this.props.selected == provider.census_division_id)
         .map(provider => {
           return (
             <ListViewCard
+              key={provider.id}
               name={provider.name}
               type={provider.type}
               location={provider.location}

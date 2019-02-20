@@ -38,7 +38,11 @@ class Sidebar extends Component {
     const namesMap = {} // cd_name -> cd_id
     for (let key in this.props.censusDivisionData) {
       let value = this.props.censusDivisionData[key]
-      namesMap[value.name] = value.id
+      let name = value.name
+        .split("_")
+        .map(str => str.charAt(0).toUpperCase() + str.slice(1))
+        .join(" ")
+      namesMap[name] = value.id
     }
 
     return (

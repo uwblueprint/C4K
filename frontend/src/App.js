@@ -80,7 +80,11 @@ class App extends Component {
         </div>
       )
     } else {
-      return <ListView />
+      return (
+        <ListView
+          selected={this.props.selected}
+        />
+      )
     }
   }
 
