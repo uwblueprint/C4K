@@ -8,7 +8,11 @@ export const getServiceProviders = (token) => {
 
   return (dispatch) => {
     fetch(url, {
-      method: "POST"
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
     })
     .then((response) => {
       return response.json()
